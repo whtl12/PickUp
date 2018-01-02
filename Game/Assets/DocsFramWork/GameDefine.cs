@@ -47,7 +47,7 @@ public partial class GameDefine : MonoBehaviour
     {
         get
         {
-            return "1juWuj8kuhx4NCRtRgNP7ZPTZF4BqDfphJLENEYkACqo";
+            return "1AxPaql5ywsV-WXhzuyAPXrOhlo5TnfUM9vcjsayA0MI";
         }
     }
     public static string GoogleSheetBaseUrl = "https://docs.google.com/spreadsheet/pub?key={0}&single=true&output=csv&gid={1}";

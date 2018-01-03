@@ -26,5 +26,11 @@ public class TestCode : MonoBehaviour {
             UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
         }
 
+        if (Input.GetKey(KeyCode.D))
+        {
+
+        }
+
+
     }
 }

@@ -28,7 +28,7 @@ public class TestCode : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("메롱");
+           
         }
 
 

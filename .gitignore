@@ -12,7 +12,9 @@ UnityGenerated/
 
 Library/
 
+sqlite3/
 
+StreamingAssets/
 
 
 # ===================================== #
@@ -40,3 +42,5 @@ ExportedObj/
 *.unityproj
 
 *.booproj
+
+

@@ -66,7 +66,7 @@ public class WWWData : MonoBehaviour
                     // data.dataString = (GetConfigData ( id) as TextAsset).text;
              //       throw new System.Exception("WWWData::RequestReadFromGoogleDrive error. id is " + id);
                 }
-              //  OnDone(data);
+               // OnDone(data);
             }
         }
         else

@@ -470,10 +470,7 @@ namespace LitJson
 							*/
 						if ( false)
                             {
-							throw new JsonException (String.Format (
-								"The type {0} doesn't have the " +
-								"property '{1}'",
-								inst_type, property));
+							throw new JsonException (String.Format ("The type {0} doesn't have the " +"property '{1}'",inst_type, property));
 						}
                             else
                             {

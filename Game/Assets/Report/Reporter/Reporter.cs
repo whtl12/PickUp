@@ -593,16 +593,16 @@ public class Reporter : MonoBehaviour
 		selectedLog = null;
 	}
 
-	Rect screenRect;
-	Rect toolBarRect;
+	Rect screenRect = new Rect();
+	Rect toolBarRect = new Rect();
 	Rect logsRect;
 	Rect stackRect;
 	Rect graphRect;
 	Rect graphMinRect;
 	Rect graphMaxRect;
-	Rect buttomRect;
+	Rect buttomRect = new Rect();
 	Vector2 stackRectTopLeft;
-	Rect detailRect;
+	Rect detailRect = new Rect();
 
 	Vector2 scrollPosition;
 	Vector2 scrollPosition2;
@@ -686,7 +686,7 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	Rect countRect;
+	Rect countRect = new Rect();
 	Rect timeRect;
 	Rect timeLabelRect;
 	Rect sceneRect;
@@ -1954,20 +1954,21 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	//new scene is loaded
-	void OnLevelWasLoaded()
-	{
-		if (clearOnNewSceneLoaded)
-			clear();
+    //이후 유니티에서 삭제되기때문에..
+//	//new scene is loaded
+//	void OnLevelWasLoaded()
+//	{
+//		if (clearOnNewSceneLoaded)
+//			clear(); 
 
-#if UNITY_CHANGE3
-		currentScene = SceneManager.GetActiveScene().name ;
-		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
-#else
-		currentScene = Application.loadedLevelName;
-		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
-#endif
-	}
+//#if UNITY_CHANGE3
+//		currentScene = SceneManager.GetActiveScene().name ;
+//		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
+//#else
+//		currentScene = Application.loadedLevelName;
+//		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
+//#endif
+//	}
 
 	//save user config
 	void OnApplicationQuit()
@@ -2010,7 +2011,7 @@ public class Reporter : MonoBehaviour
 			url = System.IO.Path.Combine(streamingAssetsPath, prefFile);
 		}
 
-		if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
+	//	if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
 			if (!url.Contains("://"))
 				url = "file://" + url;
 

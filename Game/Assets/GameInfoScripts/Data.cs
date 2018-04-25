@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //데이터 최상위 클레스.
-public abstract class Data : MonoBehaviour
+public abstract class Data 
 {
     //독스 번호.
     public enum DocsTable

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopupController : MonoBehaviour {
+public class PopupController {
 
     Stack PopupStack = new Stack();
     Stack StageStack = new Stack();
@@ -53,7 +53,7 @@ public class PopupController : MonoBehaviour {
         }
     }
 
-
+     
     public void ChangeStage(Object obj)
     {
         AllClosePopup();

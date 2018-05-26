@@ -8,9 +8,9 @@ public class Map : MonoBehaviour {
     //float IntervalSpawnWidth = 1.5f;
     //float IntervalSpawnHeight = 3f; // 동적생성 시 사용 변수
 
-    public GameObject prefab1 = null;
-    [HideInInspector]
-    public float speed = .5f;
+    public GameObject prefab1;
+    //[HideInInspector]
+    public float speed;
     List<GameObject> Obstacle = new List<GameObject>();
 
     public GameObject InitObstacle()
@@ -21,6 +21,7 @@ public class Map : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Obstacle.Add(InitObstacle());
+        speed = 0.03f;
     }
 
     // Update is called once per frame
@@ -39,7 +40,9 @@ public class Map : MonoBehaviour {
                 Obstacle.Remove(Obstacle[i]);
             }
         }
-
-
+    }
+    public void ChangeSpeed(float value)
+    {
+        speed += value;
     }
 }

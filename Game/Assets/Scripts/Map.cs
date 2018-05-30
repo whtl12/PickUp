@@ -21,7 +21,7 @@ public class Map : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Obstacle.Add(InitObstacle());
-        speed = 0.03f;
+        speed = 0.05f;
     }
 
     // Update is called once per frame

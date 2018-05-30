@@ -123,7 +123,7 @@ public class WWWData : MonoBehaviour
 
 
 
-    string content;
+    //string content;
     IEnumerator ReadWithGid(string key, int id, Callback OnDone)
     {
         string url = string.Format(GameDefine.GoogleSheetBaseUrl, key, id);

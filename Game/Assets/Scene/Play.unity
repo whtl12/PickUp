@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab1: {fileID: 1502192373253888, guid: 0dc109d8257e2834cae4b2e1162a42e1, type: 2}
+  BGpref: {fileID: 100000, guid: fd5c580568b5d38449549ad1bc57530f, type: 3}
   speed: 0.1
 --- !u!1 &534849752
 GameObject:

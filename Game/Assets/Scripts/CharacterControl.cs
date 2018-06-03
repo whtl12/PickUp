@@ -3,70 +3,114 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour {
-    float h, v;
+    float h;
     bool direction;
-    float StartHeight;
+    bool isGround;
     public float hSpeed;
+    float vSpeed;
+    int ateLevel;
     public Map map;
-    public GameObject drop;
+    MapInfo mapInfo;
     CharacterInfo characterInfo;
-    // Use this for initialization
+    Vector3 cameraPosition;
+    GameObject mainCamera;
+   
+    public void EatBubble()
+    {
+        vSpeed += 1;
+        if (ateLevel < 10)
+        {
+            ateLevel++;
+            transform.localScale += new Vector3(0.025f, 0.025f, 0.025f);
+        }
+    }
     private void Awake()
     {
         characterInfo = new CharacterInfo();
+        mapInfo = new MapInfo();
+        map = GameObject.Find("GameManager").GetComponent<Map>();
     }
     void Start () {
         hSpeed = characterInfo.hSpeed;
-        StartHeight = characterInfo.startPosition.y;
+        vSpeed = characterInfo.vSpeed;
+        cameraPosition = characterInfo.cameraPosition;
+        ateLevel = characterInfo.ateLevel;
 
-
-        h = v = 0;
-        direction = false;
-        GetComponent<Rigidbody>().maxDepenetrationVelocity = 3;
+        mainCamera = Camera.main.gameObject;
+        h = 0;
+        direction = isGround = false;
     }
 
-    // Update is called once per frame
     void Update () {
+        mainCamera.transform.position = new Vector3(0, cameraPosition.y + transform.position.y, cameraPosition.z);
         if (Input.GetMouseButtonDown(0))
             direction = !direction;
-
         h = direction ? 1 : -1;
         transform.Translate(Vector3.right * h * Time.deltaTime * hSpeed);
-        if (transform.position.x > 3)
-            transform.position = new Vector3(3, transform.position.y, transform.position.z);
-        else if (transform.position.x < -3)
-            transform.position = new Vector3(-3, transform.position.y, transform.position.z);
+
+        if (Mathf.Abs(transform.position.x) > characterInfo.MaxHorizontal)
+            transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * characterInfo.MaxHorizontal, transform.position.y, transform.position.z);
+
+        if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
+
+
+        if (transform.position.z > 0.8f)
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
+
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position, Vector3.forward, out hitInfo, 0.5f))
+        {
+            if(hitInfo.collider.tag == "Background")
+                isGround = true;
+        } else
+        {
+            isGround = false;
+        }
+        if (!isGround)
+            GetComponent<Rigidbody>().AddForce(Vector3.forward);
+
+        if (transform.position.y < (map.index - 1) * -mapInfo.dumiHeight && name == "Player")
+            map.InitBackground();
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Obstacle")
         {
-            float shakeSize = map.speed * Random.Range(-2, 2);
-            iTween.ShakePosition(Camera.main.gameObject, new Vector3(shakeSize, shakeSize), 0.5f);
-            if (map.speed > 0.05f)
+            collision.transform.tag = "Finish";
+            if (ateLevel > 0)
             {
-                map.ChangeSpeed(-0.01f);
-                hSpeed -= 0.2f;
+                ateLevel--;
                 transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
-                Instantiate(drop, transform.position, Quaternion.identity).GetComponent<Rigidbody>().AddForce((transform.position - collision.transform.position).normalized);
-
-                //iTween.MoveAdd(gameObject, (transform.position - collision.transform.position).normalized * map.speed, 1);
+                Instantiate(characterInfo.drop, transform.position, Quaternion.identity).GetComponent<Rigidbody>().AddForce((transform.position - collision.transform.position).normalized);
             }
+            //else
+            //    Destroy(gameObject);
 
-            iTween.MoveAdd(collision.transform.parent.gameObject, Vector3.down * map.speed * 20, 2);
-            StartCoroutine(revert());
-            StartCoroutine(ObstacleHit());
+            //Vector3 normalized = (transform.position - collision.transform.position).normalized;
+            //float Deg = Mathf.Atan2(normalized.y, normalized.x) * Mathf.Rad2Deg;
+
+            Vector3 edge = Vector3.zero;
+            foreach (ContactPoint contact in collision.contacts)
+                edge += contact.point;
+            edge /= collision.contacts.Length;
+            edge = transform.position - edge;
+            //if (Mathf.Abs(edge.x) < 0.3)
+            //{
+            //    Destroy(gameObject);
+            //    Instantiate(characterInfo.playerPref, transform.position, Quaternion.identity).name = "Player"; ;
+            //    Instantiate(characterInfo.playerPref, transform.position - Vector3.right * edge.x * 2, Quaternion.identity);
+            //}
         }
     }
-    IEnumerator revert()
+    IEnumerator Revert()
     {
         yield return new WaitForSeconds(1.0f);
-        while (transform.position.y + 0.03 > StartHeight || transform.position.y - 0.03 < StartHeight)
-        {
-            transform.position += new Vector3(0, StartHeight - transform.position.y) * Time.deltaTime;
-            yield return null;
-        }
+        float distance = (mainCamera.transform.position - cameraPosition).magnitude;
+        if (distance > 1)
+            iTween.MoveTo(mainCamera, iTween.Hash("position", cameraPosition,"time", 1f, "islocal", true, "movetopath", false, "easetype", iTween.EaseType.easeInOutQuart));
     }
     IEnumerator ObstacleHit()
     {

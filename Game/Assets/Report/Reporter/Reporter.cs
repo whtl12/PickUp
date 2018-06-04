@@ -1348,8 +1348,8 @@ public class Reporter : MonoBehaviour
 	float graphSize = 4f;
 	int startFrame = 0;
 	int currentFrame = 0;
-	Vector3 tempVector1;
-	Vector3 tempVector2;
+	//Vector3 tempVector1;
+	//Vector3 tempVector2;
 	Vector2 graphScrollerPos;
 	float maxFpsValue;
 	float minFpsValue;
@@ -1698,7 +1698,7 @@ public class Reporter : MonoBehaviour
 	}
 
 	//calculate  pos of first click on screen
-	Vector2 startPos;
+	//Vector2 startPos;
 
 	Vector2 downPos;
 	Vector2 getDownPos()

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MapInfo : Data
 {
+    public readonly float dumiHeight = 64;
     public override void LoadData()
     {
         throw new System.NotImplementedException();

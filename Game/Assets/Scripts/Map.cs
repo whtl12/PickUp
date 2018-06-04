@@ -3,46 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Map : MonoBehaviour {
-    //const float MaxSpawnWidth = 3;
-    //const float MinSpawnWidth = -3;
-    //float IntervalSpawnWidth = 1.5f;
-    //float IntervalSpawnHeight = 3f; // 동적생성 시 사용 변수
 
-    public GameObject prefab1;
-    //[HideInInspector]
-    public float speed;
+    MapInfo mapInfo;
+    public GameObject BGpref;
+    public bool isGround { get; private set; }
+    public int index { get; private set; }
     List<GameObject> Obstacle = new List<GameObject>();
+    List<GameObject> Background = new List<GameObject>();
 
-    public GameObject InitObstacle()
+    //public GameObject InitObstacle()
+    //{
+    //    return Instantiate(prefab, transform.position, transform.rotation);
+    //}
+    public void InitBackground()
     {
-        return Instantiate(prefab1, transform.position, transform.rotation);
+        GameObject instance = Instantiate(BGpref, new Vector3(0, -mapInfo.dumiHeight * index++, 1), Quaternion.Euler(0, 180, 0));
+        instance.transform.localScale = new Vector3(1, 4, 1);
+        Background.Add(instance);
     }
-
+    private void Awake()
+    {
+        mapInfo = new MapInfo();
+    }
     // Use this for initialization
     void Start () {
-        Obstacle.Add(InitObstacle());
-        speed = 0.03f;
-    }
 
+        //Obstacle.Add(InitObstacle());
+        index = 0;
+        InitBackground();
+        InitBackground();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        isGround = true;
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        isGround = false;
+    }
     // Update is called once per frame
     void Update () {
-        for(int i = 0; i < Obstacle.Count; i++)
-        {
-            Obstacle[i].transform.Translate(Vector3.up * speed);
-            if (Obstacle[i].transform.GetChild(Obstacle[i].transform.childCount - 1).position.y > transform.position.y && Obstacle[i].tag != "Finish")
-            {
-                Obstacle.Add(InitObstacle());
-                Obstacle[i].tag = "Finish";
-            }
-            if (Obstacle[i].transform.GetChild(Obstacle[i].transform.childCount - 1).position.y > 10)
-            {
-                Destroy(Obstacle[i]);
-                Obstacle.Remove(Obstacle[i]);
-            }
-        }
-    }
-    public void ChangeSpeed(float value)
-    {
-        speed += value;
+
     }
 }

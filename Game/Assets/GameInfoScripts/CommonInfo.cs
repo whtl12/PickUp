@@ -9,4 +9,9 @@ public class CommonInfo : Data
     {
         throw new System.NotImplementedException();
     }
+
+    public override Dictionary<int, CommonInfo> GetDictionary<CommonInfo>()
+    {
+        return null;
+    }
 }

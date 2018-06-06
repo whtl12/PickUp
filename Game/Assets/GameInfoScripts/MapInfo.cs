@@ -10,4 +10,9 @@ public class MapInfo : Data
     {
         throw new System.NotImplementedException();
     }
+
+    public override Dictionary<int, MapInfo> GetDictionary<MapInfo>()
+    {
+        return null;
+    }
 }

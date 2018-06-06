@@ -78,4 +78,11 @@ public class SkillInfo : Data
 
        
     }
+
+
+    public override Dictionary<int, SkillData> GetDictionary<SkillData>()
+    {
+        return dicSkillinfoTable as Dictionary<int, SkillData>;
+    }
+    
 }

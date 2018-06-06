@@ -7,7 +7,7 @@ public class DataInfoManager : MonoBehaviour
 {
     public static DataInfoManager m_Instance;
 
-    Data DataInfoTable;
+    SkillInfo SkillDataInfoTable;
 
     private void Awake()
     {
@@ -20,15 +20,16 @@ public class DataInfoManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        DataInfoTable = new SkillInfo();
-        DataInfoTable.LoadData();
+        SkillDataInfoTable = new SkillInfo();
+        SkillDataInfoTable.LoadData();
+        SkillDataInfoTable.GetDictionary<SkillInfo>();
 
 
 
         //로드 끝나고 씬 바꾸기.
         //처음 로고 영상? 보여주고 씬넘기기 위한 특수 경우기때문에 그냥 넘김.
 
-        if(SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Intro)
+        if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Intro)
             SceneManager.LoadScene((int)UIManager.SceneLoadIndex.Start);
 
 

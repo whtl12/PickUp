@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 //데이터 최상위 클레스.
-public abstract class Data 
+public abstract class Data
 {
     //독스 번호.
     public enum DocsTable
@@ -19,6 +20,7 @@ public abstract class Data
 
     //데이터 읽어오기 ( 추상화 )
     public abstract void LoadData();
+    public abstract Dictionary<int, T> GetDictionary<T>();
 
 
 }

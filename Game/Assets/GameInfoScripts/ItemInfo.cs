@@ -9,4 +9,9 @@ public class ItemInfo : Data
     {
         throw new System.NotImplementedException();
     }
+
+    public override Dictionary<int, ItemInfo> GetDictionary<ItemInfo>()
+    {
+        return null;
+    }
 }

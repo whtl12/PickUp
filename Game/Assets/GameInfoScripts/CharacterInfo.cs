@@ -29,4 +29,9 @@ public class CharacterInfo : Data
     {
         throw new System.NotImplementedException();
     }
+
+    public override Dictionary<int, CharacterInfo> GetDictionary<CharacterInfo>()
+    {
+        return null;
+    }
 }

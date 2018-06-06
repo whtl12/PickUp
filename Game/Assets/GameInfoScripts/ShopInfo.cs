@@ -9,4 +9,9 @@ public class ShopInfo : Data
     {
         throw new System.NotImplementedException();
     }
+
+    public override Dictionary<int, ShopInfo> GetDictionary<ShopInfo>()
+    {
+        return null;
+    }
 }

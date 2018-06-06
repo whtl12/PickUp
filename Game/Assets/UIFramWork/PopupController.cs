@@ -56,6 +56,7 @@ public class PopupController {
      
     public void ChangeStage(Object obj)
     {
+
         AllClosePopup();
 
         if(StageStack.Count > 0)
@@ -68,6 +69,21 @@ public class PopupController {
         gameObj.SetActive(true);
 
         StageStack.Push(obj);
+    }
+
+
+    public void Clear()
+    {
+        while (PopupStack.Count > 0)
+        {
+            PopupStack.Pop();
+        }
+
+
+        while (StageStack.Count > 0)
+        {
+            StageStack.Pop();
+        }
     }
 
 

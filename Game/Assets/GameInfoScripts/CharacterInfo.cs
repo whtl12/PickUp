@@ -27,7 +27,7 @@ public class CharacterInfo : Data
 
     public override void LoadData()
     {
-        throw new System.NotImplementedException();
+        m_DoneLoad.Character = true;
     }
 
     public override Dictionary<int, CharacterInfo> GetDictionary<CharacterInfo>()

@@ -8,7 +8,7 @@ public class MapInfo : Data
     public readonly float dumiHeight = 64;
     public override void LoadData()
     {
-        throw new System.NotImplementedException();
+        m_DoneLoad.Map = true;
     }
 
     public override Dictionary<int, MapInfo> GetDictionary<MapInfo>()

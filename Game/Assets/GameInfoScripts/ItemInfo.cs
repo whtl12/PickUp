@@ -7,7 +7,7 @@ public class ItemInfo : Data
 {
     public override void LoadData()
     {
-        throw new System.NotImplementedException();
+        m_DoneLoad.Item = true;
     }
 
     public override Dictionary<int, ItemInfo> GetDictionary<ItemInfo>()

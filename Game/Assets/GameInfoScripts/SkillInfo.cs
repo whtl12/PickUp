@@ -72,6 +72,8 @@ public class SkillInfo : Data
                     else
                         Debug.LogError("SkillInfo Index Value Error");
                 }
+
+                m_DoneLoad.Skill = true;
             }
 
         });

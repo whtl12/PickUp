@@ -7,7 +7,7 @@ public class CommonInfo : Data
 {
     public override void LoadData()
     {
-        throw new System.NotImplementedException();
+        m_DoneLoad.Common = true;
     }
 
     public override Dictionary<int, CommonInfo> GetDictionary<CommonInfo>()

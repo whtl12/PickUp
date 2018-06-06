@@ -14,7 +14,7 @@ public class CharacterControl : MonoBehaviour {
     CharacterInfo characterInfo;
     Vector3 cameraPosition;
     GameObject mainCamera;
-   
+    float MaxHorizontal = 3.8f;
     public void EatBubble()
     {
         vSpeed += 1;
@@ -31,10 +31,10 @@ public class CharacterControl : MonoBehaviour {
         map = GameObject.Find("GameManager").GetComponent<Map>();
     }
     void Start () {
-        hSpeed = characterInfo.hSpeed;
-        vSpeed = characterInfo.vSpeed;
-        cameraPosition = characterInfo.cameraPosition;
-        ateLevel = characterInfo.ateLevel;
+        hSpeed = 2;
+        vSpeed = 4;
+        cameraPosition = Vector3.zero;
+        ateLevel = 0;
 
         mainCamera = Camera.main.gameObject;
         h = 0;
@@ -48,8 +48,8 @@ public class CharacterControl : MonoBehaviour {
         h = direction ? 1 : -1;
         transform.Translate(Vector3.right * h * Time.deltaTime * hSpeed);
 
-        if (Mathf.Abs(transform.position.x) > characterInfo.MaxHorizontal)
-            transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * characterInfo.MaxHorizontal, transform.position.y, transform.position.z);
+        if (Mathf.Abs(transform.position.x) > MaxHorizontal)
+            transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * MaxHorizontal, transform.position.y, transform.position.z);
 
         if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
@@ -84,7 +84,6 @@ public class CharacterControl : MonoBehaviour {
             {
                 ateLevel--;
                 transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
-                Instantiate(characterInfo.drop, transform.position, Quaternion.identity).GetComponent<Rigidbody>().AddForce((transform.position - collision.transform.position).normalized);
             }
             //else
             //    Destroy(gameObject);

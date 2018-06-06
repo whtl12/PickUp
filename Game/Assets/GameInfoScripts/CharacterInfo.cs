@@ -2,36 +2,62 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class CharacterInfoCSV
+{
+    public int Index;
+    public string CharName;
+    public float vSpeed;
+    public float hSpeed;
+    public int MaxSize;
+}
 
+public struct CharacterData
+{
+    //추가할 데이터
+    public int Index;
+    public GameObject CharName;
+    public float vSpeed;
+    public float hSpeed;
+    public Vector3 MaxSize;
+
+    public void SetData(CharacterInfoCSV csv)
+    {
+        Index = csv.Index;
+        CharName = GameObject.Find("Prefabs/" + csv.CharName);
+        vSpeed = csv.vSpeed;
+        hSpeed = csv.hSpeed;
+        MaxSize = new Vector3(csv.MaxSize, csv.MaxSize, csv.MaxSize) / 100;
+    }
+}
 public class CharacterInfo : Data
 {
-    public CharacterInfo(int _atelevel = 0)
-    {
-        hSpeed = 2f;
-        vSpeed = 5f;
-        cameraPosition = new Vector3(0, -3.5f, -12f);
-        ateLevel = _atelevel;
-        player = GameObject.Find("Player");
-        drop = Resources.Load("Prefabs/drop") as GameObject;
-        playerPref = Resources.Load("Prefabs/Player") as GameObject;
-    }
-
-    public GameObject drop { get; private set; }
-    public GameObject playerPref { get; private set; }
-    public float hSpeed { get; private set; }
-    public float vSpeed { get; private set; }
-    public Vector3 cameraPosition { get; private set; }
-    public GameObject player { get; private set; }
-    public int ateLevel { get; private set; }
-    public readonly float MaxHorizontal = 3.8f;
+    public Dictionary<int, CharacterData> dicCharacterinfoTable = new Dictionary<int, CharacterData>();
 
     public override void LoadData()
     {
-        m_DoneLoad.Character = true;
+        WWWData.RequestReadFromGoogleDrive((int)DocsTable.Skill, (WWWData docs) =>
+        {
+            CharacterInfoCSV[] infos = Utils.GetInstance_Docs<CharacterInfoCSV[]>(docs.Lines);
+            if (infos.Length > 0)
+            {
+                for (int i = 0; i < infos.Length; i++)
+                {
+                    CharacterData data = new CharacterData();
+                    data.SetData(infos[i]);
+                    if (!dicCharacterinfoTable.ContainsKey(infos[i].Index)/* && infos[i].CharName != null*/)
+                        dicCharacterinfoTable.Add(infos[i].Index, data);
+                    else
+                        Debug.LogError("CharacterInfo Index Value Error");
+                }
+
+                m_DoneLoad.Character = true;
+            }
+
+        });
     }
 
-    public override Dictionary<int, CharacterInfo> GetDictionary<CharacterInfo>()
+    public override Dictionary<int, CharacterData> GetDictionary<CharacterData>()
     {
-        return null;
+        return dicCharacterinfoTable as Dictionary<int, CharacterData>; ;
     }
 }

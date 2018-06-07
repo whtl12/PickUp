@@ -8,6 +8,8 @@ public class CharacterInfoCSV
     public string CharName;
     public float vSpeed;
     public float hSpeed;
+    public int SizeUpValue;
+    public int MinSize;
     public int MaxSize;
 }
 
@@ -18,14 +20,18 @@ public struct CharacterData
     public GameObject CharName;
     public float vSpeed;
     public float hSpeed;
+    public Vector3 SizeUpValue;
+    public Vector3 MinSize;
     public Vector3 MaxSize;
 
     public void SetData(CharacterInfoCSV csv)
     {
         Index = csv.Index;
-        CharName = GameObject.Find("Prefabs/" + csv.CharName);
+        CharName = Resources.Load("Prefabs/" + csv.CharName) as GameObject;
         vSpeed = csv.vSpeed;
         hSpeed = csv.hSpeed;
+        SizeUpValue = new Vector3(csv.SizeUpValue, csv.SizeUpValue, csv.SizeUpValue) / 100;
+        MinSize = new Vector3(csv.MinSize, csv.MinSize, csv.MinSize) / 100;
         MaxSize = new Vector3(csv.MaxSize, csv.MaxSize, csv.MaxSize) / 100;
     }
 }
@@ -35,7 +41,7 @@ public class CharacterInfo : Data
 
     public override void LoadData()
     {
-        WWWData.RequestReadFromGoogleDrive((int)DocsTable.Skill, (WWWData docs) =>
+        WWWData.RequestReadFromGoogleDrive((int)DocsTable.Character, (WWWData docs) =>
         {
             CharacterInfoCSV[] infos = Utils.GetInstance_Docs<CharacterInfoCSV[]>(docs.Lines);
             if (infos.Length > 0)

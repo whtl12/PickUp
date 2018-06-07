@@ -3,57 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour {
-    float h;
-    bool direction;
+    DataInfoManager dataManager;
+    CharacterData characterData;
+
+    float hSpeed;
+    Vector3 SizeUpValue;
+    Vector3 MinSize, MaxSize;
+    GameObject character;
+
     bool isGround;
-    public float hSpeed;
-    float vSpeed;
-    int ateLevel;
-    public Map map;
-    MapInfo mapInfo;
-    CharacterInfo characterInfo;
-    Vector3 cameraPosition;
-    GameObject mainCamera;
     float MaxHorizontal = 3.8f;
-    public void EatBubble()
-    {
-        vSpeed += 1;
-        if (ateLevel < 10)
-        {
-            ateLevel++;
-            transform.localScale += new Vector3(0.025f, 0.025f, 0.025f);
-        }
-    }
+    [HideInInspector] public int AteNum = 0;
+    [HideInInspector] public int playerIndex = 0;
+    PlayManager playManager;
+
+
     private void Awake()
     {
-        characterInfo = new CharacterInfo();
-        mapInfo = new MapInfo();
-        map = GameObject.Find("GameManager").GetComponent<Map>();
+        playManager = GameObject.Find("PlayManager").GetComponent<PlayManager>();
     }
     void Start () {
-        hSpeed = 2;
-        vSpeed = 4;
-        cameraPosition = Vector3.zero;
-        ateLevel = 0;
-
-        mainCamera = Camera.main.gameObject;
-        h = 0;
-        direction = isGround = false;
+        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
+        characterData = dataManager.GetCharacterData(0);
+        hSpeed = characterData.hSpeed;
+        SizeUpValue = characterData.SizeUpValue;
+        MinSize = characterData.MinSize;
+        MaxSize = characterData.MaxSize;
+        character = characterData.CharName;
+        AteNum = 0;
+        isGround = false;
     }
 
     void Update () {
-        mainCamera.transform.position = new Vector3(0, cameraPosition.y + transform.position.y, cameraPosition.z);
-        if (Input.GetMouseButtonDown(0))
-            direction = !direction;
-        h = direction ? 1 : -1;
-        transform.Translate(Vector3.right * h * Time.deltaTime * hSpeed);
+        transform.Translate((playManager.Getdirection() ? 1 : -1) * Vector3.right * Time.deltaTime * hSpeed);
 
         if (Mathf.Abs(transform.position.x) > MaxHorizontal)
             transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * MaxHorizontal, transform.position.y, transform.position.z);
 
-        if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
-
+        if (GetComponent<Rigidbody>().velocity.magnitude > playManager.vSpeed)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * playManager.vSpeed;
 
         if (transform.position.z > 0.8f)
             transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
@@ -70,9 +58,6 @@ public class CharacterControl : MonoBehaviour {
         if (!isGround)
             GetComponent<Rigidbody>().AddForce(Vector3.forward);
 
-        if (transform.position.y < (map.index - 1) * -mapInfo.dumiHeight && name == "Player")
-            map.InitBackground();
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -80,42 +65,58 @@ public class CharacterControl : MonoBehaviour {
         if (collision.transform.tag == "Obstacle")
         {
             collision.transform.tag = "Finish";
-            if (ateLevel > 0)
+            if (AteNum > 0)
             {
-                ateLevel--;
-                transform.localScale -= new Vector3(0.025f, 0.025f, 0.025f);
+                AteNum--;
+                transform.localScale -= SizeUpValue;
+
+                //Vector3 normalized = (transform.position - collision.transform.position).normalized;
+                //float Deg = Mathf.Atan2(normalized.y, normalized.x) * Mathf.Rad2Deg;
+                Vector3 edge = Vector3.zero;
+                foreach (ContactPoint contact in collision.contacts)
+                    edge += contact.point;
+                edge /= collision.contacts.Length;
+                edge = transform.position - edge;
+                int devAte = 0;
+                if (Mathf.Abs(edge.x) < 0.3 && playManager.Player.Count < 5)
+                {
+                    if (Mathf.Abs(edge.x) < 0.1)
+                        devAte = AteNum / 2;
+                    else if (Mathf.Abs(edge.x) < 0.2)
+                        devAte = AteNum / 4;
+                    else
+                        devAte = 1;
+
+                    gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                    playManager.InitPlayer(devAte, character, transform.position - Vector3.right * edge.x * 2, Quaternion.identity);
+                    AteNum -= devAte;
+                }
             }
-            //else
-            //    Destroy(gameObject);
-
-            //Vector3 normalized = (transform.position - collision.transform.position).normalized;
-            //float Deg = Mathf.Atan2(normalized.y, normalized.x) * Mathf.Rad2Deg;
-
-            Vector3 edge = Vector3.zero;
-            foreach (ContactPoint contact in collision.contacts)
-                edge += contact.point;
-            edge /= collision.contacts.Length;
-            edge = transform.position - edge;
-            //if (Mathf.Abs(edge.x) < 0.3)
-            //{
-            //    Destroy(gameObject);
-            //    Instantiate(characterInfo.playerPref, transform.position, Quaternion.identity).name = "Player"; ;
-            //    Instantiate(characterInfo.playerPref, transform.position - Vector3.right * edge.x * 2, Quaternion.identity);
-            //}
+                else
+                    playManager.DestroyPlayer(gameObject);
         }
     }
-    IEnumerator Revert()
+    public void EatBubble()
     {
-        yield return new WaitForSeconds(1.0f);
-        float distance = (mainCamera.transform.position - cameraPosition).magnitude;
-        if (distance > 1)
-            iTween.MoveTo(mainCamera, iTween.Hash("position", cameraPosition,"time", 1f, "islocal", true, "movetopath", false, "easetype", iTween.EaseType.easeInOutQuart));
+        playManager.vSpeed += 0.3f;
+        if (AteNum < 10)
+        {
+            AteNum++;
+            transform.localScale += SizeUpValue;
+        }
     }
+    //IEnumerator Revert()
+    //{
+    //    yield return new WaitForSeconds(1.0f);
+    //    float distance = (Camera.main.gameObject.transform.position - cameraBasicPosition).magnitude;
+    //    if (distance > 1)
+    //        iTween.MoveTo(Camera.main.gameObject, iTween.Hash("position", cameraBasicPosition, "time", 1f, "islocal", true, "movetopath", false, "easetype", iTween.EaseType.easeInOutQuart));
+    //}
     IEnumerator ObstacleHit()
     {
         GetComponent<CapsuleCollider>().enabled = false;
-        
-        for(int i = 0; i < 2; i++)
+
+        for (int i = 0; i < 2; i++)
         {
             GetComponent<MeshRenderer>().enabled = false;
             yield return new WaitForSeconds(0.2f);

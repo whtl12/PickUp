@@ -17,7 +17,7 @@ public class DetectArea : MonoBehaviour {
     {
         if (other.tag == "trickle")
         {
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             parent.EatBubble();
         }
     }

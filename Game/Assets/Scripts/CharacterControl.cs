@@ -32,6 +32,8 @@ public class CharacterControl : MonoBehaviour {
         character = characterData.CharName;
         AteNum = 0;
         isGround = false;
+
+        transform.GetComponentInChildren<SphereCollider>().radius = 0.8f + AteNum * 0.1f;
     }
 
     void Update () {
@@ -69,7 +71,7 @@ public class CharacterControl : MonoBehaviour {
             {
                 AteNum--;
                 transform.localScale -= SizeUpValue;
-
+                transform.GetComponentInChildren<SphereCollider>().radius -= 0.025f;
                 //Vector3 normalized = (transform.position - collision.transform.position).normalized;
                 //float Deg = Mathf.Atan2(normalized.y, normalized.x) * Mathf.Rad2Deg;
                 Vector3 edge = Vector3.zero;
@@ -103,6 +105,7 @@ public class CharacterControl : MonoBehaviour {
         {
             AteNum++;
             transform.localScale += SizeUpValue;
+            transform.GetComponentInChildren<SphereCollider>().radius += 0.025f;
         }
     }
     //IEnumerator Revert()

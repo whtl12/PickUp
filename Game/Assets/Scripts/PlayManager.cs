@@ -6,36 +6,43 @@ public class PlayManager : MonoBehaviour {
     DataInfoManager dataManager;
     CharacterData characterData;
     MapData mapData;
+    ObjectPool ojtPool;
 
     bool direction;
     public float vSpeed;
     float mapHeight;
     GameObject mainPlayer;
     Vector3 cameraBasicPosition = new Vector3(0, -3.5f, -12f);
-    List<GameObject> Background = new List<GameObject>();
     [HideInInspector] public List<GameObject> Player = new List<GameObject>();
     [HideInInspector] public GameObject mapPref;
     [HideInInspector] public bool isGround;
     [HideInInspector] public int index;
 
-    public GameObject playerParent;
-    public GameObject mapParent;
+    GameObject playerParent;
+    GameObject mapParent;
+    List<GameObject> mapList;
 
     // Use this for initialization
     void Start()
     {
         Player.Add(GameObject.Find("Player"));
+        playerParent = GameObject.Find("PlayerParent");
+        mapParent = GameObject.Find("MapParent");
         dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         characterData = dataManager.GetCharacterData(0);
         mapData = dataManager.GetMapData(0);
         vSpeed = characterData.vSpeed;
         mapHeight = mapData.mapHeight;
         mapPref = mapData.Name;
+
+        mapList = new List<GameObject>();
+        ojtPool = GetComponent<ObjectPool>();
+        ojtPool.SetObjectPool(mapPref, 5);
+        ojtPool.Initialize(mapParent.transform);
         index = 0;
         direction = false;
-
-        InitBackground();
-        InitBackground();
+        mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
+        mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
     }
     // Update is called once per frame
     void Update()
@@ -55,7 +62,13 @@ public class PlayManager : MonoBehaviour {
         {
             Camera.main.gameObject.transform.position = new Vector3(0, cameraBasicPosition.y + mainPlayer.transform.position.y, cameraBasicPosition.z);
             if (mainPlayer.transform.position.y < (index - 1) * -mapHeight)
-                InitBackground();
+            {
+                mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
+                for (int i = 0; i < mapList[0].transform.GetChild(0).childCount; i++)
+                    mapList[0].transform.GetChild(0).GetChild(i).gameObject.SetActive(true);
+                ojtPool.PushToPool(mapList[0]);
+                mapList.RemoveAt(0);
+            }
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -94,13 +107,6 @@ public class PlayManager : MonoBehaviour {
             print(string.Format("index error : Player.IndexOf {0}", Player.IndexOf(obj)));
         }
         Destroy(obj);
-    }
-    public void InitBackground()
-    {
-        GameObject instance = Instantiate(mapPref, new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0));
-        instance.transform.localScale = new Vector3(1, 4, 1);
-        instance.transform.parent = mapParent.transform;
-        Background.Add(instance);
     }
     public bool Getdirection()
     {

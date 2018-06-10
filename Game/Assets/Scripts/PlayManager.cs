@@ -12,7 +12,7 @@ public class PlayManager : MonoBehaviour {
     public float vSpeed;
     float mapHeight;
     GameObject mainPlayer;
-    Vector3 cameraBasicPosition = new Vector3(0, -3.5f, -12f);
+    Vector3 cameraBasicPosition = new Vector3(0, 3f, -12f);
     [HideInInspector] public List<GameObject> Player = new List<GameObject>();
     [HideInInspector] public GameObject mapPref;
     [HideInInspector] public bool isGround;

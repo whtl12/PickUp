@@ -58,7 +58,7 @@ public class CharacterControl : MonoBehaviour {
             isGround = false;
         }
         if (!isGround)
-            GetComponent<Rigidbody>().AddForce(Vector3.forward);
+            GetComponent<Rigidbody>().AddForce(Vector3.forward * 2);
 
     }
 
@@ -72,6 +72,7 @@ public class CharacterControl : MonoBehaviour {
                 AteNum--;
                 transform.localScale -= SizeUpValue;
                 transform.GetComponentInChildren<SphereCollider>().radius -= 0.025f;
+                transform.GetChild(1).localScale = transform.localScale / 2;
                 //Vector3 normalized = (transform.position - collision.transform.position).normalized;
                 //float Deg = Mathf.Atan2(normalized.y, normalized.x) * Mathf.Rad2Deg;
                 Vector3 edge = Vector3.zero;
@@ -106,6 +107,7 @@ public class CharacterControl : MonoBehaviour {
             AteNum++;
             transform.localScale += SizeUpValue;
             transform.GetComponentInChildren<SphereCollider>().radius += 0.025f;
+            transform.GetChild(1).localScale = transform.localScale / 2;
         }
     }
     //IEnumerator Revert()

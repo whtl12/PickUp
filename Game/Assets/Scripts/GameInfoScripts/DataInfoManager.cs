@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class DataInfoManager : MonoBehaviour
 {
     public static DataInfoManager m_Instance;
+    public GameObject Loading; // Start씬에서 시작할때 버튼 눌려지는거 막을려고 임시로 만듬.
 
     SkillInfo SkillDataInfoTable;
     CharacterInfo CharacterDataInfoTable;
@@ -28,6 +29,9 @@ public class DataInfoManager : MonoBehaviour
 
     IEnumerator LoadingData()
     {
+        if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Start)
+            Loading.SetActive(true);
+
         SkillDataInfoTable = new SkillInfo();
         SkillDataInfoTable.LoadData();
 
@@ -54,9 +58,11 @@ public class DataInfoManager : MonoBehaviour
 
         SkillDataInfoTable.GetDictionary<SkillInfo>();
 
+        if (Loading != null)
+            Loading.SetActive(false);
+
         //로드 끝나고 씬 바꾸기.
         //처음 로고 영상? 보여주고 씬넘기기 위한 특수 경우기때문에 그냥 넘김.
-
         if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Intro)
             SceneManager.LoadScene((int)UIManager.SceneLoadIndex.Start);
     }

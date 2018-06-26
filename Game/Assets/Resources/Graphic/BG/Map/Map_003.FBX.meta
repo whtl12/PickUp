@@ -1,17 +1,16 @@
 fileFormatVersion: 2
-guid: f20eeb508954cae40a2baf043e000285
-timeCreated: 1528562200
+guid: c55751ba3621acf4d93b93de7493e304
+timeCreated: 1530023225
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: _Map_002Material__26
-    2100002: Material__31
+    2100000: Material__31
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Map_002
+    4300000: Map_003
     9500000: //RootNode
   externalObjects: {}
   materials:

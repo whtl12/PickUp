@@ -8,6 +8,7 @@ public class OutGameUI : UI
 
     public Button Shop;
     public Button GameStart;
+    public Button Option;
 
     // Use this for initialization
     void Start()
@@ -15,6 +16,7 @@ public class OutGameUI : UI
         UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
         SetButtonLisner(Shop, ButtonEvent);
         SetButtonLisner(GameStart, ButtonEvent);
+        SetButtonLisner(Option, ButtonEvent);
 
     }
 
@@ -30,6 +32,10 @@ public class OutGameUI : UI
 
             case "GameStart":
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.InGameUI);
+                break;
+
+            case "Option":
+                UIManager.m_Instance.OpenPopup(UIManager.PopupUI.OptionPopup);
                 break;
         }
     }

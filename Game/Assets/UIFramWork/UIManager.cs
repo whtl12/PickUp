@@ -11,6 +11,7 @@ namespace GetUIPosition
         public string InGameUIPos = "InGameUI";
         public string BasicPopupUIPos = "BasicPopup";
         public string ShopUIPos = "ShopUI";
+        public string OptionPopupPos = "OptionPopup";
 
         Dictionary<string, string> UIPosInfoDIc = new Dictionary<string, string>();
             //어떤 팝업을 열고 닫을껀지 알기위해서. 아래의 enum 문과 같은 string으로 해야함... ( 더 좋은 방법이 있을까..?)
@@ -20,6 +21,7 @@ namespace GetUIPosition
             UIPosInfoDIc.Add("ShopUI", ShopUIPos);
             UIPosInfoDIc.Add("OutGameUI", OutGameUIPos);
             UIPosInfoDIc.Add("InGameUI", InGameUIPos);
+            UIPosInfoDIc.Add("OptionPopup", OptionPopupPos);
         }
 
 
@@ -49,6 +51,7 @@ public class UIManager : MonoBehaviour {
     public enum PopupUI
     {
         BasicPopup,
+        OptionPopup
     };
 
     //PlayerSetting 에 LoadScene이랑  index 맞추기.

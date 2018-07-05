@@ -15,6 +15,7 @@ public class DataInfoManager : MonoBehaviour
     MapInfo MapDataInfoTable;
     ShopInfo ShopDataInfoTable;
     
+    
     private void Awake()
     {
         if (m_Instance == null)

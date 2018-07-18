@@ -39,5 +39,4 @@ public abstract class Data
     public abstract void LoadData();
     public abstract Dictionary<int, T> GetDictionary<T>();
 
-
 }

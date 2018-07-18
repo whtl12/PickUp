@@ -43,6 +43,8 @@ public class PlayManager : MonoBehaviour {
         direction = false;
         mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
         mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
+
+        dataManager.gameObject.GetComponent<SoundManager>().ChangeMusic(1);
     }
     // Update is called once per frame
     void Update()

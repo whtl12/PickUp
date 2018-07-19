@@ -33,7 +33,7 @@ public class ObjectPool : MonoBehaviour {
     }
     public void PushToPool(GameObject item, Transform parent = null)
     {
-        //item.transform.SetParent(parent);
+        item.transform.SetParent(parent);
         item.SetActive(false);
         poolList.Add(item);
     }

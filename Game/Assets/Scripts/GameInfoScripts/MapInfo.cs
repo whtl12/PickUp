@@ -5,8 +5,15 @@ using UnityEngine;
 public class MapInfoCSV
 {
     public int Index;
+    public string Path;
     public string Name;
     public float mapHeight;
+    public float edgeX;
+    public float edgeZ;
+    public float offsetX;
+    public float centerX;
+    public float centerZ;
+
 }
 
 public struct MapData
@@ -14,12 +21,23 @@ public struct MapData
     public int Index;
     public GameObject Name;
     public float mapHeight;
+    public float edgeX;
+    public float edgeZ;
+    public float centerX;
+    public float centerZ;
 
     public void SetData(MapInfoCSV csv)
     {
         Index = csv.Index;
-        Name = Resources.Load("Prefabs/" + csv.Name) as GameObject;
+        Name = Resources.Load(csv.Path + csv.Name) as GameObject;
+        Debug.Log(Name);
+        if (Name)
+            GameObject.Instantiate(Name);
         mapHeight = csv.mapHeight;
+        edgeX = csv.edgeX + csv.offsetX;
+        edgeZ = csv.edgeZ;
+        centerX = csv.centerX;
+        centerZ = csv.centerZ;
     }
 }
 public class MapInfo : Data
@@ -51,6 +69,6 @@ public class MapInfo : Data
 
     public override Dictionary<int, MapData> GetDictionary<MapData>()
     {
-        return dicMapinfoTable as Dictionary<int, MapData>; ;
+        return dicMapinfoTable as Dictionary<int, MapData>;
     }
 }

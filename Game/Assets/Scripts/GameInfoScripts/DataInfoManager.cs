@@ -78,4 +78,8 @@ public class DataInfoManager : MonoBehaviour
     {
         return MapDataInfoTable.GetDictionary<MapData>()[key];
     }
+    public bool MapContainsKey(int key)
+    {
+        return MapDataInfoTable.dicMapinfoTable.ContainsKey(key);
+    }
 }

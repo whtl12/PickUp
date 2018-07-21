@@ -7,18 +7,21 @@ public class MapManager : MonoBehaviour {
     private const float OBSTACLEINTERVAL = 6;
 
     private const int MAPCOUNT = 3;
+    private const int WATERCOUNT = 3;
     private const int ROCKCOUNT = 5;
     private const int TREECOUNT = 3;
     private const int LEEFCOUNT = 2;
     private const int PLANTCOUNT = 3;
 
     private const int MAPSTART = 0;
+    private const int WATERSTART = 100;
     private const int ROCKSTART = 1000;
     private const int TREESTART = 1100;
     private const int LEEFSTART = 1200;
     private const int PLANTSTART = 1300;
 
     List<MapData> map = new List<MapData>();
+    List<MapData> water = new List<MapData>();
     List<MapData> rock = new List<MapData>();
     List<MapData> tree = new List<MapData>();
     List<MapData> leef = new List<MapData>();
@@ -29,17 +32,20 @@ public class MapManager : MonoBehaviour {
 
     DataInfoManager dataManager;
     List<GameObject> backgroundList = new List<GameObject>();
+    List<GameObject> ItemList = new List<GameObject>();
     List<GameObject> ObstacleList = new List<GameObject>();
     ObjectPool mapPool = new ObjectPool();
     ObjectPool obsPool = new ObjectPool();
     GameObject mapParent;
     Transform bgParent;
+    Transform itParent;
     Transform obParent;
     Quaternion bidoQuaternion;
 
     enum ObjectElement
     {
         Background = 0,
+        Item,
         Obstacle,
         MAX
     };
@@ -57,11 +63,13 @@ public class MapManager : MonoBehaviour {
         mapParent = GameObject.Find("MapParent");
         bgParent = GameObject.Find("Background").transform;
         obParent = GameObject.Find("Obstacle").transform;
+        itParent = GameObject.Find("Item").transform;
         mapIndex = 0;
         obstacle_y = 0;
         bidoQuaternion = Quaternion.Euler(-90, 0, 0);
 
         InitMap(map, ObjectElement.Background, MAPSTART, MAPCOUNT);
+        InitMap(water, ObjectElement.Item, WATERSTART, WATERCOUNT);
         InitMap(rock, ObjectElement.Obstacle, ROCKSTART, ROCKCOUNT);
         InitMap(tree, ObjectElement.Obstacle, TREESTART, TREECOUNT);
         InitMap(leef, ObjectElement.Obstacle, LEEFSTART, LEEFCOUNT);
@@ -96,8 +104,6 @@ public class MapManager : MonoBehaviour {
             if (ObstacleList.Count > 30)
                 break;
         }
-
-        print(backgroundList.Count);
     }
 
     public Vector3 GetMidPosition()

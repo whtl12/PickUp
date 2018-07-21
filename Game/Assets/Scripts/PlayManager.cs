@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour {
     DataInfoManager dataManager;
+    MapManager mapManager;
     CharacterData characterData;
-    MapData mapData;
-    ObjectPool ojtPool;
 
     bool direction;
     public float vSpeed;
     float mapHeight;
-    GameObject mainPlayer;
-    Vector3 cameraBasicPosition = new Vector3(0, 3f, -12f);
+    public GameObject mainPlayer;
+    Vector3 cameraBasicPosition = new Vector3(0, 3f, -10f);
     [HideInInspector] public List<GameObject> Player = new List<GameObject>();
     [HideInInspector] public GameObject mapPref;
     [HideInInspector] public bool isGround;
@@ -29,22 +28,10 @@ public class PlayManager : MonoBehaviour {
         playerParent = GameObject.Find("PlayerParent");
         mapParent = GameObject.Find("MapParent");
         dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
+        mapManager = GetComponent<MapManager>();
         characterData = dataManager.GetCharacterData(0);
-        mapData = dataManager.GetMapData(0);
         vSpeed = characterData.vSpeed;
-        mapHeight = mapData.mapHeight;
-        mapPref = mapData.Name;
-
-        mapList = new List<GameObject>();
-        ojtPool = GetComponent<ObjectPool>();
-        ojtPool.SetObjectPool(mapPref, 5);
-        ojtPool.Initialize(mapParent.transform);
-        index = 0;
         direction = false;
-        mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
-        mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
-
-      //  dataManager.gameObject.GetComponent<SoundManager>().ChangeMusic(1);
     }
     // Update is called once per frame
     void Update()
@@ -62,20 +49,16 @@ public class PlayManager : MonoBehaviour {
         }
         else
         {
-            Camera.main.gameObject.transform.position = new Vector3(0, cameraBasicPosition.y + mainPlayer.transform.position.y, cameraBasicPosition.z);
-            if (mainPlayer.transform.position.y < (index - 1) * -mapHeight)
-            {
-                mapList.Add(ojtPool.PopFromPool(new Vector3(0, -mapHeight * index++, 1), Quaternion.Euler(0, 180, 0), mapParent.transform));
-                for (int i = 0; i < mapList[0].transform.GetChild(0).childCount; i++)
-                    mapList[0].transform.GetChild(0).GetChild(i).gameObject.SetActive(true);
-                ojtPool.PushToPool(mapList[0]);
-                mapList.RemoveAt(0);
-            }
+            Camera.main.gameObject.transform.position = new Vector3(mainPlayer.transform.position.x * 2, cameraBasicPosition.y + mainPlayer.transform.position.y, cameraBasicPosition.z);
+            Camera.main.gameObject.transform.rotation = Quaternion.Euler(0, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
+
         }
+
+        if (mapManager.GetMidPosition().y > mainPlayer.transform.position.y)
+            mapManager.AllRun();
 
         if (Input.GetMouseButtonDown(0))
             direction = !direction;
-
     }
     private void OnCollisionEnter(Collision collision)
     {

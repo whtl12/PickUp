@@ -19,7 +19,8 @@ public class MapInfoCSV
 public struct MapData
 {
     public int Index;
-    public GameObject Name;
+    public GameObject Obj;
+    public string Name;
     public float mapHeight;
     public float edgeX;
     public float edgeZ;
@@ -29,10 +30,10 @@ public struct MapData
     public void SetData(MapInfoCSV csv)
     {
         Index = csv.Index;
-        Name = Resources.Load(csv.Path + csv.Name) as GameObject;
-        Debug.Log(Name);
-        if (Name)
-            GameObject.Instantiate(Name);
+        Obj = Resources.Load(csv.Path + csv.Name) as GameObject;
+        if(!Obj)
+            Debug.Log("Error: key " + Index + " , name " + Obj);
+        Name = csv.Name;
         mapHeight = csv.mapHeight;
         edgeX = csv.edgeX + csv.offsetX;
         edgeZ = csv.edgeZ;

@@ -11,7 +11,7 @@ public class PlayManager : MonoBehaviour {
     public float vSpeed;
     float mapHeight;
     public GameObject mainPlayer;
-    Vector3 cameraBasicPosition = new Vector3(0, 3f, -10f);
+    Vector3 cameraBasicPosition = new Vector3(0, 3f, -8f);
     [HideInInspector] public List<GameObject> Player = new List<GameObject>();
     [HideInInspector] public GameObject mapPref;
     [HideInInspector] public bool isGround;
@@ -50,7 +50,7 @@ public class PlayManager : MonoBehaviour {
         else
         {
             Camera.main.gameObject.transform.position = new Vector3(mainPlayer.transform.position.x * 2, cameraBasicPosition.y + mainPlayer.transform.position.y, cameraBasicPosition.z);
-            Camera.main.gameObject.transform.rotation = Quaternion.Euler(0, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
+            Camera.main.gameObject.transform.rotation = Quaternion.Euler(30, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
 
         }
 

@@ -3931,8 +3931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Btn_close: {fileID: 367659271}
   bgmSlider: {fileID: 1984352175}
-  audioSource: {fileID: 1960476818}
-  soundVolume: 0
+  soundManager: {fileID: 0}
 --- !u!4 &1781497363
 Transform:
   m_ObjectHideFlags: 0

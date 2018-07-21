@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour {
+    public const float MaxHorizontal = 4.8f;
+
     DataInfoManager dataManager;
+    PlayManager playManager;
     CharacterData characterData;
 
     float hSpeed;
@@ -12,10 +15,8 @@ public class CharacterControl : MonoBehaviour {
     GameObject character;
 
     bool isGround;
-    float MaxHorizontal = 3.8f;
     [HideInInspector] public int AteNum = 0;
     [HideInInspector] public int playerIndex = 0;
-    PlayManager playManager;
 
 
     private void Awake()
@@ -45,8 +46,8 @@ public class CharacterControl : MonoBehaviour {
         if (GetComponent<Rigidbody>().velocity.magnitude > playManager.vSpeed)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * playManager.vSpeed;
 
-        if (transform.position.z > 0.8f)
-            transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
+        //if (transform.position.z > 0.8f)
+        //    transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
 
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, Vector3.forward, out hitInfo, 0.5f))

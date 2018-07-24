@@ -13,7 +13,7 @@ public class LobbyCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        BasePos = this.transform.position;
+        BasePos = this.transform.localPosition;
     }
 	
 	// Update is called once per frame
@@ -47,7 +47,13 @@ public class LobbyCamera : MonoBehaviour {
     void MoveCamera(Vector3 pos)
     {
         pos.y += YposOffset;
-        iTween.MoveBy(gameObject, pos, MoveTime);
+        iTween.MoveBy(gameObject, iTween.Hash("amount", pos, 
+                                                "time", MoveTime,
+                                                "islocal", true,
+                                                "movetopath", false,
+                                                "easetype", iTween.EaseType.easeInOutQuart
+                                               ));
+
         TargetObj = null; // 일단 한번 할꺼니까...ㅎ..
         RoolBack = true;
     }
@@ -55,7 +61,17 @@ public class LobbyCamera : MonoBehaviour {
     void RollBackCamera()
     {
         if(RoolBack) // 일단 한번 할꺼니까...ㅎ..
-            iTween.MoveBy(gameObject, BasePos, MoveTime);
+        {
+            iTween.MoveTo(gameObject, iTween.Hash("islocal", true,
+                                                       "position", BasePos,
+                                                       "time", MoveTime,
+                                                       "easetype", iTween.EaseType.linear,
+                                                       "oncomplete", "ViewResult",
+                                                       "oncompletetarget", this.gameObject
+                                                     ));
+        }
+           
+
         RoolBack = false;
     }
 }

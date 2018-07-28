@@ -19,6 +19,7 @@ public class PlayManager : MonoBehaviour {
 
     GameObject playerParent;
     GameObject mapParent;
+    GameObject cameraParent;
     List<GameObject> mapList;
 
     // Use this for initialization
@@ -27,6 +28,7 @@ public class PlayManager : MonoBehaviour {
         Player.Add(GameObject.Find("Player"));
         playerParent = GameObject.Find("PlayerParent");
         mapParent = GameObject.Find("MapParent");
+        cameraParent = GameObject.Find("CameraParent");
         dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         mapManager = GetComponent<MapManager>();
         characterData = dataManager.GetCharacterData(0);
@@ -49,9 +51,11 @@ public class PlayManager : MonoBehaviour {
         }
         else
         {
-            Camera.main.gameObject.transform.position = new Vector3(mainPlayer.transform.position.x * 2, cameraBasicPosition.y + mainPlayer.transform.position.y, cameraBasicPosition.z);
-            Camera.main.gameObject.transform.rotation = Quaternion.Euler(30, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
-
+            cameraParent.transform.position = new Vector3(0, mainPlayer.transform.position.y, 10);
+            //Camera.main.gameObject.transform.rotation = Quaternion.FromToRotation(mainPlayer.transform.position, new Vector3(0, mainPlayer.transform.position.y, 10)); // Quaternion.Euler(30, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
+            Quaternion rotation = Quaternion.LookRotation(cameraParent.transform.position - mainPlayer.transform.position);
+            // cameraParent.transform.rotation = Quaternion.Slerp(cameraParent.transform.rotation, rotation, Time.deltaTime * 0.2f);
+            cameraParent.transform.rotation = rotation;
         }
 
         if (mapManager.GetMidPosition().y > mainPlayer.transform.position.y)

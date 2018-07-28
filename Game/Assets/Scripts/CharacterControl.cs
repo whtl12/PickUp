@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour {
-    public const float MaxHorizontal = 4.8f;
+    public const float MaxHorizontal = 3.8f;
+    Vector3 MapOffset;
 
     DataInfoManager dataManager;
     PlayManager playManager;
@@ -17,7 +18,6 @@ public class CharacterControl : MonoBehaviour {
     bool isGround;
     [HideInInspector] public int AteNum = 0;
     [HideInInspector] public int playerIndex = 0;
-
 
     private void Awake()
     {
@@ -34,14 +34,23 @@ public class CharacterControl : MonoBehaviour {
         AteNum = 0;
         isGround = false;
 
+        MapOffset = new Vector3(0, 0, MapManager.BACKGROUND_Z);
+        
         transform.GetComponentInChildren<SphereCollider>().radius = 0.8f + AteNum * 0.1f;
     }
 
     void Update () {
-        transform.Translate((playManager.Getdirection() ? 1 : -1) * Vector3.right * Time.deltaTime * hSpeed);
+        Vector3 direction = Time.deltaTime * hSpeed * new Vector3((playManager.Getdirection() ? 1 : -1), 0, -1);
+        transform.Translate(direction);
 
-        if (Mathf.Abs(transform.position.x) > MaxHorizontal)
-            transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * MaxHorizontal, transform.position.y, transform.position.z);
+        //Quaternion rotation = Quaternion.Euler(-90, (playManager.Getdirection() ? 45 : -45), 0);
+        Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
+        //transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, rotation, Time.deltaTime * 0.2f);
+        transform.rotation = rotation * Quaternion.Euler(0, (playManager.Getdirection() ? -1 : 1) * 30,0);
+        
+
+        //if (Mathf.Abs(transform.position.x) > MaxHorizontal)
+        //    transform.position = new Vector3(transform.position.x / Mathf.Abs(transform.position.x) * MaxHorizontal, transform.position.y, transform.position.z);
 
         if (GetComponent<Rigidbody>().velocity.magnitude > playManager.vSpeed)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * playManager.vSpeed;
@@ -50,7 +59,7 @@ public class CharacterControl : MonoBehaviour {
         //    transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
 
         RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, Vector3.forward, out hitInfo, 0.5f))
+        if (Physics.Raycast(transform.position, Vector3.forward, out hitInfo, 1f))
         {
             if(hitInfo.collider.tag == "Background")
                 isGround = true;
@@ -58,8 +67,9 @@ public class CharacterControl : MonoBehaviour {
         {
             isGround = false;
         }
+
         if (!isGround)
-            GetComponent<Rigidbody>().AddForce(Vector3.forward * 2);
+            GetComponent<Rigidbody>().AddForce(- 2f * new Vector3(transform.position.x, 0, transform.position.z - MapOffset.z));
 
     }
 

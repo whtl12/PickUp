@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour {
-    private const int BACKGROUND_Z = 10;
+    public const int BACKGROUND_Z = 10;
     private const float OBSTACLEINTERVAL = 6;
 
-    private const int MAPCOUNT = 3;
+    private const int MAPCOUNT = 4;
     private const int WATERCOUNT = 3;
     private const int ROCKCOUNT = 5;
     private const int TREECOUNT = 3;
@@ -34,8 +34,11 @@ public class MapManager : MonoBehaviour {
     List<GameObject> backgroundList = new List<GameObject>();
     List<GameObject> ItemList = new List<GameObject>();
     List<GameObject> ObstacleList = new List<GameObject>();
+
     ObjectPool mapPool = new ObjectPool();
     ObjectPool obsPool = new ObjectPool();
+    ObjectPool itemPool = new ObjectPool();
+
     GameObject mapParent;
     Transform bgParent;
     Transform itParent;
@@ -142,7 +145,7 @@ public class MapManager : MonoBehaviour {
     }
     public void popBackground()
     {
-        int rnd = Random.Range(0, map.Count);
+        int rnd = 3; // Random.Range(0, map.Count);
         backgroundList.Add(mapPool.PopFindByName(map[rnd].Obj, new Vector3(0, mapIndex++ * -map[rnd].mapHeight, BACKGROUND_Z), bidoQuaternion, mapParent.transform));
 
     }
@@ -153,7 +156,7 @@ public class MapManager : MonoBehaviour {
     }
     public void pushObstacle()
     {
-        for(int i = 0; i < 20; i++)
+        for(int i = 0; i < 30; i++)
         {
             if (ObstacleList[i].transform.position.y > backgroundList[0].transform.position.y)
             {
@@ -166,26 +169,36 @@ public class MapManager : MonoBehaviour {
     void InitObstacle(List<MapData> obs)
     {
         int rnd = Random.Range(0, obs.Count);
-        float position_y = 0;
-        switch (Random.Range(0, 3)) {
-            case 0: position_y = -Random.Range(1, 6); break;
-            case 1: position_y = -Random.Range(3, 6); break;
-            case 2: position_y = -Random.Range(3, 8); break;
-        }
-        float position_x = Random.Range(-obs[rnd].edgeX, obs[rnd].edgeX);
-        float zRate = Mathf.Abs((obs[rnd].edgeZ - obs[rnd].centerZ) * position_x / obs[rnd].edgeX) + obs[rnd].centerZ;
-        Quaternion surfaceAngle = Quaternion.Euler(0, 0, -40 * position_x / obs[rnd].edgeX);
-
+        float position_y = - Random.Range(0f,4f);
+        //switch (Random.Range(0, 3)) {
+        //    case 0: position_y = -Random.Range(1, 2); break;
+        //    case 1: position_y = -Random.Range(3, 4); break;
+        //    case 2: position_y = -Random.Range(3, 8); break;
+        //}
+        int sign_z = Random.Range(0, 2) == 1? -1 : 1;
+        float position_x = Random.Range(-6.5f, 6.5f);
+        float position_z =  sign_z * Mathf.Sqrt(43 - Mathf.Pow(position_x,2)) + BACKGROUND_Z;
+        //float zRate = Mathf.Abs((obs[rnd].edgeZ - obs[rnd].centerZ) * position_x / obs[rnd].edgeX) + obs[rnd].centerZ;
+        Quaternion surfaceAngle = Quaternion.Euler(0, 0, sign_z<0? (-15 * position_x):(-180 + 15 * position_x));
+        
         if (ObstacleList.Count > 0) 
-            if (Vector3.Distance(new Vector3(position_x, obstacle_y + position_y, zRate), ObstacleList[ObstacleList.Count - 1].transform.position) < OBSTACLEINTERVAL)
-                return;
+            try
+            {
+                if (Vector3.Distance(new Vector3(position_x, obstacle_y + position_y, position_z), ObstacleList[ObstacleList.Count - 1].transform.position) < OBSTACLEINTERVAL)
+                    return;
 
-        ObstacleList.Add(obsPool.PopFindByName(obs[rnd].Obj, new Vector3(position_x, obstacle_y + position_y, zRate), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Obstacle)));
+            }
+            catch
+            {
+                print(new Vector3(position_x, obstacle_y + position_y, position_z));
+                print(ObstacleList[ObstacleList.Count - 1].transform.position);
+            }
+
+        ObstacleList.Add(obsPool.PopFindByName(obs[rnd].Obj, new Vector3(position_x, obstacle_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Obstacle)));
         obstacle_y += position_y;
     }
     void InitMap(List<MapData> list, ObjectElement flag, int START, int COUNT)
     {
-
         for (int i = START; i < START + COUNT; i++)
             if (dataManager.MapContainsKey(i) && dataManager.GetMapData(i).Obj)
                 list.Add(dataManager.GetMapData(i));
@@ -193,16 +206,26 @@ public class MapManager : MonoBehaviour {
         switch (flag)
         {
             case ObjectElement.Background:
+                /*  all map
                 for (int i = 0; i < list.Count; i++)
                 {
                     mapPool.SetObjectPool(list[i].Obj, 6);
                     mapPool.Initialize(bgParent);
+                }*/
+                mapPool.SetObjectPool(list[3].Obj, 6);
+                mapPool.Initialize(bgParent);
+                break;
+            case ObjectElement.Item:
+                for (int i = 0; i < list.Count; i++)
+                {
+                    itemPool.SetObjectPool(list[i].Obj, 8);
+                    itemPool.Initialize(itParent);
                 }
                 break;
             case ObjectElement.Obstacle:
                 for (int i = 0; i < list.Count; i++)
                 {
-                    obsPool.SetObjectPool(list[i].Obj, 5);
+                    obsPool.SetObjectPool(list[i].Obj, 10);
                     obsPool.Initialize(obParent);
                 }
                 break;

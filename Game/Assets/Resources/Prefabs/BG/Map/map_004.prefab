@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 33976888910028614}
   - component: {fileID: 23401066028639792}
   - component: {fileID: 95593048750220364}
+  - component: {fileID: 136620077544091248}
   m_Layer: 0
-  m_Name: map_004
-  m_TagString: Untagged
+  m_Name: Map_004
+  m_TagString: Background
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1324453086664720}
   m_LocalRotation: {x: -0.11369319, y: 0.6979069, z: 0.69790673, w: 0.11369319}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -102,3 +103,16 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!136 &136620077544091248
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1324453086664720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 6.02
+  m_Height: 35.99
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}

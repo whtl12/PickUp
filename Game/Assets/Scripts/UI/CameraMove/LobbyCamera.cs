@@ -10,15 +10,27 @@ public class LobbyCamera : MonoBehaviour {
     public int YposOffset = 1;
     private Vector3 BasePos;
     private bool RoolBack = false;
-    private float IslandRotateY = 0;
+    private float[] IslandRotateY = new float[5];
+    public Material leaf_material;
+    public float matR = 60, matG = 120, matB = 60;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         BasePos = this.transform.localPosition;
+
+        IslandRotateY[0] = 0; // Start
+        IslandRotateY[1] = 70;
+        IslandRotateY[2] = 132;
+        IslandRotateY[3] = 214;
+        IslandRotateY[4] = 284;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
+        leaf_material.color = new Color(matR, matG, matB);
+        if(Input.GetMouseButtonDown(0))
+        {
+        }
 		if(Input.GetMouseButtonUp(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

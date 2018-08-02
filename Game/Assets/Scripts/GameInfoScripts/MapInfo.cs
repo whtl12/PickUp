@@ -8,11 +8,12 @@ public class MapInfoCSV
     public string Path;
     public string Name;
     public float mapHeight;
-    public float edgeX;
-    public float edgeZ;
-    public float offsetX;
-    public float centerX;
-    public float centerZ;
+    public int offset;
+    //public float edgeX;
+    //public float edgeZ;
+    //public float offsetX;
+    //public float centerX;
+    //public float centerZ;
 
 }
 
@@ -22,10 +23,11 @@ public struct MapData
     public GameObject Obj;
     public string Name;
     public float mapHeight;
-    public float edgeX;
-    public float edgeZ;
-    public float centerX;
-    public float centerZ;
+    public int offset;
+    //public float edgeX;
+    //public float edgeZ;
+    //public float centerX;
+    //public float centerZ;
 
     public void SetData(MapInfoCSV csv)
     {
@@ -35,10 +37,11 @@ public struct MapData
             Debug.Log("Error: key " + Index + " , name " + Obj);
         Name = csv.Name;
         mapHeight = csv.mapHeight;
-        edgeX = csv.edgeX + csv.offsetX;
-        edgeZ = csv.edgeZ;
-        centerX = csv.centerX;
-        centerZ = csv.centerZ;
+        offset = csv.offset;
+        //edgeX = csv.edgeX + csv.offsetX;
+        //edgeZ = csv.edgeZ;
+        //centerX = csv.centerX;
+        //centerZ = csv.centerZ;
     }
 }
 public class MapInfo : Data

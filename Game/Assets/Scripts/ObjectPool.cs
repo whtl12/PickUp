@@ -23,7 +23,7 @@ public class ObjectPool {
     }
     private GameObject CreateItem(Transform parent = null)
     {
-        GameObject item = GameObject.Instantiate(prefab) as GameObject;
+        GameObject item = GameObject.Instantiate(prefab, new Vector3(), Quaternion.identity) as GameObject;
         item.transform.SetParent(parent);
         item.SetActive(false);
         return item;

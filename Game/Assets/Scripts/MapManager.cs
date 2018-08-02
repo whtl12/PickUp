@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapManager : MonoBehaviour {
     public const int BACKGROUND_Z = 10;
     private const float OBSTACLEINTERVAL = 6;
+    private const float WATERINTERVAL = 10;
 
     private const int MAPCOUNT = 4;
     private const int WATERCOUNT = 3;
@@ -28,11 +29,12 @@ public class MapManager : MonoBehaviour {
     List<MapData> plant = new List<MapData>();
 
     float obstacle_y;
+    float water_y;
     int mapIndex;
 
     DataInfoManager dataManager;
     List<GameObject> backgroundList = new List<GameObject>();
-    List<GameObject> ItemList = new List<GameObject>();
+    List<GameObject> WaterList = new List<GameObject>();
     List<GameObject> ObstacleList = new List<GameObject>();
 
     ObjectPool mapPool = new ObjectPool();
@@ -41,14 +43,14 @@ public class MapManager : MonoBehaviour {
 
     GameObject mapParent;
     Transform bgParent;
-    Transform itParent;
+    Transform wtParent;
     Transform obParent;
     Quaternion bidoQuaternion;
 
     enum ObjectElement
     {
         Background = 0,
-        Item,
+        Water,
         Obstacle,
         MAX
     };
@@ -66,13 +68,13 @@ public class MapManager : MonoBehaviour {
         mapParent = GameObject.Find("MapParent");
         bgParent = GameObject.Find("Background").transform;
         obParent = GameObject.Find("Obstacle").transform;
-        itParent = GameObject.Find("Item").transform;
+        wtParent = GameObject.Find("Water").transform;
         mapIndex = 0;
         obstacle_y = 0;
         bidoQuaternion = Quaternion.Euler(-90, 0, 0);
 
         InitMap(map, ObjectElement.Background, MAPSTART, MAPCOUNT);
-        InitMap(water, ObjectElement.Item, WATERSTART, WATERCOUNT);
+        InitMap(water, ObjectElement.Water, WATERSTART, WATERCOUNT);
         InitMap(rock, ObjectElement.Obstacle, ROCKSTART, ROCKCOUNT);
         InitMap(tree, ObjectElement.Obstacle, TREESTART, TREECOUNT);
         InitMap(leef, ObjectElement.Obstacle, LEEFSTART, LEEFCOUNT);
@@ -111,7 +113,7 @@ public class MapManager : MonoBehaviour {
 
     public Vector3 GetMidPosition()
     {
-        return backgroundList[backgroundList.Count / 2].transform.position;
+        return backgroundList[backgroundList.Count / 2 - 1].transform.position;
     }
     public void AllRun()
     {
@@ -156,12 +158,14 @@ public class MapManager : MonoBehaviour {
     }
     public void pushObstacle()
     {
-        for(int i = 0; i < 30; i++)
+        int i = 0;
+        while(true)
         {
             if (ObstacleList[i].transform.position.y > backgroundList[0].transform.position.y)
             {
                 obsPool.PushToPool(ObstacleList[i], obParent);
                 ObstacleList.RemoveAt(i);
+                i++;
             }
             else break;
         }
@@ -175,28 +179,54 @@ public class MapManager : MonoBehaviour {
         //    case 1: position_y = -Random.Range(3, 4); break;
         //    case 2: position_y = -Random.Range(3, 8); break;
         //}
-        int sign_z = Random.Range(0, 2) == 1? -1 : 1;
-        float position_x = Random.Range(-6.5f, 6.5f);
-        float position_z =  sign_z * Mathf.Sqrt(43 - Mathf.Pow(position_x,2)) + BACKGROUND_Z;
+        int sign_z = Random.Range(0, 2) == 1 ? -1 : 1;
+        float position_x = Random.Range(-6.2f, 6.2f);
+        float position_z =  sign_z * Mathf.Sqrt((obs[rnd].offset + 43 > Mathf.Pow(position_x, 2)) ? obs[rnd].offset + 43 - Mathf.Pow(position_x, 2) : 1) + BACKGROUND_Z;
         //float zRate = Mathf.Abs((obs[rnd].edgeZ - obs[rnd].centerZ) * position_x / obs[rnd].edgeX) + obs[rnd].centerZ;
-        Quaternion surfaceAngle = Quaternion.Euler(0, 0, sign_z<0? (-15 * position_x):(-180 + 15 * position_x));
-        
-        if (ObstacleList.Count > 0) 
-            try
+        float rotation_z = Random.Range(-16, -14) * position_x;
+        Quaternion surfaceAngle = Quaternion.Euler(0, 0, sign_z < 0 ? rotation_z : (-180 - rotation_z));
+
+        if (ObstacleList.Count > 0)
+        {
+            int confirmCount = (ObstacleList.Count <= 3) ? ObstacleList.Count : 3;
+            for (int i = 1; i <= confirmCount; i++)
             {
-                if (Vector3.Distance(new Vector3(position_x, obstacle_y + position_y, position_z), ObstacleList[ObstacleList.Count - 1].transform.position) < OBSTACLEINTERVAL)
+                if (Vector3.Distance(new Vector3(position_x, obstacle_y + position_y, position_z), ObstacleList[ObstacleList.Count - i].transform.position) < OBSTACLEINTERVAL)
                     return;
 
             }
-            catch
-            {
-                print(new Vector3(position_x, obstacle_y + position_y, position_z));
-                print(ObstacleList[ObstacleList.Count - 1].transform.position);
-            }
+        }
 
         ObstacleList.Add(obsPool.PopFindByName(obs[rnd].Obj, new Vector3(position_x, obstacle_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Obstacle)));
         obstacle_y += position_y;
     }
+
+    void InitWater()
+    {
+        int rnd = Random.Range(0, water.Count);
+        float position_y = -Random.Range(0f, 4f);
+        int sign_z = Random.Range(0, 2) == 1 ? -1 : 1;
+        float position_x = Random.Range(-6.2f, 6.2f);
+        float position_z = sign_z * Mathf.Sqrt((water[rnd].offset + 43 > Mathf.Pow(position_x, 2)) ? water[rnd].offset + 43 - Mathf.Pow(position_x, 2) : 1) + BACKGROUND_Z;
+        float rotation_z = Random.Range(-16, -14) * position_x;
+        Quaternion surfaceAngle = Quaternion.Euler(0, 0, sign_z < 0 ? rotation_z : (-180 - rotation_z));
+
+        if (WaterList.Count > 0)
+        {
+            int confirmCount = (WaterList.Count <= 3) ? WaterList.Count : 3;
+            for (int i = 1; i <= confirmCount; i++)
+            {
+                if (Vector3.Distance(new Vector3(position_x, water_y + position_y, position_z), WaterList[WaterList.Count - i].transform.position) < WATERINTERVAL)
+                    return;
+
+            }
+        }
+
+        ObstacleList.Add(obsPool.PopFindByName(water[rnd].Obj, new Vector3(position_x, water_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Obstacle)));
+        water_y += position_y;
+    }
+
+
     void InitMap(List<MapData> list, ObjectElement flag, int START, int COUNT)
     {
         for (int i = START; i < START + COUNT; i++)
@@ -215,17 +245,17 @@ public class MapManager : MonoBehaviour {
                 mapPool.SetObjectPool(list[3].Obj, 6);
                 mapPool.Initialize(bgParent);
                 break;
-            case ObjectElement.Item:
+            case ObjectElement.Water:
                 for (int i = 0; i < list.Count; i++)
                 {
                     itemPool.SetObjectPool(list[i].Obj, 8);
-                    itemPool.Initialize(itParent);
+                    itemPool.Initialize(wtParent);
                 }
                 break;
             case ObjectElement.Obstacle:
                 for (int i = 0; i < list.Count; i++)
                 {
-                    obsPool.SetObjectPool(list[i].Obj, 10);
+                    obsPool.SetObjectPool(list[i].Obj, 8);
                     obsPool.Initialize(obParent);
                 }
                 break;

@@ -4759,6 +4759,7 @@ MonoBehaviour:
   matR: 0
   matG: 0
   matB: 0
+  islandParent: {fileID: 1623119864}
 --- !u!4 &1330205940
 Transform:
   m_ObjectHideFlags: 0
@@ -4767,7 +4768,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 668257053}
   m_LocalRotation: {x: -0.13941985, y: 0.693226, z: 0.6932258, w: 0.13941987}
-  m_LocalPosition: {x: 7.56, y: 0.35000753, z: 7.640005}
+  m_LocalPosition: {x: 6.37, y: 0.35000753, z: 6.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1623119865}

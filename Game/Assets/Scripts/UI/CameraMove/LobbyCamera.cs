@@ -10,28 +10,57 @@ public class LobbyCamera : MonoBehaviour {
     public int YposOffset = 1;
     private Vector3 BasePos;
     private bool RoolBack = false;
+    private bool RotateState = false;
     private float[] IslandRotateY = new float[5];
+    private int IslandIndex = 0;
+    private Vector3 tmpMousePosition;
     public Material leaf_material;
-    public float matR = 60, matG = 120, matB = 60;
+    [SerializeField] private float matR, matG, matB;
+    [SerializeField] private GameObject islandParent;
 
     // Use this for initialization
     void Start () {
         BasePos = this.transform.localPosition;
-
+        matR = 0.6f;
+        matG = 0.4f;
+        matB = 0.5f;
         IslandRotateY[0] = 0; // Start
         IslandRotateY[1] = 70;
         IslandRotateY[2] = 132;
         IslandRotateY[3] = 214;
         IslandRotateY[4] = 284;
+
+        leaf_material.color = new Color(matR, matG, matB);
     }
 
     // Update is called once per frame
     void Update () {
         leaf_material.color = new Color(matR, matG, matB);
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
+            tmpMousePosition = Input.mousePosition;
         }
-		if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButton(0))
+        {
+            if (Mathf.Abs(tmpMousePosition.x - Input.mousePosition.x) > 50 && !RotateState && !RoolBack)
+            {
+                if (tmpMousePosition.x - Input.mousePosition.x > 0)
+                    IslandIndex++;
+                else
+                    IslandIndex--;
+
+                if (IslandIndex > 4)
+                    IslandIndex = 0;
+                if (IslandIndex < 0)
+                    IslandIndex = 4;
+                print("IslandIndex : " + IslandIndex);
+
+                StartCoroutine(RotateIsland());
+                RotateState = !RotateState;
+                tmpMousePosition = Input.mousePosition;
+            }
+        }
+        if (Input.GetMouseButtonUp(0) && !RotateState)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -49,7 +78,21 @@ public class LobbyCamera : MonoBehaviour {
 
 
     }
-
+    private void OnMouseDrag()
+    {
+        IslandIndex += (int)((tmpMousePosition.x - Input.mousePosition.x) / 20);
+        print(IslandIndex);
+    }
+    IEnumerator RotateIsland()
+    {
+        iTween.RotateTo(islandParent, iTween.Hash("y", IslandRotateY[IslandIndex], 
+                                                "time", MoveTime,
+                                                "islocal", true
+                                                ));
+        yield return new WaitForSeconds(1.0f);
+        RotateState = !RotateState;
+        yield return null;
+    }
 
     void MoveCamera(Vector3 pos)
     {

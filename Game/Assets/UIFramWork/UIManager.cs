@@ -91,7 +91,7 @@ public class UIManager : MonoBehaviour {
         switch(name)
         {
             case StageUI.InGameUI:
-                m_PopupController.Clear();
+                //m_PopupController.Clear();
                 SceneManager.LoadScene((int)SceneLoadIndex.Start);
                 SceneManager.LoadSceneAsync((int)SceneLoadIndex.Play);
                 break;

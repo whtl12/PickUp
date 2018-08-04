@@ -9,6 +9,7 @@ public class UI : MonoBehaviour {
     public delegate void VoidDelegate(GameObject go);
 
     public VoidDelegate onBtnClick;
+    public VoidDelegate onValueChanged;
 
     // Use this for initialization
     void Start () {
@@ -23,9 +24,16 @@ public class UI : MonoBehaviour {
 
         Debug.Log("Base UI Sound On");
     }
+    public virtual void SliderEvent(Object obj)
+    {
+    }
 
     public void SetButtonLisner(Button btn,System.Action<GameObject> callback)
     {
         btn.onClick.AddListener(()=> callback(btn.gameObject));
+    }
+    public void SetSliderLisner(Slider sld, System.Action<GameObject> callback)
+    {
+        sld.onValueChanged.AddListener(delegate { callback(sld.gameObject); });
     }
 }

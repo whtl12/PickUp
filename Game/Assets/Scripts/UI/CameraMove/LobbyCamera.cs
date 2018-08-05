@@ -12,6 +12,7 @@ public class LobbyCamera : MonoBehaviour {
     private bool RoolBack = false;
     private bool RotateState = false;
     private float[] IslandRotateY = new float[5];
+    private GameObject[] IslandEntry = new GameObject[5];
     private int IslandIndex = 0;
     private Vector3 tmpMousePosition;
     public Material leaf_material;
@@ -21,15 +22,17 @@ public class LobbyCamera : MonoBehaviour {
     // Use this for initialization
     void Start () {
         BasePos = this.transform.localPosition;
-        matR = 0.6f;
-        matG = 0.4f;
-        matB = 0.5f;
         IslandRotateY[0] = 0; // Start
         IslandRotateY[1] = 70;
         IslandRotateY[2] = 132;
         IslandRotateY[3] = 214;
         IslandRotateY[4] = 284;
+        for(int i = 0; i < islandParent.transform.childCount; i++)
+            IslandEntry[i] = islandParent.transform.GetChild(i).gameObject;
 
+        matR = 0.6f;
+        matG = 0.4f;
+        matB = 0.5f;
         leaf_material.color = new Color(matR, matG, matB);
     }
 
@@ -70,7 +73,8 @@ public class LobbyCamera : MonoBehaviour {
                 Debug.Log("Hit GameObject Name = " + TargetObj.name);
 
                 if (TargetObj != null && !RoolBack)
-                    MoveCamera(TargetObj.transform.localPosition);
+                    if (TargetObj.name == IslandEntry[IslandIndex].name)
+                        MoveCamera(TargetObj.transform.position);
             }
             else
                 RollBackCamera();
@@ -85,9 +89,15 @@ public class LobbyCamera : MonoBehaviour {
     }
     IEnumerator RotateIsland()
     {
-        iTween.RotateTo(islandParent, iTween.Hash("y", IslandRotateY[IslandIndex], 
+        iTween.RotateTo(islandParent, iTween.Hash("y", IslandRotateY[IslandIndex],
                                                 "time", MoveTime,
                                                 "islocal", true
+                                                ));
+        foreach(GameObject islandObject in IslandEntry)
+
+        iTween.RotateTo(islandObject, iTween.Hash("y", 0,
+                                                "time", MoveTime,
+                                                "islocal", false
                                                 ));
         yield return new WaitForSeconds(1.0f);
         RotateState = !RotateState;
@@ -96,9 +106,9 @@ public class LobbyCamera : MonoBehaviour {
 
     void MoveCamera(Vector3 pos)
     {
-        iTween.MoveBy(gameObject, iTween.Hash("amount", new Vector3(pos.x, pos.y + YposOffset, pos.z - BasePos.z), 
+        iTween.MoveBy(gameObject, iTween.Hash("amount", new Vector3(pos.x, pos.y + YposOffset, pos.z), 
                                                 "time", MoveTime,
-                                                "islocal", true,
+                                                "islocal", false,
                                                 "movetopath", false,
                                                 "easetype", iTween.EaseType.easeInOutQuart
                                                ));

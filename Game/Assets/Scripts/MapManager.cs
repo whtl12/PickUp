@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapManager : MonoBehaviour {
     public const int BACKGROUND_Z = 10;
     private const float OBSTACLEINTERVAL = 6;
-    private const float WATERINTERVAL = 10;
+    private const float WATERINTERVAL = 8;
 
     private const int MAPCOUNT = 4;
     private const int WATERCOUNT = 3;
@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour {
 
     ObjectPool mapPool = new ObjectPool();
     ObjectPool obsPool = new ObjectPool();
-    ObjectPool itemPool = new ObjectPool();
+    ObjectPool waterPool = new ObjectPool();
 
     GameObject mapParent;
     Transform bgParent;
@@ -62,6 +62,13 @@ public class MapManager : MonoBehaviour {
         Plant,
         MAX
     }
+    enum Item
+    {
+        Red = 0,
+        Green,
+        Blue,
+        MAX
+    }
 
     void Start () {
         dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
@@ -71,6 +78,7 @@ public class MapManager : MonoBehaviour {
         wtParent = GameObject.Find("Water").transform;
         mapIndex = 0;
         obstacle_y = 0;
+        water_y = 0;
         bidoQuaternion = Quaternion.Euler(-90, 0, 0);
 
         InitMap(map, ObjectElement.Background, MAPSTART, MAPCOUNT);
@@ -84,7 +92,7 @@ public class MapManager : MonoBehaviour {
         while (true)
         {
             popBackground();
-            if (backgroundList.Count >= 5)
+            if (backgroundList.Count >= 7)
                 break;
         }
 
@@ -109,6 +117,12 @@ public class MapManager : MonoBehaviour {
             if (ObstacleList.Count > 30)
                 break;
         }
+        while (true)
+        {
+            InitWater();
+            if (WaterList.Count > 15)
+                break;
+        }
     }
 
     public Vector3 GetMidPosition()
@@ -121,6 +135,8 @@ public class MapManager : MonoBehaviour {
         pushBackground();
         popObstacle();
         pushObstacle();
+        popWater();
+        pushWater();
     }
     public void popObstacle()
     {
@@ -145,16 +161,21 @@ public class MapManager : MonoBehaviour {
                 break;
         }
     }
+    public void popWater()
+    {
+        while (true)
+        {
+            InitWater();
+            if (water_y < backgroundList[backgroundList.Count - 1].transform.position.y)
+                break;
+        }
+
+    }
     public void popBackground()
     {
         int rnd = 3; // Random.Range(0, map.Count);
         backgroundList.Add(mapPool.PopFindByName(map[rnd].Obj, new Vector3(0, mapIndex++ * -map[rnd].mapHeight, BACKGROUND_Z), bidoQuaternion, mapParent.transform));
 
-    }
-    public void pushBackground()
-    {
-        mapPool.PushToPool(backgroundList[0], bgParent);
-        backgroundList.RemoveAt(0);
     }
     public void pushObstacle()
     {
@@ -170,6 +191,26 @@ public class MapManager : MonoBehaviour {
             else break;
         }
     }
+    public void pushWater()
+    {
+        int i = 0;
+        while (true)
+        {
+            if (WaterList[i].transform.position.y > backgroundList[0].transform.position.y)
+            {
+                waterPool.PushToPool(WaterList[i], wtParent);
+                WaterList.RemoveAt(i);
+                i++;
+            }
+            else break;
+        }
+    }
+    public void pushBackground()
+    {
+        mapPool.PushToPool(backgroundList[0], bgParent);
+        backgroundList.RemoveAt(0);
+    }
+
     void InitObstacle(List<MapData> obs)
     {
         int rnd = Random.Range(0, obs.Count);
@@ -218,11 +259,10 @@ public class MapManager : MonoBehaviour {
             {
                 if (Vector3.Distance(new Vector3(position_x, water_y + position_y, position_z), WaterList[WaterList.Count - i].transform.position) < WATERINTERVAL)
                     return;
-
             }
         }
 
-        ObstacleList.Add(obsPool.PopFindByName(water[rnd].Obj, new Vector3(position_x, water_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Obstacle)));
+        WaterList.Add(waterPool.PopFindByName(water[rnd].Obj, new Vector3(position_x, water_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Water)));
         water_y += position_y;
     }
 
@@ -242,14 +282,14 @@ public class MapManager : MonoBehaviour {
                     mapPool.SetObjectPool(list[i].Obj, 6);
                     mapPool.Initialize(bgParent);
                 }*/
-                mapPool.SetObjectPool(list[3].Obj, 6);
+                mapPool.SetObjectPool(list[3].Obj, 8);
                 mapPool.Initialize(bgParent);
                 break;
             case ObjectElement.Water:
                 for (int i = 0; i < list.Count; i++)
                 {
-                    itemPool.SetObjectPool(list[i].Obj, 8);
-                    itemPool.Initialize(wtParent);
+                    waterPool.SetObjectPool(list[i].Obj, 8);
+                    waterPool.Initialize(wtParent);
                 }
                 break;
             case ObjectElement.Obstacle:

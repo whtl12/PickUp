@@ -9,15 +9,16 @@ public class LobbyCamera : MonoBehaviour {
     public float MoveTime = 0;
     public int YposOffset = 1;
     private Vector3 BasePos;
-    private bool RoolBack = false;
+    private bool RollBack = false;
     private bool RotateState = false;
     private float[] IslandRotateY = new float[5];
     private GameObject[] IslandEntry = new GameObject[5];
     private int IslandIndex = 0;
     private Vector3 tmpMousePosition;
-    public Material leaf_material;
     [SerializeField] private float matR, matG, matB;
+    [SerializeField] private Material leaf_material;
     [SerializeField] private GameObject islandParent;
+    [SerializeField] private OutGameUI outgameUI;
 
     // Use this for initialization
     void Start () {
@@ -45,7 +46,7 @@ public class LobbyCamera : MonoBehaviour {
         }
         if (Input.GetMouseButton(0))
         {
-            if (Mathf.Abs(tmpMousePosition.x - Input.mousePosition.x) > 50 && !RotateState && !RoolBack)
+            if (Mathf.Abs(tmpMousePosition.x - Input.mousePosition.x) > 50 && !RotateState && !RollBack)
             {
                 if (tmpMousePosition.x - Input.mousePosition.x > 0)
                     IslandIndex++;
@@ -71,10 +72,13 @@ public class LobbyCamera : MonoBehaviour {
             {
                 TargetObj = hit.collider.gameObject;
                 Debug.Log("Hit GameObject Name = " + TargetObj.name);
-
-                if (TargetObj != null && !RoolBack)
-                    if (TargetObj.name == IslandEntry[IslandIndex].name)
-                        MoveCamera(TargetObj.transform.position);
+                if(!RollBack)
+                    CloseUpIsland();
+                else
+                {
+                    if (IslandIndex == 0)
+                        outgameUI.ButtonEvent(IslandEntry[IslandIndex]);
+                }
             }
             else
                 RollBackCamera();
@@ -82,10 +86,11 @@ public class LobbyCamera : MonoBehaviour {
 
 
     }
-    private void OnMouseDrag()
+    private void CloseUpIsland()
     {
-        IslandIndex += (int)((tmpMousePosition.x - Input.mousePosition.x) / 20);
-        print(IslandIndex);
+        if (TargetObj != null)
+            if (TargetObj.name == IslandEntry[IslandIndex].name)
+                MoveCamera(TargetObj.transform.position);
     }
     IEnumerator RotateIsland()
     {
@@ -114,12 +119,12 @@ public class LobbyCamera : MonoBehaviour {
                                                ));
 
         TargetObj = null; 
-        RoolBack = true;
+        RollBack = true;
     }
 
     void RollBackCamera()
     {
-        if(RoolBack)
+        if(RollBack)
         {
             iTween.MoveTo(gameObject, iTween.Hash("islocal", true,
                                                        "position", BasePos,
@@ -131,6 +136,6 @@ public class LobbyCamera : MonoBehaviour {
         }
            
 
-        RoolBack = false;
+        RollBack = false;
     }
 }

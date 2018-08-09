@@ -1938,7 +1938,7 @@ GameObject:
   - component: {fileID: 406021393}
   - component: {fileID: 406021391}
   m_Layer: 0
-  m_Name: island_002_Idle
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5050,7 +5050,7 @@ MonoBehaviour:
   matB: 0
   leaf_material: {fileID: 2100000, guid: d2491c5ab5f1c044693df08df90dd5b3, type: 2}
   islandParent: {fileID: 1623119864}
-  outgameUI: {fileID: 0}
+  outgameUI: {fileID: 678262623}
 --- !u!4 &1330205940
 Transform:
   m_ObjectHideFlags: 0

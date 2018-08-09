@@ -7,7 +7,7 @@ public class LobbyCamera : MonoBehaviour {
 
     private GameObject TargetObj;
     public float MoveTime = 0;
-    public int YposOffset = 1;
+    public int YposOffset = -3;
     private Vector3 BasePos;
     private bool RollBack = false;
     private bool RotateState = false;

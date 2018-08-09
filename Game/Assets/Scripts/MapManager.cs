@@ -288,7 +288,7 @@ public class MapManager : MonoBehaviour {
             case ObjectElement.Water:
                 for (int i = 0; i < list.Count; i++)
                 {
-                    waterPool.SetObjectPool(list[i].Obj, 8);
+                    waterPool.SetObjectPool(list[i].Obj, 12);
                     waterPool.Initialize(wtParent);
                 }
                 break;

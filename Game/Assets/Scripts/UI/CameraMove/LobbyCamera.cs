@@ -7,7 +7,8 @@ public class LobbyCamera : MonoBehaviour {
 
     private GameObject TargetObj;
     public float MoveTime = 0;
-    public int YposOffset = -3;
+    public int YposOffset = 1;
+    public int ZposOffset = -2;
     private Vector3 BasePos;
     private bool RollBack = false;
     private bool RotateState = false;
@@ -111,7 +112,7 @@ public class LobbyCamera : MonoBehaviour {
 
     void MoveCamera(Vector3 pos)
     {
-        iTween.MoveBy(gameObject, iTween.Hash("amount", new Vector3(pos.x, pos.y + YposOffset, pos.z), 
+        iTween.MoveBy(gameObject, iTween.Hash("amount", new Vector3(pos.x, pos.y + YposOffset, pos.z + ZposOffset), 
                                                 "time", MoveTime,
                                                 "islocal", false,
                                                 "movetopath", false,

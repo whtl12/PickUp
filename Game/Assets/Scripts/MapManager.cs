@@ -234,7 +234,6 @@ public class MapManager : MonoBehaviour {
             {
                 if (Vector3.Distance(new Vector3(position_x, obstacle_y + position_y, position_z), ObstacleList[ObstacleList.Count - i].transform.position) < OBSTACLEINTERVAL)
                     return;
-
             }
         }
 
@@ -257,15 +256,21 @@ public class MapManager : MonoBehaviour {
             int confirmCount = (WaterList.Count <= 3) ? WaterList.Count : 3;
             for (int i = 1; i <= confirmCount; i++)
             {
-                if (Vector3.Distance(new Vector3(position_x, water_y + position_y, position_z), WaterList[WaterList.Count - i].transform.position) < WATERINTERVAL)
-                    return;
+                try
+                {
+                    if (Vector3.Distance(new Vector3(position_x, water_y + position_y, position_z), WaterList[WaterList.Count - i].transform.position) < WATERINTERVAL)
+                        return;
+                }
+                catch
+                {
+                    print(WaterList.Count - i);
+                }
             }
         }
 
         WaterList.Add(waterPool.PopFindByName(water[rnd].Obj, new Vector3(position_x, water_y + position_y, position_z), bidoQuaternion * surfaceAngle, mapParent.transform.GetChild((int)ObjectElement.Water)));
         water_y += position_y;
     }
-
 
     void InitMap(List<MapData> list, ObjectElement flag, int START, int COUNT)
     {

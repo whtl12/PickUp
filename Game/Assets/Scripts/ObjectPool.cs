@@ -58,7 +58,8 @@ public class ObjectPool {
         if (poolList.Count == 0)
         {
             Debug.Log("Null Stack");
-            return null;
+            poolList.Add(CreateItem(parent));
+            //return null;
         }
         for(int i = 0; i < poolList.Count; i++)
         {

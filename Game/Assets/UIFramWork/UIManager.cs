@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GetUIPosition
 {
@@ -62,6 +63,7 @@ public class UIManager : MonoBehaviour {
         Play
     }
 
+    public SoundManager soundManager;
     public GameObject UIParent;
     public static UIManager m_Instance;
 
@@ -91,9 +93,7 @@ public class UIManager : MonoBehaviour {
         switch(name)
         {
             case StageUI.InGameUI:
-                //m_PopupController.Clear();
-                SceneManager.LoadScene((int)SceneLoadIndex.Start);
-                SceneManager.LoadSceneAsync((int)SceneLoadIndex.Play);
+                StartCoroutine(delayStart());
                 break;
             case StageUI.OutGameUI:
                 if (SceneManager.GetActiveScene().buildIndex == (int)SceneLoadIndex.Play
@@ -141,6 +141,20 @@ public class UIManager : MonoBehaviour {
         return gameObj;
     }
 
-
+    private IEnumerator delayStart()
+    {
+        Image fade = GameObject.Find("Fade").GetComponent<Image>();
+        while(fade.color.a < 1)
+        {
+            print(fade.color.a);
+            fade.color += new Color(0, 0, 0, 0.04f);
+            yield return null;
+        }
+        //yield return new WaitForSeconds(1.0f);
+        //m_PopupController.Clear();
+        SceneManager.LoadScene((int)SceneLoadIndex.Start);
+        SceneManager.LoadSceneAsync((int)SceneLoadIndex.Play);
+        soundManager.PlaySound(SoundManager.SoundList.PLAY_SCEAN_BGM, "BGM");
+    }
 
 }

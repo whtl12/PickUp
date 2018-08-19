@@ -23,7 +23,7 @@ public class OptionUI : UI {
         switch(obj.name)
         {
             case "Bgm_slider":
-                soundManager.ChangedVolume(0.5f - bgmSlider.value);
+                //soundManager.ChangedVolume(0.5f - bgmSlider.value);
                 break;
         }
     }

@@ -16,6 +16,7 @@ public class LobbyCamera : MonoBehaviour {
     private GameObject[] IslandEntry = new GameObject[5];
     private int IslandIndex = 0;
     private Vector3 tmpMousePosition;
+    private SoundManager soundManager;
     [SerializeField] private float matR, matG, matB;
     [SerializeField] private Material leaf_material;
     [SerializeField] private GameObject islandParent;
@@ -36,6 +37,8 @@ public class LobbyCamera : MonoBehaviour {
         matG = 0.4f;
         matB = 0.5f;
         leaf_material.color = new Color(matR, matG, matB);
+
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -77,8 +80,7 @@ public class LobbyCamera : MonoBehaviour {
                     CloseUpIsland();
                 else
                 {
-                    if (IslandIndex == 0)
-                        outgameUI.ButtonEvent(IslandEntry[IslandIndex]);
+                    clickIsland(IslandIndex);
                 }
             }
             else
@@ -87,11 +89,24 @@ public class LobbyCamera : MonoBehaviour {
 
 
     }
+    private void clickIsland(int index)
+    {
+        switch(index)
+        {
+            case 0:
+                outgameUI.ButtonEvent(IslandEntry[index]);
+                soundManager.PlaySound(SoundManager.SoundList.START_ENTER_PLAY);
+                break;
+        }
+    }
     private void CloseUpIsland()
     {
         if (TargetObj != null)
             if (TargetObj.name == IslandEntry[IslandIndex].name)
+            {
                 MoveCamera(TargetObj.transform.position);
+                soundManager.PlaySound(SoundManager.SoundList.START_CLICK_ISLAND);
+            }
     }
     IEnumerator RotateIsland()
     {

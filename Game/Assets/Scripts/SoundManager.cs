@@ -25,6 +25,12 @@ public class SoundManager : MonoBehaviour {
         PLAY_DIE,
         MAX
     };
+    public enum SoundType
+    {
+        FX = 0,
+        BGM,
+        MAX
+    };
 
     private void Awake()
     {
@@ -34,19 +40,17 @@ public class SoundManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
-        PlaySound(SoundList.START_SCEAN_BGM, "BGM");
+        PlaySound(SoundList.START_SCEAN_BGM, SoundType.BGM);
     }
-    void Start () {
-	}
-
-    private AudioSource InitAudio(string type)
+ 
+    private AudioSource InitAudio(SoundType type)
     {
-        GameObject audio = new GameObject(type + "_audio");
+        GameObject audio = new GameObject(type.ToString() + "_audio");
         audio.transform.SetParent(gameObject.transform);
         AudioSource source = audio.AddComponent<AudioSource>();
         source.spatialBlend = 0;
 
-        source.loop = (type == "BGM") ? true : false;
+        source.loop = (type == SoundType.BGM) ? true : false;
 
         return source;
     }
@@ -87,10 +91,10 @@ public class SoundManager : MonoBehaviour {
         yield return new WaitForSeconds(checkTime + 1f);
         DestroyImmediate(audio.gameObject, true);
     }
-    public void PlaySound(SoundList clip, string type, float volume, float delay)
+    public void PlaySound(SoundList clip, SoundType type, float volume, float delay)
     {
         if (soundClip(clip) == null) return;
-        if(type == "BGM")
+        if(type == SoundType.BGM)
             if(currentBGM)
                 DestroyImmediate(currentBGM.gameObject, true);
 
@@ -100,19 +104,19 @@ public class SoundManager : MonoBehaviour {
         audioSource.PlayDelayed(delay);
         StartCoroutine(destroySound(delay + soundClip(clip).length, audioSource));
 
-        if (type == "BGM")
+        if (type == SoundType.BGM)
             currentBGM = audioSource;
     }
-    public void PlaySound(SoundList clip, string type, float volume)
+    public void PlaySound(SoundList clip, SoundType type, float volume)
     {
         PlaySound(clip, type, volume, 0f);
     }
-    public void PlaySound(SoundList clip, string type)
+    public void PlaySound(SoundList clip, SoundType type)
     {
         PlaySound(clip, type, 1f, 0f);
     }
     public void PlaySound(SoundList clip)
     {
-        PlaySound(clip, "FX", 1f, 0f);
+        PlaySound(clip, SoundType.FX, 1f, 0f);
     }
 }

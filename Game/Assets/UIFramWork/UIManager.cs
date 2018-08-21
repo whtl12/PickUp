@@ -146,7 +146,6 @@ public class UIManager : MonoBehaviour {
         Image fade = GameObject.Find("Fade").GetComponent<Image>();
         while(fade.color.a < 1)
         {
-            print(fade.color.a);
             fade.color += new Color(0, 0, 0, 0.04f);
             yield return null;
         }
@@ -154,7 +153,7 @@ public class UIManager : MonoBehaviour {
         //m_PopupController.Clear();
         SceneManager.LoadScene((int)SceneLoadIndex.Start);
         SceneManager.LoadSceneAsync((int)SceneLoadIndex.Play);
-        soundManager.PlaySound(SoundManager.SoundList.PLAY_SCEAN_BGM, "BGM");
+        soundManager.PlaySound(SoundManager.SoundList.PLAY_SCEAN_BGM, SoundManager.SoundType.BGM);
     }
 
 }

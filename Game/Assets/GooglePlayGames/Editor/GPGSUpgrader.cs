@@ -110,8 +110,8 @@ namespace GooglePlayGames.Editor
             {
                 GPGSUtil.GenerateAndroidManifest();
             }
-
-            AssetDatabase.Refresh();
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
+                AssetDatabase.Refresh();
         }
 
         /// <summary>

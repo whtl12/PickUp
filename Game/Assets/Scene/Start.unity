@@ -17315,7 +17315,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010708501322, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 25.8
       objectReference: {fileID: 0}
     - target: {fileID: 4000010708501322, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd, type: 2}
       propertyPath: m_LocalRotation.x
@@ -17345,12 +17345,12 @@ Prefab:
     - target: {fileID: 114000013230019050, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd,
         type: 2}
       propertyPath: sizeX
-      value: 64
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 114000013230019050, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd,
         type: 2}
       propertyPath: sizeZ
-      value: 70
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 114000013230019050, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd,
         type: 2}
@@ -17375,7 +17375,7 @@ Prefab:
     - target: {fileID: 114000013230019050, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd,
         type: 2}
       propertyPath: enableRefraction
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1000010242649756, guid: 7a8a5bb6f2e71b143aff5818ec77dbcd, type: 2}
       propertyPath: m_IsActive

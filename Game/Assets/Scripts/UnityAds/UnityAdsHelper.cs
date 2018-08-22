@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +8,7 @@ public class UnityAdsHelper : MonoBehaviour
     private const string android_game_id = "2683484";
     private const string ios_game_id = "xxxxxxx";
 
-    private const string rewarded_video_id = "video";
+    private const string rewarded_video_id = "rewardedVideo";
 
     public static UnityAdsHelper Instance;
 
@@ -27,14 +28,21 @@ public class UnityAdsHelper : MonoBehaviour
 #endif
     }
 
-    public void ShowRewardedAd() //비디오 광고 송출 요청
+    public IEnumerator ShowRewardedAd() //비디오 광고 송출 요청
     {
+
+        while (!Advertisement.IsReady())
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
         if (Advertisement.IsReady(rewarded_video_id))
         {
             var options = new ShowOptions { resultCallback = HandleShowResult };
 
             Advertisement.Show(rewarded_video_id, options);
         }
+
     }
 
     //요청 결과에 따라 Finished, Skipped, Failed

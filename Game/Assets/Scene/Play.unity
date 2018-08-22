@@ -311,7 +311,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4257073352717060, guid: 60145a62d055b5a4f8b2ef16dbcdf439, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -8.34
       objectReference: {fileID: 0}
     - target: {fileID: 4257073352717060, guid: 60145a62d055b5a4f8b2ef16dbcdf439, type: 2}
       propertyPath: m_LocalPosition.z
@@ -351,6 +351,16 @@ Prefab:
       propertyPath: material
       value: 
       objectReference: {fileID: 2100000, guid: ceff107c9d8524a4ca331324bfd5eac8, type: 2}
+    - target: {fileID: 114336419926109974, guid: 60145a62d055b5a4f8b2ef16dbcdf439,
+        type: 2}
+      propertyPath: sizeZ
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114336419926109974, guid: 60145a62d055b5a4f8b2ef16dbcdf439,
+        type: 2}
+      propertyPath: sizeX
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60145a62d055b5a4f8b2ef16dbcdf439, type: 2}
   m_IsPrefabParent: 0
@@ -362,7 +372,7 @@ Transform:
   m_PrefabInternal: {fileID: 85480294}
   m_GameObject: {fileID: 1568567578}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -10.01}
+  m_LocalPosition: {x: 0, y: -8.34, z: -10.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 871064257}
@@ -984,8 +994,8 @@ MonoBehaviour:
   customMesh: {fileID: 0}
   material: {fileID: 2100000, guid: ceff107c9d8524a4ca331324bfd5eac8, type: 2}
   sun: {fileID: 534849753}
-  sizeX: 30
-  sizeZ: 30
+  sizeX: 8
+  sizeZ: 15
   noise: 0.888
   enableReflection: 0
   enableRefraction: 0

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour {
     public const int BACKGROUND_Z = 10;
-    private const float OBSTACLEINTERVAL = 6;
-    private const float WATERINTERVAL = 8;
+    private const float OBSTACLEINTERVAL = 5;
+    private const float WATERINTERVAL = 6;
 
     private const int MAPCOUNT = 4;
-    private const int WATERCOUNT = 3;
+    private const int WATERCOUNT = 5;
     private const int ROCKCOUNT = 5;
     private const int TREECOUNT = 3;
     private const int LEEFCOUNT = 2;
@@ -67,6 +67,8 @@ public class MapManager : MonoBehaviour {
         Red = 0,
         Green,
         Blue,
+        White,
+        Black,
         MAX
     }
 
@@ -96,38 +98,27 @@ public class MapManager : MonoBehaviour {
                 break;
         }
 
-        // init obstacle
-        while(true)
-        {
-            switch (Random.Range(0, (int)Obstacle.MAX))
-            {
-                case (int)Obstacle.Rock:
-                    InitObstacle(rock);
-                    break;
-                case (int)Obstacle.Tree:
-                    InitObstacle(tree);
-                    break;
-                case (int)Obstacle.Leef:
-                    InitObstacle(leef);
-                    break;
-                case (int)Obstacle.Plant:
-                    InitObstacle(plant);
-                    break;
-            }
-            if (ObstacleList.Count > 30)
-                break;
-        }
+        popObstacle();
+        popWater();
+        
+    }
+    private void pushObject(List<GameObject> list, ObjectPool pool)
+    {
+        int i = 0;
         while (true)
         {
-            InitWater();
-            if (WaterList.Count > 15)
-                break;
+            if (list[i].transform.position.y > backgroundList[1].transform.position.y)
+            {
+                pool.PushToPool(list[i], obParent);
+                list.RemoveAt(i);
+                i++;
+            }
+            else break;
         }
     }
-
     public Vector3 GetMidPosition()
     {
-        return backgroundList[backgroundList.Count / 2 - 1].transform.position;
+        return backgroundList[backgroundList.Count / 2].transform.position;
     }
     public void AllRun()
     {
@@ -177,33 +168,14 @@ public class MapManager : MonoBehaviour {
         backgroundList.Add(mapPool.PopFindByName(map[rnd].Obj, new Vector3(0, mapIndex++ * -map[rnd].mapHeight, BACKGROUND_Z), bidoQuaternion, mapParent.transform));
 
     }
+
     public void pushObstacle()
     {
-        int i = 0;
-        while(true)
-        {
-            if (ObstacleList[i].transform.position.y > backgroundList[0].transform.position.y)
-            {
-                obsPool.PushToPool(ObstacleList[i], obParent);
-                ObstacleList.RemoveAt(i);
-                i++;
-            }
-            else break;
-        }
+        pushObject(ObstacleList, obsPool);
     }
     public void pushWater()
     {
-        int i = 0;
-        while (true)
-        {
-            if (WaterList[i].transform.position.y > backgroundList[0].transform.position.y)
-            {
-                waterPool.PushToPool(WaterList[i], wtParent);
-                WaterList.RemoveAt(i);
-                i++;
-            }
-            else break;
-        }
+        pushObject(WaterList, waterPool);
     }
     public void pushBackground()
     {
@@ -243,7 +215,12 @@ public class MapManager : MonoBehaviour {
 
     void InitWater()
     {
-        int rnd = Random.Range(0, water.Count);
+        int rnd;
+        if (Random.Range(0, 10) < 5)
+            rnd = Random.Range(0, (int)Item.MAX);
+        else
+            rnd = Random.Range(0, (int)Item.Blue + 1);
+
         float position_y = -Random.Range(0f, 4f);
         int sign_z = Random.Range(0, 2) == 1 ? -1 : 1;
         float position_x = Random.Range(-6.2f, 6.2f);

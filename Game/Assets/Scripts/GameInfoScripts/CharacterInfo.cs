@@ -9,8 +9,7 @@ public class CharacterInfoCSV
     public float vSpeed;
     public float hSpeed;
     public int SizeUpValue;
-    public int MinSize;
-    public int MaxSize;
+    public int SpeedUpValue;
 }
 
 public struct CharacterData
@@ -21,8 +20,7 @@ public struct CharacterData
     public float vSpeed;
     public float hSpeed;
     public Vector3 SizeUpValue;
-    public Vector3 MinSize;
-    public Vector3 MaxSize;
+    public float SpeedUpValue;
 
     public void SetData(CharacterInfoCSV csv)
     {
@@ -30,10 +28,9 @@ public struct CharacterData
         CharName = Resources.Load("Prefabs/" + csv.CharName) as GameObject;
         vSpeed = csv.vSpeed;
         hSpeed = csv.hSpeed;
-        SizeUpValue = new Vector3(csv.SizeUpValue, csv.SizeUpValue, csv.SizeUpValue) / 100;
-        MinSize = new Vector3(csv.MinSize, csv.MinSize, csv.MinSize) / 100;
-        MaxSize = new Vector3(csv.MaxSize, csv.MaxSize, csv.MaxSize) / 100;
-    }
+        SizeUpValue = new Vector3(csv.SizeUpValue, csv.SizeUpValue, csv.SizeUpValue) * 0.01f;
+        SpeedUpValue = csv.SpeedUpValue * 0.1f;
+     }
 }
 public class CharacterInfo : Data
 {

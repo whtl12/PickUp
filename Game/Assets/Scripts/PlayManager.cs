@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayManager : MonoBehaviour {
     DataInfoManager dataManager;
     MapManager mapManager;
-    CharacterData characterData;
 
     bool direction;
-    public float vSpeed;
     float mapHeight;
     public GameObject mainPlayer;
     Vector3 cameraBasicPosition = new Vector3(0, 3f, -8f);
@@ -25,15 +24,14 @@ public class PlayManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         Player.Add(GameObject.Find("Player"));
         playerParent = GameObject.Find("PlayerParent");
         mapParent = GameObject.Find("MapParent");
         cameraParent = GameObject.Find("CameraParent");
-        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         mapManager = GetComponent<MapManager>();
-        characterData = dataManager.GetCharacterData(0);
-        vSpeed = characterData.vSpeed;
         direction = false;
+
     }
     // Update is called once per frame
     void Update()
@@ -71,31 +69,6 @@ public class PlayManager : MonoBehaviour {
     private void OnCollisionExit(Collision collision)
     {
         isGround = false;
-    }
-    public void InitPlayer(int ate, GameObject obj, Vector3 position, Quaternion quaternion)
-    {
-        GameObject _player = Instantiate(obj, position, quaternion);
-        _player.GetComponent<CharacterControl>().AteNum = ate;
-        _player.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        _player.transform.parent = playerParent.transform;
-        Player.Add(_player);
-    }
-    public void DestroyPlayer(GameObject obj)
-    {
-        if (obj == mainPlayer)
-            if (Player.Count > 0)
-                Player[0].name = "Player";
-            else
-                Application.Quit();
-        try
-        {
-            Player.RemoveAt(Player.IndexOf(obj));
-        }
-        catch
-        {
-            print(string.Format("index error : Player.IndexOf {0}", Player.IndexOf(obj)));
-        }
-        Destroy(obj);
     }
     public bool Getdirection()
     {

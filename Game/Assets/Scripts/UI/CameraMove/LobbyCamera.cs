@@ -156,8 +156,8 @@ public class LobbyCamera : MonoBehaviour {
                                                        "oncompletetarget", this.gameObject
                                                      ));
         }
-           
 
+        fxManager.StopFX(true);
         RollBack = false;
     }
 }

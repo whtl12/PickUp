@@ -12,6 +12,7 @@ public class FXManager : MonoBehaviour {
     public GameObject play_die;
     public List<GameObject> loopParticleList;
 
+
     public enum FXList
     {
         START_CLICK_ISLAND = 2,
@@ -82,18 +83,30 @@ public class FXManager : MonoBehaviour {
         //if (effect(fx).isStopped)
         //    StartCoroutine(destroyFX(delay, particle));
 
-        GameObject particle = Instantiate(effect(fx), target.transform.position + offset, Quaternion.identity, gameObject.transform);
+        GameObject particle = null;
+        int index = loopParticleList.FindIndex(item => item.name.Contains(effect(fx).name));
+        if (index > -1)
+            particle = loopParticleList[index];
+        else
+            particle = Instantiate(effect(fx), target.transform.position + offset, Quaternion.identity, gameObject.transform);
+
+
         if (!particle.GetComponent<ParticleSystem>().main.loop)
             StartCoroutine(destroyFX(delay, particle));
         else
         {
             particle.transform.SetParent(target.transform);
-            loopParticleList.Add(particle);
+            if (index > -1)
+                particle.SetActive(true);
+            else
+                loopParticleList.Add(particle);
         }
         if (shake)
         {
 
         }
+
+       
     }
     public void PlayFX(FXList fx, GameObject target, Vector3 offset, float delay)
     {
@@ -118,5 +131,25 @@ public class FXManager : MonoBehaviour {
     public void PlayFX(FXList fx, GameObject target)
     {
         PlayFX(fx, target, Vector3.zero, 0f, false);
+    }
+
+    public void StopFX(bool IsAll, FXList fx = FXList.MAX)
+    {
+        if(IsAll)
+        {
+            for (int i = 0; i < loopParticleList.Count; i++)
+            {
+                loopParticleList[i].SetActive(false);
+            }
+        }
+        else
+        {
+            int index = loopParticleList.FindIndex(item => item.name.Contains(fx.ToString()));
+
+            if(index > -1)
+            {
+                loopParticleList[index].SetActive(false);
+            }
+        }
     }
 }

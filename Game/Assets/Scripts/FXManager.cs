@@ -144,7 +144,7 @@ public class FXManager : MonoBehaviour {
         }
         else
         {
-            int index = loopParticleList.FindIndex(item => item.name.Contains(fx.ToString()));
+            int index = loopParticleList.FindIndex(item => item.name.Contains(effect(fx).name));
 
             if(index > -1)
             {

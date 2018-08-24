@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour {
         Play
     }
 
-    public SoundManager soundManager;
+  
     public GameObject UIParent;
     public static UIManager m_Instance;
 
@@ -102,6 +102,8 @@ public class UIManager : MonoBehaviour {
                 {
                     m_PopupController.Clear();
                     SceneManager.LoadScene((int)SceneLoadIndex.Start);
+                    SoundManager.m_Instance.PlaySound(SoundManager.SoundList.START_SCEAN_BGM, SoundManager.SoundType.BGM);
+
                 }
                 else
                     m_PopupController.ChangeStage(GetUIObj(name));
@@ -153,7 +155,7 @@ public class UIManager : MonoBehaviour {
         //m_PopupController.Clear();
         SceneManager.LoadScene((int)SceneLoadIndex.Start);
         SceneManager.LoadSceneAsync((int)SceneLoadIndex.Play);
-        soundManager.PlaySound(SoundManager.SoundList.PLAY_SCEAN_BGM, SoundManager.SoundType.BGM);
+        SoundManager.m_Instance.PlaySound(SoundManager.SoundList.PLAY_SCEAN_BGM, SoundManager.SoundType.BGM);
     }
 
 }

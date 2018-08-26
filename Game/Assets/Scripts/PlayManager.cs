@@ -7,7 +7,6 @@ public class PlayManager : MonoBehaviour {
     DataInfoManager dataManager;
     MapManager mapManager;
 
-    bool direction;
     float mapHeight;
     public GameObject mainPlayer;
     Vector3 cameraBasicPosition = new Vector3(0, 3f, -8f);
@@ -30,7 +29,6 @@ public class PlayManager : MonoBehaviour {
         mapParent = GameObject.Find("MapParent");
         cameraParent = GameObject.Find("CameraParent");
         mapManager = GetComponent<MapManager>();
-        direction = false;
 
     }
     // Update is called once per frame
@@ -59,8 +57,6 @@ public class PlayManager : MonoBehaviour {
         if (mapManager.GetMidPosition().y > mainPlayer.transform.position.y)
             mapManager.AllRun();
 
-        if (Input.GetMouseButtonDown(0))
-            direction = !direction;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -69,9 +65,5 @@ public class PlayManager : MonoBehaviour {
     private void OnCollisionExit(Collision collision)
     {
         isGround = false;
-    }
-    public bool Getdirection()
-    {
-        return direction;
     }
 }

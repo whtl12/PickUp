@@ -638,7 +638,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 4, z: 2}
+  m_Size: {x: 2, y: 3, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &144794779
 GameObject:
@@ -2050,7 +2050,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 2}
+  m_Size: {x: 2, y: 3, z: 1}
   m_Center: {x: 0, y: 0.19, z: 0}
 --- !u!4 &406021392
 Transform:
@@ -2060,7 +2060,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 406021390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.34, y: -1.03, z: -7.4699993}
+  m_LocalPosition: {x: 0.34, y: -0.26, z: -7.4699993}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2004943250}
@@ -7731,7 +7731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae22c77fc5ce8664cb60c7d1ebe63a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 909247999}
   UIParent: {fileID: 1185042508}
 --- !u!4 &1297378755
 Transform:
@@ -8087,7 +8086,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 3, z: 2}
+  m_Size: {x: 2, y: 3, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1446187657 stripped
 Transform:

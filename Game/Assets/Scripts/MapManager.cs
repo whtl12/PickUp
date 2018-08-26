@@ -33,9 +33,9 @@ public class MapManager : MonoBehaviour {
     int mapIndex;
 
     DataInfoManager dataManager;
-    List<GameObject> backgroundList = new List<GameObject>();
-    List<GameObject> WaterList = new List<GameObject>();
-    List<GameObject> ObstacleList = new List<GameObject>();
+    public List<GameObject> backgroundList = new List<GameObject>();
+    public List<GameObject> WaterList = new List<GameObject>();
+    public List<GameObject> ObstacleList = new List<GameObject>();
 
     ObjectPool mapPool = new ObjectPool();
     ObjectPool obsPool = new ObjectPool();
@@ -62,11 +62,11 @@ public class MapManager : MonoBehaviour {
         Plant,
         MAX
     }
-    enum Item
+    public enum Item
     {
-        Red = 0,
+        Blue = 0,
+        Red,
         Green,
-        Blue,
         White,
         Black,
         MAX
@@ -102,14 +102,14 @@ public class MapManager : MonoBehaviour {
         popWater();
         
     }
-    private void pushObject(List<GameObject> list, ObjectPool pool)
+    private void pushObject(List<GameObject> list, ObjectPool pool, Transform parent)
     {
         int i = 0;
         while (true)
         {
             if (list[i].transform.position.y > backgroundList[1].transform.position.y)
             {
-                pool.PushToPool(list[i], obParent);
+                pool.PushToPool(list[i], parent);
                 list.RemoveAt(i);
                 i++;
             }
@@ -169,13 +169,18 @@ public class MapManager : MonoBehaviour {
 
     }
 
-    public void pushObstacle()
+    public void pushWater(int index)
     {
-        pushObject(ObstacleList, obsPool);
+        waterPool.PushToPool(WaterList[index], wtParent);
+        WaterList.RemoveAt(index);
     }
     public void pushWater()
     {
-        pushObject(WaterList, waterPool);
+        pushObject(WaterList, waterPool, wtParent);
+    }
+    public void pushObstacle()
+    {
+        pushObject(ObstacleList, obsPool, obParent);
     }
     public void pushBackground()
     {
@@ -219,11 +224,11 @@ public class MapManager : MonoBehaviour {
         if (Random.Range(0, 10) < 5)
             rnd = Random.Range(0, (int)Item.MAX);
         else
-            rnd = Random.Range(0, (int)Item.Blue + 1);
+            rnd = Random.Range(0, (int)Item.Green + 1);
 
         float position_y = -Random.Range(0f, 4f);
         int sign_z = Random.Range(0, 2) == 1 ? -1 : 1;
-        float position_x = Random.Range(-6.2f, 6.2f);
+        float position_x = Random.Range(-6.3f, 6.3f);
         float position_z = sign_z * Mathf.Sqrt((water[rnd].offset + 43 > Mathf.Pow(position_x, 2)) ? water[rnd].offset + 43 - Mathf.Pow(position_x, 2) : 1) + BACKGROUND_Z;
         float rotation_z = Random.Range(-16, -14) * position_x;
         Quaternion surfaceAngle = Quaternion.Euler(0, 0, sign_z < 0 ? rotation_z : (-180 - rotation_z));

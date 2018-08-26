@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DetectArea : MonoBehaviour {
-    CharacterControl parent;
+    [SerializeField]CharacterControl pCharCntl;
+    [SerializeField] MapManager mapManager;
+    [SerializeField] private InGameUI ingameUI;
+
+    Transform pTransform;
     // Use this for initialization
     void Start () {
-        parent = GetComponentInParent<CharacterControl>();
+        pTransform = transform.parent;
+        pCharCntl = GetComponentInParent<CharacterControl>();
     }
 	
 	// Update is called once per frame
@@ -15,10 +21,29 @@ public class DetectArea : MonoBehaviour {
 	}
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "trickle")
+        if (other.transform.parent.name == "Water")
         {
-            other.gameObject.SetActive(false);
-            parent.EatBubble();
+            ingameUI.SetText(other.gameObject);
+            int index = mapManager.WaterList.FindIndex(item => item.transform == other.transform);
+            if (index > -1)
+            {
+                mapManager.pushWater(index);
+            }
+            pCharCntl.EatBubble();
+
+
+            //iTween.MoveTo(other.gameObject, iTween.Hash("position", other.transform.position + new Vector3(3, 1, 0),
+            //                                            "time", Vector3.Distance(other.transform.position, pTransform.position),
+            //                                            "easetype", iTween.EaseType.easeInOutBack,
+            //                                            "oncomplete", "bubbleEvent",
+            //                                            "oncompletetarget", gameObject,
+            //                                            "oncompleteparams", other.gameObject as Object));
         }
+    }
+    private void bubbleEvent(Object obj)
+    {
+        GameObject water = obj as GameObject;
+        water.SetActive(false);
+        gameObject.GetComponent<CapsuleCollider>().radius += 0.05f;
     }
 }

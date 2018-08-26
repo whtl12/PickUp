@@ -27,6 +27,9 @@ public class UI : MonoBehaviour {
     public virtual void SliderEvent(Object obj)
     {
     }
+    public virtual void SetText(Object obj)
+    {
+    }
 
     public void SetButtonLisner(Button btn,System.Action<GameObject> callback)
     {

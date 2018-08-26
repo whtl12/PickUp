@@ -15,9 +15,10 @@ public class CharacterControl : MonoBehaviour {
     Vector3 SizeUpValue;
     Vector3 MinSize, MaxSize;
     GameObject character;
-    Vector3 direction;
     [HideInInspector] public int AteNum = 0;
     [HideInInspector] public int playerIndex = 0;
+    bool direction = false;
+    float directionRotate = 0;
 
     private void Awake()
     {
@@ -35,26 +36,38 @@ public class CharacterControl : MonoBehaviour {
 
         MapOffset = new Vector3(0, 0, MapManager.BACKGROUND_Z);
         
-        transform.GetComponentInChildren<SphereCollider>().radius = 0.8f + AteNum * 0.1f;
+        //transform.GetComponentInChildren<SphereCollider>().radius = 0.8f + AteNum * 0.1f;
     }
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + transform.TransformDirection(direction) * hSpeed * Time.deltaTime);
+        GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + transform.TransformDirection(new Vector3(directionRotate, 0, 0)) * hSpeed * Time.deltaTime);
     }
     void Update () {
         //Vector3 direction = Time.deltaTime * hSpeed * 2 * new Vector3((playManager.Getdirection() ? 1 : -1), 0, -1);
         //transform.Translate(direction);
-        direction = new Vector3((playManager.Getdirection() ? 1 : -1), 0, 0);
+        if (direction)
+        {
+            if (directionRotate > -1)
+                directionRotate -= 0.05f;
+        }
+        else
+        {
+            if (directionRotate < 1)
+                directionRotate += 0.05f;
+        }
 
         //Quaternion rotation = Quaternion.Euler(-90, (playManager.Getdirection() ? 45 : -45), 0);
         //transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, rotation, Time.deltaTime * 0.2f);
 
         Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
-        transform.rotation = rotation * Quaternion.Euler(0, (playManager.Getdirection() ? -1 : 1) * 30,0);
+        transform.rotation = rotation * Quaternion.Euler(0, -directionRotate * 30,0);
         
 
-        //if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
-        //    GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
+        if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
+
+        if (Input.GetMouseButtonDown(0))
+            direction = !direction;
 
     }
 
@@ -73,8 +86,8 @@ public class CharacterControl : MonoBehaviour {
         {
             AteNum++;
             transform.localScale += SizeUpValue;
-            transform.GetComponentInChildren<SphereCollider>().radius += 0.025f;
-            transform.GetChild(1).localScale = transform.localScale / 2;
+            transform.GetComponentInChildren<CapsuleCollider>().radius += 0.025f;
+            //transform.GetChild(1).localScale = transform.localScale / 2;
         }
     }
     //IEnumerator Revert()

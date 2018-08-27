@@ -19,6 +19,7 @@ public class CharacterControl : MonoBehaviour {
     [HideInInspector] public int playerIndex = 0;
     bool direction = false;
     float directionRotate = 0;
+    float closeupSize = 0;
 
     private void Awake()
     {
@@ -69,13 +70,20 @@ public class CharacterControl : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
             direction = !direction;
 
+        GetComponentInChildren<Animator>().speed = GetComponent<Rigidbody>().velocity.magnitude / 8;
+        if (closeupSize > GetComponent<Rigidbody>().velocity.magnitude / 4)
+            closeupSize -= 0.2f;
+        if (closeupSize <= GetComponent<Rigidbody>().velocity.magnitude / 4)
+            closeupSize += 0.02f;
+
+        Camera.main.transform.localPosition = new Vector3(0, 4 + closeupSize / 5, -20 - closeupSize);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Obstacle")
         {
-            
+            FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_CRASH, collision.gameObject);
         }
     }
     public void EatBubble()

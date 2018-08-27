@@ -30,7 +30,7 @@ public class DetectArea : MonoBehaviour {
                 mapManager.pushWater(index);
             }
             pCharCntl.EatBubble();
-
+            FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT, transform.parent.gameObject);
 
             //iTween.MoveTo(other.gameObject, iTween.Hash("position", other.transform.position + new Vector3(3, 1, 0),
             //                                            "time", Vector3.Distance(other.transform.position, pTransform.position),

@@ -48,9 +48,7 @@ public class PlayManager : MonoBehaviour {
         else
         {
             cameraParent.transform.position = new Vector3(0, mainPlayer.transform.position.y, 10);
-            //Camera.main.gameObject.transform.rotation = Quaternion.FromToRotation(mainPlayer.transform.position, new Vector3(0, mainPlayer.transform.position.y, 10)); // Quaternion.Euler(30, - 20 * mainPlayer.transform.position.x / CharacterControl.MaxHorizontal, 0);
             Quaternion rotation = Quaternion.LookRotation(cameraParent.transform.position - mainPlayer.transform.position);
-            // cameraParent.transform.rotation = Quaternion.Slerp(cameraParent.transform.rotation, rotation, Time.deltaTime * 0.2f);
             cameraParent.transform.rotation = rotation;
         }
 

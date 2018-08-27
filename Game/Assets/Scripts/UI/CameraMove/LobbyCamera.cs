@@ -16,8 +16,6 @@ public class LobbyCamera : MonoBehaviour {
     private GameObject[] IslandEntry = new GameObject[5];
     private int IslandIndex = 0;
     private Vector3 tmpMousePosition;
-    private SoundManager soundManager;
-    private FXManager fxManager;
     [SerializeField][Range(0f, 1f)] private float matR, matG, matB;
     [SerializeField] private Material leaf_material;
     [SerializeField] private GameObject islandParent;
@@ -39,8 +37,6 @@ public class LobbyCamera : MonoBehaviour {
         matB = 0.5f;
         leaf_material.color = new Color(matR, matG, matB);
 
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        fxManager = GameObject.Find("FXManager").GetComponent<FXManager>();
     }
 
     // Update is called once per frame
@@ -97,8 +93,8 @@ public class LobbyCamera : MonoBehaviour {
         {
             case 0:
                 outgameUI.ButtonEvent(IslandEntry[index]);
-                soundManager.PlaySound(SoundManager.SoundList.START_ENTER_PLAY);
-                fxManager.PlayFX(FXManager.FXList.START_ENTER_PLAY, IslandEntry[index]);
+                SoundManager.m_Instance.PlaySound(SoundManager.SoundList.START_ENTER_PLAY);
+                FXManager.m_Instance.PlayFX(FXManager.FXList.START_ENTER_PLAY, IslandEntry[index]);
                 break;
         }
     }
@@ -108,10 +104,10 @@ public class LobbyCamera : MonoBehaviour {
             if (TargetObj.name == IslandEntry[IslandIndex].name)
             {
                 MoveCamera(TargetObj.transform.position);
-                soundManager.PlaySound(SoundManager.SoundList.START_CLICK_ISLAND);
-                fxManager.PlayFX(FXManager.FXList.START_CLICK_ISLAND, IslandEntry[IslandIndex]);
+                SoundManager.m_Instance.PlaySound(SoundManager.SoundList.START_CLICK_ISLAND);
+                FXManager.m_Instance.PlayFX(FXManager.FXList.START_CLICK_ISLAND, IslandEntry[IslandIndex]);
                 if(IslandIndex == 4)
-                    fxManager.PlayFX(FXManager.FXList.PLAY_DIE, IslandEntry[IslandIndex]);
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_DIE, IslandEntry[IslandIndex]);
             }
     }
     IEnumerator RotateIsland()
@@ -157,7 +153,7 @@ public class LobbyCamera : MonoBehaviour {
                                                      ));
         }
 
-        fxManager.StopFX(true);
+        FXManager.m_Instance.StopFX(true);
         RollBack = false;
     }
 }

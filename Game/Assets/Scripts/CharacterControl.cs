@@ -37,15 +37,12 @@ public class CharacterControl : MonoBehaviour {
 
         MapOffset = new Vector3(0, 0, MapManager.BACKGROUND_Z);
         
-        //transform.GetComponentInChildren<SphereCollider>().radius = 0.8f + AteNum * 0.1f;
     }
     private void FixedUpdate()
     {
         GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + transform.TransformDirection(new Vector3(directionRotate, 0, 0)) * hSpeed * Time.deltaTime);
     }
     void Update () {
-        //Vector3 direction = Time.deltaTime * hSpeed * 2 * new Vector3((playManager.Getdirection() ? 1 : -1), 0, -1);
-        //transform.Translate(direction);
         if (direction)
         {
             if (directionRotate > -1)
@@ -56,9 +53,6 @@ public class CharacterControl : MonoBehaviour {
             if (directionRotate < 1)
                 directionRotate += 0.05f;
         }
-
-        //Quaternion rotation = Quaternion.Euler(-90, (playManager.Getdirection() ? 45 : -45), 0);
-        //transform.parent.rotation = Quaternion.Slerp(transform.parent.rotation, rotation, Time.deltaTime * 0.2f);
 
         Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
         transform.rotation = rotation * Quaternion.Euler(0, -directionRotate * 30,0);
@@ -76,7 +70,9 @@ public class CharacterControl : MonoBehaviour {
         if (closeupSize <= GetComponent<Rigidbody>().velocity.magnitude / 4)
             closeupSize += 0.02f;
 
-        Camera.main.transform.localPosition = new Vector3(0, 4 + closeupSize / 5, -20 - closeupSize);
+        Camera.main.transform.localPosition = new Vector3(playManager.cameraBasicPosition.x,
+                                                            playManager.cameraBasicPosition.y + closeupSize / 5,
+                                                            playManager.cameraBasicPosition.z - closeupSize);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -88,8 +84,6 @@ public class CharacterControl : MonoBehaviour {
     }
     public void EatBubble()
     {
-        vSpeed += SpeedUpValue;
-        hSpeed += SpeedUpValue / 2;
         if (AteNum < 10)
         {
             AteNum++;
@@ -97,14 +91,12 @@ public class CharacterControl : MonoBehaviour {
             transform.GetComponentInChildren<CapsuleCollider>().radius += 0.025f;
             //transform.GetChild(1).localScale = transform.localScale / 2;
         }
+        if (AteNum < 30)
+        {
+            vSpeed += SpeedUpValue;
+            hSpeed += SpeedUpValue / 2;
+        }
     }
-    //IEnumerator Revert()
-    //{
-    //    yield return new WaitForSeconds(1.0f);
-    //    float distance = (Camera.main.gameObject.transform.position - cameraBasicPosition).magnitude;
-    //    if (distance > 1)
-    //        iTween.MoveTo(Camera.main.gameObject, iTween.Hash("position", cameraBasicPosition, "time", 1f, "islocal", true, "movetopath", false, "easetype", iTween.EaseType.easeInOutQuart));
-    //}
     IEnumerator ObstacleHit()
     {
         GetComponent<CapsuleCollider>().enabled = false;

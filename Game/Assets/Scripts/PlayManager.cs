@@ -9,11 +9,11 @@ public class PlayManager : MonoBehaviour {
 
     float mapHeight;
     public GameObject mainPlayer;
-    Vector3 cameraBasicPosition = new Vector3(0, 3f, -8f);
-    [HideInInspector] public List<GameObject> Player = new List<GameObject>();
+    [HideInInspector] public Vector3 cameraBasicPosition;
+    [HideInInspector] public List<GameObject> Player;
     [HideInInspector] public GameObject mapPref;
-    [HideInInspector] public bool isGround;
     [HideInInspector] public int index;
+
 
     GameObject playerParent;
     GameObject mapParent;
@@ -23,13 +23,14 @@ public class PlayManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Player = new List<GameObject>();
         dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         Player.Add(GameObject.Find("Player"));
         playerParent = GameObject.Find("PlayerParent");
         mapParent = GameObject.Find("MapParent");
         cameraParent = GameObject.Find("CameraParent");
         mapManager = GetComponent<MapManager>();
-
+        cameraBasicPosition = new Vector3(0, 4f, -20f);
     }
     // Update is called once per frame
     void Update()
@@ -55,13 +56,5 @@ public class PlayManager : MonoBehaviour {
         if (mapManager.GetMidPosition().y > mainPlayer.transform.position.y)
             mapManager.AllRun();
 
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        isGround = true;
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        isGround = false;
     }
 }

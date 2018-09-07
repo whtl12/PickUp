@@ -75,13 +75,13 @@ public class SoundManager : MonoBehaviour {
                 _clip = start_enter_play;
                 break;
             case SoundList.PLAY_CRASH:
-                _clip = start_scean_bgm;
+                _clip = play_crash;
                 break;
             case SoundList.PLAY_EAT:
-                _clip = play_scean_bgm;
+                _clip = play_eat_bubble;
                 break;
             case SoundList.PLAY_DIE:
-                _clip = play_scean_bgm;
+                _clip = play_die;
                 break;
         }
         return _clip;

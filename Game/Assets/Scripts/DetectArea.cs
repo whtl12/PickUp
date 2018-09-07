@@ -31,7 +31,7 @@ public class DetectArea : MonoBehaviour {
             }
             pCharCntl.EatBubble();
             FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT, transform.parent.gameObject);
-
+            SoundManager.m_Instance.PlaySound(SoundManager.SoundList.PLAY_EAT);
             //iTween.MoveTo(other.gameObject, iTween.Hash("position", other.transform.position + new Vector3(3, 1, 0),
             //                                            "time", Vector3.Distance(other.transform.position, pTransform.position),
             //                                            "easetype", iTween.EaseType.easeInOutBack,

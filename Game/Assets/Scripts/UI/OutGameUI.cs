@@ -27,7 +27,7 @@ public class OutGameUI : UI
         switch (obj.name)
         {
             case "Shop":
-                UIManager.m_Instance.ChangeStage(UIManager.StageUI.ShopUI);
+                UIManager.m_Instance.OpenPopup(UIManager.PopupUI.ShopUI);
                 break;
             case "GameStart":
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.InGameUI);

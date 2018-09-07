@@ -46,13 +46,15 @@ public class UIManager : MonoBehaviour {
     {
         InGameUI,
         OutGameUI,
-        ShopUI
+        
     };
 
     public enum PopupUI
     {
         BasicPopup,
-        OptionPopup
+        OptionPopup,
+        ShopUI
+
     };
 
     //PlayerSetting 에 LoadScene이랑  index 맞추기.

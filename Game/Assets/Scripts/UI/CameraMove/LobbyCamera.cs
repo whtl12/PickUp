@@ -41,6 +41,10 @@ public class LobbyCamera : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        if (DataInfoManager.m_Instance.GetUserState() == DataInfoManager.UserState.UIOpen)
+            return;
+
         leaf_material.color = new Color(matR, matG, matB);
         if (Input.GetMouseButtonDown(0))
         {

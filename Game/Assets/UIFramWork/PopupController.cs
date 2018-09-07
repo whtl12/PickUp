@@ -19,6 +19,9 @@ public class PopupController {
         {
             GameObject gameObj = PopupStack.Pop() as GameObject;
             gameObj.SetActive(false);
+
+            if(PopupStack.Count <= 0)
+                DataInfoManager.m_Instance.SetUserState(DataInfoManager.UserState.Basic);
         }
         else
         {
@@ -42,6 +45,8 @@ public class PopupController {
 
         gameObj.SetActive(true);
         PopupStack.Push(obj);
+
+        DataInfoManager.m_Instance.SetUserState(DataInfoManager.UserState.UIOpen);
     }
 
     public void AllClosePopup()
@@ -51,6 +56,8 @@ public class PopupController {
             GameObject gameObj = PopupStack.Pop() as GameObject;
             gameObj.SetActive(false);
         }
+
+        DataInfoManager.m_Instance.SetUserState(DataInfoManager.UserState.Basic);
     }
 
      

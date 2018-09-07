@@ -14,7 +14,18 @@ public class DataInfoManager : MonoBehaviour
     ItemInfo ItemDataInfoTable;
     MapInfo MapDataInfoTable;
     ShopInfo ShopDataInfoTable;
-    
+
+    public enum UserState
+    {
+        Basic,
+        UIOpen,
+        GameStart,
+        GameOver,
+        MAX
+        
+    }
+
+    UserState m_UserState = UserState.Basic;
     
     private void Awake()
     {
@@ -82,4 +93,16 @@ public class DataInfoManager : MonoBehaviour
     {
         return MapDataInfoTable.dicMapinfoTable.ContainsKey(key);
     }
+
+    public UserState GetUserState()
+    {
+        return m_UserState;
+    }
+
+    public void SetUserState(UserState state)
+    {
+        m_UserState = state;
+    }
+
+
 }

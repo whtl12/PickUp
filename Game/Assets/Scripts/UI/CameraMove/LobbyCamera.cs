@@ -74,7 +74,12 @@ public class LobbyCamera : MonoBehaviour {
             {
                 TargetObj = hit.collider.gameObject;
                 Debug.Log("Hit GameObject Name = " + TargetObj.name);
-                if(!RollBack)
+
+
+                TestChangeColor(TargetObj, DefaultColor.ContainsKey(TargetObj.name));
+
+
+                if (!RollBack)
                     CloseUpIsland();
                 else
                 {
@@ -156,4 +161,59 @@ public class LobbyCamera : MonoBehaviour {
         FXManager.m_Instance.StopFX(true);
         RollBack = false;
     }
+
+    /// <summary>
+    /// UI붙일때 코드 옴길꺼임 일단 테스트
+    /// </summary>
+    /// <param name="obj"></param>
+
+    Dictionary<string, List<Color>> DefaultColor = new Dictionary<string, List<Color>>();
+
+
+
+    private void TestChangeColor(GameObject obj, bool IsRollback)
+    {
+
+        foreach (SkinnedMeshRenderer mesh in obj.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            if (mesh != null)
+            {
+                Material[] material = mesh.materials;
+                if (!DefaultColor.ContainsKey(obj.name))
+                {
+                    DefaultColor.Add(obj.name, GetAllMaterialColor(material));
+                    ChangeColor(material, new Color(144 / 255, 144 / 255, 144 / 255, 0));
+                }
+                else if (IsRollback)
+                {
+                    ChangeColor(material, DefaultColor[obj.name].ToArray());
+                    DefaultColor.Remove(obj.name);
+                }
+                   
+            }
+        }
+    }
+
+
+    List<Color> GetAllMaterialColor(Material[] mat)
+    {
+        List<Color> colorList = new List<Color>();
+
+        for (int i = 0; i < mat.Length; i++)
+        {
+            colorList.Add(mat[i].color);
+        }
+
+        return colorList;
+    }
+
+    void ChangeColor(Material[] mat, params Color[] color)
+    {
+        for (int i = 0; i < mat.Length; i++)
+        {
+            int colorIndex = i >= color.Length ? color.Length - 1 : i;
+            mat[i].color = color[colorIndex];
+        }
+    }
+
 }

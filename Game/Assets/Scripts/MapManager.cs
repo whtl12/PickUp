@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour {
+    public static MapManager m_Instance;
+
     public const int BACKGROUND_Z = 10;
     private const float OBSTACLEINTERVAL = 5;
     private const float WATERINTERVAL = 6;
@@ -32,7 +34,6 @@ public class MapManager : MonoBehaviour {
     float water_y;
     int mapIndex;
 
-    DataInfoManager dataManager;
     public List<GameObject> backgroundList = new List<GameObject>();
     public List<GameObject> WaterList = new List<GameObject>();
     public List<GameObject> ObstacleList = new List<GameObject>();
@@ -71,9 +72,15 @@ public class MapManager : MonoBehaviour {
         Black,
         MAX
     }
+    private void Awake()
+    {
+        if (m_Instance == null)
+            m_Instance = this;
+        else if (m_Instance != this)
+            Destroy(gameObject);
+    }
 
     void Start () {
-        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
         mapParent = GameObject.Find("MapParent");
         bgParent = GameObject.Find("Background").transform;
         obParent = GameObject.Find("Obstacle").transform;
@@ -257,8 +264,8 @@ public class MapManager : MonoBehaviour {
     void InitMap(List<MapData> list, ObjectElement flag, int START, int COUNT)
     {
         for (int i = START; i < START + COUNT; i++)
-            if (dataManager.MapContainsKey(i) && dataManager.GetMapData(i).Obj)
-                list.Add(dataManager.GetMapData(i));
+            if (DataInfoManager.m_Instance.MapContainsKey(i) && DataInfoManager.m_Instance.GetMapData(i).Obj)
+                list.Add(DataInfoManager.m_Instance.GetMapData(i));
 
         switch (flag)
         {

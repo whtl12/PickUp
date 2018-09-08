@@ -10,6 +10,7 @@ public class CharacterInfoCSV
     public float hSpeed;
     public int SizeUpValue;
     public int SpeedUpValue;
+    public int MaxHP;
 }
 
 public struct CharacterData
@@ -21,6 +22,7 @@ public struct CharacterData
     public float hSpeed;
     public Vector3 SizeUpValue;
     public float SpeedUpValue;
+    public float MaxHP;
 
     public void SetData(CharacterInfoCSV csv)
     {
@@ -30,6 +32,7 @@ public struct CharacterData
         hSpeed = csv.hSpeed;
         SizeUpValue = new Vector3(csv.SizeUpValue, csv.SizeUpValue, csv.SizeUpValue) * 0.01f;
         SpeedUpValue = csv.SpeedUpValue * 0.1f;
+        MaxHP = csv.MaxHP;
      }
 }
 public class CharacterInfo : Data

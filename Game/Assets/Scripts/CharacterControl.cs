@@ -3,36 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour {
-    //public const float MaxHorizontal = 3.8f;
-    Vector3 MapOffset;
-    DataInfoManager dataManager;
-    PlayManager playManager;
     CharacterData characterData;
 
     float hSpeed;
     float vSpeed;
     float SpeedUpValue;
     Vector3 SizeUpValue;
-    Vector3 MinSize, MaxSize;
-    GameObject character;
+    float HP;
+    //Vector3 MinSize, MaxSize;
+    Vector3 MapOffset;
     [HideInInspector] public int AteNum = 0;
     [HideInInspector] public int playerIndex = 0;
     bool direction = false;
     float directionRotate = 0;
     float closeupSize = 0;
 
-    private void Awake()
-    {
-        playManager = GameObject.Find("PlayManager").GetComponent<PlayManager>();
-        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
-    }
     void Start () {
-        characterData = dataManager.GetCharacterData(0);
-        character = characterData.CharName;
+        characterData = DataInfoManager.m_Instance.GetCharacterData(0);
         hSpeed = characterData.hSpeed;
         vSpeed = characterData.vSpeed;
         SizeUpValue = characterData.SizeUpValue;
         SpeedUpValue = characterData.SpeedUpValue;
+        HP = characterData.MaxHP;
+
         AteNum = 0;
 
         MapOffset = new Vector3(0, 0, MapManager.BACKGROUND_Z);
@@ -46,68 +39,82 @@ public class CharacterControl : MonoBehaviour {
         if (direction)
         {
             if (directionRotate > -1)
-                directionRotate -= 0.05f;
+                directionRotate -= 0.0125f * hSpeed;
         }
         else
         {
             if (directionRotate < 1)
-                directionRotate += 0.05f;
+                directionRotate += 0.0125f * hSpeed;
         }
 
         Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
         transform.rotation = rotation * Quaternion.Euler(0, -directionRotate * 30,0);
         
 
-        if (GetComponent<Rigidbody>().velocity.magnitude > vSpeed)
+        if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > vSpeed)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
 
         if (Input.GetMouseButtonDown(0))
             direction = !direction;
 
-        GetComponentInChildren<Animator>().speed = GetComponent<Rigidbody>().velocity.magnitude / 8;
-        if (closeupSize > GetComponent<Rigidbody>().velocity.magnitude / 4)
+        GetComponentInChildren<Animator>().speed = Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.125f;
+        if (closeupSize > Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
             closeupSize -= 0.2f;
-        if (closeupSize <= GetComponent<Rigidbody>().velocity.magnitude / 4)
+        if (closeupSize <= Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
             closeupSize += 0.02f;
 
-        Camera.main.transform.localPosition = new Vector3(playManager.cameraBasicPosition.x,
-                                                            playManager.cameraBasicPosition.y + closeupSize / 5,
-                                                            playManager.cameraBasicPosition.z - closeupSize);
+        Camera.main.transform.localPosition = PlayManager.m_Instance.cameraBasicPosition + new Vector3(0, closeupSize * 0.2f, - closeupSize);
+
+        if(Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed * 2)
+        {
+            HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag == "Obstacle")
+        if (collision.transform.parent.parent.name == "Obstacle")
         {
-            FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_CRASH, collision.gameObject);
+            if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed)
+            {
+                print(GetComponent<Rigidbody>().velocity);
+                StartCoroutine(ObstacleHit());
+                HP += characterData.vSpeed * 0.5f - Mathf.Abs(GetComponent<Rigidbody>().velocity.y);
+                PlayManager.m_Instance.ingameUI.SetValue("sldHPbar", HP);
+                FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_CRASH, collision.gameObject);
+            }
         }
     }
     public void EatBubble()
     {
-        if (AteNum < 10)
+        if (AteNum < 50)
         {
             AteNum++;
-            transform.localScale += SizeUpValue;
-            transform.GetComponentInChildren<CapsuleCollider>().radius += 0.025f;
-            //transform.GetChild(1).localScale = transform.localScale / 2;
-        }
-        if (AteNum < 30)
-        {
+
+            if (AteNum < 10)
+            {
+                transform.localScale += SizeUpValue;
+                transform.GetComponentInChildren<CapsuleCollider>().radius += 0.025f;
+            }
+
             vSpeed += SpeedUpValue;
-            hSpeed += SpeedUpValue / 2;
+            hSpeed += SpeedUpValue * 0.5f;
         }
     }
     IEnumerator ObstacleHit()
     {
         GetComponent<CapsuleCollider>().enabled = false;
 
-        for (int i = 0; i < 2; i++)
-        {
-            GetComponent<MeshRenderer>().enabled = false;
-            yield return new WaitForSeconds(0.2f);
-            GetComponent<MeshRenderer>().enabled = true;
-            yield return new WaitForSeconds(0.4f);
-        }
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+        //    yield return new WaitForSeconds(0.2f);
+        //    GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+        //    yield return new WaitForSeconds(0.4f);
+        //}
+
+        yield return new WaitForSeconds(1.5f);
+
         GetComponent<CapsuleCollider>().enabled = true;
 
         yield return null;

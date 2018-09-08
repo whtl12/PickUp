@@ -1,43 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DetectArea : MonoBehaviour {
-    [SerializeField]CharacterControl pCharCntl;
-    [SerializeField] MapManager mapManager;
-    [SerializeField] private InGameUI ingameUI;
+    [SerializeField] CharacterControl pCharCntl;
+    int iblue, ired, igreen, iwhite, iblack;
 
     Transform pTransform;
     // Use this for initialization
     void Start () {
         pTransform = transform.parent;
         pCharCntl = GetComponentInParent<CharacterControl>();
+        iblue = ired = igreen = iwhite = iblack = 0;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+    // Update is called once per frame
+    void Update () {
 	}
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.parent.name == "Water")
         {
-            ingameUI.SetText(other.gameObject);
-            int index = mapManager.WaterList.FindIndex(item => item.transform == other.transform);
+            switch(other.gameObject.name[12] - 49)
+            {
+                case (int)MapManager.Item.Blue:
+                    iblue++;
+                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iblue.ToString());
+                    break;
+                case (int)MapManager.Item.Red:
+                    ired++;
+                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, ired.ToString());
+                    break;
+                case (int)MapManager.Item.Green:
+                    igreen++;
+                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, igreen.ToString());
+                    break;
+                case (int)MapManager.Item.White:
+                    iwhite++;
+                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iwhite.ToString());
+                    break;
+                case (int)MapManager.Item.Black:
+                    iblack++;
+                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iblack.ToString());
+                    break;
+            }
+
+            int index = MapManager.m_Instance.WaterList.FindIndex(item => item.transform == other.transform);
             if (index > -1)
             {
-                mapManager.pushWater(index);
+                MapManager.m_Instance.pushWater(index);
             }
+
             pCharCntl.EatBubble();
             FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT, transform.parent.gameObject);
             SoundManager.m_Instance.PlaySound(SoundManager.SoundList.PLAY_EAT);
-            //iTween.MoveTo(other.gameObject, iTween.Hash("position", other.transform.position + new Vector3(3, 1, 0),
-            //                                            "time", Vector3.Distance(other.transform.position, pTransform.position),
-            //                                            "easetype", iTween.EaseType.easeInOutBack,
-            //                                            "oncomplete", "bubbleEvent",
-            //                                            "oncompletetarget", gameObject,
-            //                                            "oncompleteparams", other.gameObject as Object));
         }
     }
     private void bubbleEvent(Object obj)

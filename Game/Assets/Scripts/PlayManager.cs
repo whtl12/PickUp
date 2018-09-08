@@ -4,32 +4,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayManager : MonoBehaviour {
-    DataInfoManager dataManager;
-    MapManager mapManager;
+    public static PlayManager m_Instance;
 
-    float mapHeight;
+    public InGameUI ingameUI;
     public GameObject mainPlayer;
-    [HideInInspector] public Vector3 cameraBasicPosition;
-    [HideInInspector] public List<GameObject> Player;
-    [HideInInspector] public GameObject mapPref;
-    [HideInInspector] public int index;
-
-
-    GameObject playerParent;
-    GameObject mapParent;
-    GameObject cameraParent;
-    List<GameObject> mapList;
+    public Vector3 cameraBasicPosition;
+    Transform cameraParent;
 
     // Use this for initialization
+    private void Awake()
+    {
+        if (m_Instance == null)
+            m_Instance = this;
+        else if (m_Instance != this)
+            Destroy(gameObject);
+    }
     void Start()
     {
-        Player = new List<GameObject>();
-        dataManager = GameObject.Find("DataManager").GetComponent<DataInfoManager>();
-        Player.Add(GameObject.Find("Player"));
-        playerParent = GameObject.Find("PlayerParent");
-        mapParent = GameObject.Find("MapParent");
-        cameraParent = GameObject.Find("CameraParent");
-        mapManager = GetComponent<MapManager>();
+
+        cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
     }
     // Update is called once per frame
@@ -48,13 +41,13 @@ public class PlayManager : MonoBehaviour {
         }
         else
         {
-            cameraParent.transform.position = new Vector3(0, mainPlayer.transform.position.y, 10);
-            Quaternion rotation = Quaternion.LookRotation(cameraParent.transform.position - mainPlayer.transform.position);
-            cameraParent.transform.rotation = rotation;
+            cameraParent.position = new Vector3(0, mainPlayer.transform.position.y, 10);
+            Quaternion rotation = Quaternion.LookRotation(cameraParent.position - mainPlayer.transform.position);
+            cameraParent.rotation = rotation;
         }
 
-        if (mapManager.GetMidPosition().y > mainPlayer.transform.position.y)
-            mapManager.AllRun();
+        if (MapManager.m_Instance.GetMidPosition().y > mainPlayer.transform.position.y)
+            MapManager.m_Instance.AllRun();
 
     }
 }

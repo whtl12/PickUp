@@ -11,13 +11,12 @@ public class InGameUI : UI
     [SerializeField] private Text txtgreen;
     [SerializeField] private Text txtwhite;
     [SerializeField] private Text txtblack;
+    [SerializeField] private Slider sldHP;
 
-    int iblue, ired, igreen, iwhite, iblack;
     // Use this for initialization
     void Start () {
         SetButtonLisner(GameClose, ButtonEvent);
 
-        iblue = ired = igreen = iwhite = iblack = 0;
     }
 
     public override void ButtonEvent(Object obj)
@@ -32,32 +31,37 @@ public class InGameUI : UI
 
         }
     }
-    public override void SetText(Object obj)
+    public override void SetText(Object obj, string _str)
     {
-        base.SetText(obj);
-        GameObject gobj = obj as GameObject;
+        base.SetText(obj, _str);
 
-        switch ((int)gobj.name[12] - 49)
+        switch (obj.name[12] - 49)
         {
             case (int)MapManager.Item.Blue:
-                iblue++;
-                txtblue.text = "Blue " + iblue.ToString();
+                txtblue.text = "Blue " + _str;
                 break;
             case (int)MapManager.Item.Red:
-                ired++;
-                txtred.text = "Red " + ired.ToString();
+                txtred.text = "Red " + _str;
                 break;
             case (int)MapManager.Item.Green:
-                igreen++;
-                txtgreen.text = "Green " + igreen.ToString();
+                txtgreen.text = "Green " + _str;
                 break;
             case (int)MapManager.Item.White:
-                iwhite++;
-                txtwhite.text = "White " + iwhite.ToString();
+                txtwhite.text = "White " + _str;
                 break;
             case (int)MapManager.Item.Black:
-                iblack++;
-                txtblack.text = "Black " + iblack.ToString();
+                txtblack.text = "Black " + _str;
+                break;
+        }
+    }
+    public override void SetValue(string obj, float _value)
+    {
+        base.SetValue(obj, _value);
+
+        switch (obj)
+        {
+            case "sldHPbar":
+                sldHP.value = _value;
                 break;
         }
     }

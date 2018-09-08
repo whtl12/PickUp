@@ -27,7 +27,10 @@ public class UI : MonoBehaviour {
     public virtual void SliderEvent(Object obj)
     {
     }
-    public virtual void SetText(Object obj)
+    public virtual void SetText(Object obj, string _str)
+    {
+    }
+    public virtual void SetValue(string obj, float _value)
     {
     }
 

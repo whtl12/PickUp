@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class InGameUI : UI
 {
+    public static InGameUI m_Instance;
     public Button GameClose;
+    public GameObject panelGameOver;
     [SerializeField] private Text txtblue;
     [SerializeField] private Text txtred;
     [SerializeField] private Text txtgreen;
@@ -13,10 +15,16 @@ public class InGameUI : UI
     [SerializeField] private Text txtblack;
     [SerializeField] private Slider sldHP;
 
-    // Use this for initialization
+    private void Awake()
+    {
+        if (m_Instance == null)
+            m_Instance = this;
+        else if (m_Instance != this)
+            Destroy(gameObject);
+    }
     void Start () {
         SetButtonLisner(GameClose, ButtonEvent);
-
+        panelGameOver.SetActive(false);
     }
 
     public override void ButtonEvent(Object obj)
@@ -64,5 +72,11 @@ public class InGameUI : UI
                 sldHP.value = _value;
                 break;
         }
+    }
+    public override void SetActive(Object obj, bool state)
+    {
+        base.SetActive(obj, state);
+        GameObject gobj = obj as GameObject;
+        gobj.SetActive(state);
     }
 }

@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class PlayManager : MonoBehaviour {
     public static PlayManager m_Instance;
 
-    public InGameUI ingameUI;
     public GameObject mainPlayer;
     public Vector3 cameraBasicPosition;
-    Transform cameraParent;
+    private Transform cameraParent;
+    public float HP;
 
     // Use this for initialization
     private void Awake()
@@ -21,7 +21,7 @@ public class PlayManager : MonoBehaviour {
     }
     void Start()
     {
-
+        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
         cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
     }
@@ -49,5 +49,13 @@ public class PlayManager : MonoBehaviour {
         if (MapManager.m_Instance.GetMidPosition().y > mainPlayer.transform.position.y)
             MapManager.m_Instance.AllRun();
 
+        if (HP <= 0)
+            HPzero();
+    }
+    public void HPzero()
+    {
+        Time.fixedDeltaTime = 0;
+        mainPlayer.GetComponent<Rigidbody>().useGravity = false;
+        InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, true);
     }
 }

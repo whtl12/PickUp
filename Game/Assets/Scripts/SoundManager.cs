@@ -102,10 +102,11 @@ public class SoundManager : MonoBehaviour {
         audioSource.clip = soundClip(clip);
         audioSource.volume = volume;
         audioSource.PlayDelayed(delay);
-        StartCoroutine(destroySound(delay + soundClip(clip).length, audioSource));
 
         if (type == SoundType.BGM)
             currentBGM = audioSource;
+        else
+            StartCoroutine(destroySound(delay + soundClip(clip).length, audioSource));
     }
     public void PlaySound(SoundList clip, SoundType type, float volume)
     {

@@ -25,23 +25,23 @@ public class DetectArea : MonoBehaviour {
             {
                 case (int)MapManager.Item.Blue:
                     iblue++;
-                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iblue.ToString());
+                    InGameUI.m_Instance.SetText(other.gameObject, iblue.ToString());
                     break;
                 case (int)MapManager.Item.Red:
                     ired++;
-                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, ired.ToString());
+                    InGameUI.m_Instance.SetText(other.gameObject, ired.ToString());
                     break;
                 case (int)MapManager.Item.Green:
                     igreen++;
-                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, igreen.ToString());
+                    InGameUI.m_Instance.SetText(other.gameObject, igreen.ToString());
                     break;
                 case (int)MapManager.Item.White:
                     iwhite++;
-                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iwhite.ToString());
+                    InGameUI.m_Instance.SetText(other.gameObject, iwhite.ToString());
                     break;
                 case (int)MapManager.Item.Black:
                     iblack++;
-                    PlayManager.m_Instance.ingameUI.SetText(other.gameObject, iblack.ToString());
+                    InGameUI.m_Instance.SetText(other.gameObject, iblack.ToString());
                     break;
             }
 

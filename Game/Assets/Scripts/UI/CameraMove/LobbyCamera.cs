@@ -20,15 +20,23 @@ public class LobbyCamera : MonoBehaviour {
     [SerializeField] private Material leaf_material;
     [SerializeField] private GameObject islandParent;
     [SerializeField] private OutGameUI outgameUI;
+    enum Island {
+        Start = 0,
+        a,
+        b,
+        Record,
+        Option,
+        MAX
+    }
 
     // Use this for initialization
     void Start () {
         BasePos = this.transform.localPosition;
-        IslandRotateY[0] = 0; // Start
-        IslandRotateY[1] = 70;
-        IslandRotateY[2] = 132;
-        IslandRotateY[3] = 214;
-        IslandRotateY[4] = 284;
+        IslandRotateY[(int)Island.Start] = 0; // Start
+        IslandRotateY[(int)Island.a] = 70;
+        IslandRotateY[(int)Island.b] = 132;
+        IslandRotateY[(int)Island.Record] = 214;
+        IslandRotateY[(int)Island.Option] = 284;
         for(int i = 0; i < islandParent.transform.childCount; i++)
             IslandEntry[i] = islandParent.transform.GetChild(i).gameObject;
 
@@ -59,10 +67,10 @@ public class LobbyCamera : MonoBehaviour {
                 else
                     IslandIndex--;
 
-                if (IslandIndex > 4)
-                    IslandIndex = 0;
-                if (IslandIndex < 0)
-                    IslandIndex = 4;
+                if (IslandIndex > (int)Island.Option)
+                    IslandIndex = (int)Island.Start;
+                if (IslandIndex < (int)Island.Start)
+                    IslandIndex = (int)Island.Option;
                 print("IslandIndex : " + IslandIndex);
 
                 StartCoroutine(RotateIsland());
@@ -81,10 +89,12 @@ public class LobbyCamera : MonoBehaviour {
 
 
                 TestChangeColor(TargetObj, DefaultColor.ContainsKey(TargetObj.name));
-
-
+               
                 if (!RollBack)
-                    CloseUpIsland();
+                {
+                    if (TargetObj.transform.parent.name == "IslandParent")
+                        CloseUpIsland();
+                }
                 else
                 {
                     clickIsland(IslandIndex);
@@ -100,7 +110,7 @@ public class LobbyCamera : MonoBehaviour {
     {
         switch(index)
         {
-            case 0:
+            case (int)Island.Start:
                 outgameUI.ButtonEvent(IslandEntry[index]);
                 SoundManager.m_Instance.PlaySound(SoundManager.SoundList.START_ENTER_PLAY);
                 FXManager.m_Instance.PlayFX(FXManager.FXList.START_ENTER_PLAY, IslandEntry[index]);

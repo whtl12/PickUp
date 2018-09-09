@@ -9,11 +9,11 @@ public class CharacterControl : MonoBehaviour {
     float vSpeed;
     float SpeedUpValue;
     Vector3 SizeUpValue;
-    float HP;
     //Vector3 MinSize, MaxSize;
     Vector3 MapOffset;
     [HideInInspector] public int AteNum = 0;
     [HideInInspector] public int playerIndex = 0;
+
     bool direction = false;
     float directionRotate = 0;
     float closeupSize = 0;
@@ -24,16 +24,15 @@ public class CharacterControl : MonoBehaviour {
         vSpeed = characterData.vSpeed;
         SizeUpValue = characterData.SizeUpValue;
         SpeedUpValue = characterData.SpeedUpValue;
-        HP = characterData.MaxHP;
 
         AteNum = 0;
-
         MapOffset = new Vector3(0, 0, MapManager.BACKGROUND_Z);
         
     }
     private void FixedUpdate()
     {
         GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + transform.TransformDirection(new Vector3(directionRotate, 0, 0)) * hSpeed * Time.deltaTime);
+
     }
     void Update () {
         if (direction)
@@ -67,7 +66,8 @@ public class CharacterControl : MonoBehaviour {
 
         if(Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed * 2)
         {
-            HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
+            PlayManager.m_Instance.HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
+            InGameUI.m_Instance.SetValue("sldHPbar", PlayManager.m_Instance.HP);
         }
     }
 
@@ -79,8 +79,8 @@ public class CharacterControl : MonoBehaviour {
             {
                 print(GetComponent<Rigidbody>().velocity);
                 StartCoroutine(ObstacleHit());
-                HP += characterData.vSpeed * 0.5f - Mathf.Abs(GetComponent<Rigidbody>().velocity.y);
-                PlayManager.m_Instance.ingameUI.SetValue("sldHPbar", HP);
+                PlayManager.m_Instance.HP += characterData.vSpeed * 0.5f - Mathf.Abs(GetComponent<Rigidbody>().velocity.y);
+                InGameUI.m_Instance.SetValue("sldHPbar", PlayManager.m_Instance.HP);
                 FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_CRASH, collision.gameObject);
             }
         }

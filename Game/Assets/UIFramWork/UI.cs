@@ -33,6 +33,10 @@ public class UI : MonoBehaviour {
     public virtual void SetValue(string obj, float _value)
     {
     }
+    public virtual void SetActive(Object obj, bool state)
+    {
+
+    }
 
     public void SetButtonLisner(Button btn,System.Action<GameObject> callback)
     {

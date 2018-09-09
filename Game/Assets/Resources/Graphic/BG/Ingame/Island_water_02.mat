@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Island_water_02
   m_Shader: {fileID: 4800000, guid: 8165be4dd0b12774d80426d906df9c38, type: 3}
-  m_ShaderKeywords: _CULL_ON _CUSTOM_SHAPE _DISTORT_ON _EMISSION _LIGHTABS_ON _SHADING_FLAT
-    _WAVES_LOWQUALITY _ZWRITE_ON
+  m_ShaderKeywords: _CULL_ON _CUSTOM_SHAPE _DISTORT_ON _EMISSION _SHADING_FLAT _WAVES_LOWQUALITY
+    _ZWRITE_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -61,7 +61,7 @@ Material:
     - _Height: 1.71
     - _Height_: 0
     - _Length: 4.94
-    - _LightAbs: 1
+    - _LightAbs: 0
     - _NormalOffset: 1
     - _Opacity: 0.06
     - _PointLights: 0
@@ -95,4 +95,4 @@ Material:
     - _ShoreColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2785467, g: 0.6764706, b: 0.53164387, a: 1}
     - _Sun: {r: 0.3213938, g: 0.76604444, b: -0.5566705, a: 0}
-    - _SunColor: {r: 0.55812067, g: 0.59193486, b: 0.8161765, a: 1}
+    - _SunColor: {r: 0.7058823, g: 0.74442184, b: 1, a: 1}

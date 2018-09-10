@@ -21,7 +21,7 @@ public class PlayManager : MonoBehaviour {
     }
     void Start()
     {
-        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
+        HP = 1; // DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
         paused = false;
         InGameUI.m_Instance.sldHP.value = HP;
         cameraParent = Camera.main.transform.parent;
@@ -58,8 +58,8 @@ public class PlayManager : MonoBehaviour {
     public void HPzero()
     {
         paused = true;
-        mainPlayer.GetComponent<Rigidbody>().useGravity = false;
-        mainPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Time.timeScale = 0;
         InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, true);
+        mainPlayer.GetComponentInChildren<DetectArea>().calcWater();
     }
 }

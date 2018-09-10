@@ -9,6 +9,7 @@ public class InGameUI : UI
     public Button GameClose;
     public Button btnExit;
     public Button btnAdvert;
+    public Text txtCalc;
     public Slider sldHP;
     public GameObject panelGameOver;
     [SerializeField] private Text txtblue;
@@ -45,32 +46,45 @@ public class InGameUI : UI
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
                 break;
             case "btnAdvert": // 광고 실행
-                UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
+                StartCoroutine(UnityAdsHelper.Instance.ShowRewardedAd());
                 break;
 
         }
+        if (Time.timeScale != 1)
+            Time.timeScale = 1;
     }
     public override void SetText(Object obj, string _str)
     {
         base.SetText(obj, _str);
-
-        switch (obj.name[12] - 49)
+        GameObject gobj = obj as GameObject;
+        if(gobj.transform.parent.name == "Water")
         {
-            case (int)MapManager.Item.Blue:
-                txtblue.text = "Blue " + _str;
-                break;
-            case (int)MapManager.Item.Red:
-                txtred.text = "Red " + _str;
-                break;
-            case (int)MapManager.Item.Green:
-                txtgreen.text = "Green " + _str;
-                break;
-            case (int)MapManager.Item.White:
-                txtwhite.text = "White " + _str;
-                break;
-            case (int)MapManager.Item.Black:
-                txtblack.text = "Black " + _str;
-                break;
+            switch (obj.name[12] - 49)
+            {
+                case (int)MapManager.Item.Blue:
+                    txtblue.text = "Blue " + _str;
+                    break;
+                case (int)MapManager.Item.Red:
+                    txtred.text = "Red " + _str;
+                    break;
+                case (int)MapManager.Item.Green:
+                    txtgreen.text = "Green " + _str;
+                    break;
+                case (int)MapManager.Item.White:
+                    txtwhite.text = "White " + _str;
+                    break;
+                case (int)MapManager.Item.Black:
+                    txtblack.text = "Black " + _str;
+                    break;
+            }
+        } else
+        {
+            switch(gobj.name)
+            {
+                case "txtCalc":
+                    txtCalc.text = _str;
+                    break;
+            }
         }
     }
     public override void SetValue(string obj, float _value)

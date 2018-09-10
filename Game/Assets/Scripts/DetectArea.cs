@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class DetectArea : MonoBehaviour {
     [SerializeField] CharacterControl pCharCntl;
-    int iblue, ired, igreen, iwhite, iblack;
+    public int iblue, ired, igreen, iwhite, iblack;
 
-    // Use this for initialization
     void Start () {
         pCharCntl = GetComponentInParent<CharacterControl>();
         iblue = ired = igreen = iwhite = iblack = 0;
@@ -55,5 +54,26 @@ public class DetectArea : MonoBehaviour {
         GameObject water = obj as GameObject;
         water.SetActive(false);
         gameObject.GetComponent<CapsuleCollider>().radius += 0.05f;
+    }
+    public void calcWater()
+    {
+        InGameUI.m_Instance.SetText(InGameUI.m_Instance.txtCalc.gameObject, "Blue : " + iblue + "\nRed : " + ired + "\nGreen : " + igreen + "\nWhite : " + iwhite + "\nBlack : " + iblack);
+
+        int tmpblue = EncryptValue.GetInt("waterblue");
+        EncryptValue.SetInt("waterblue", tmpblue + iblue);
+        print(EncryptValue.GetInt("waterblue"));
+        int tmpred = EncryptValue.GetInt("waterred");
+        EncryptValue.SetInt("waterred", tmpred + ired);
+
+        int tmpgreen = EncryptValue.GetInt("watergreen");
+        EncryptValue.SetInt("watergreen", tmpgreen + igreen);
+
+        int tmpwhite = EncryptValue.GetInt("waterwhite");
+        EncryptValue.SetInt("waterwhite", tmpwhite + iwhite);
+
+        int tmpblack = EncryptValue.GetInt("waterblack");
+        EncryptValue.SetInt("waterblack", tmpblack + iblack);
+
+        PlayerPrefs.Save();
     }
 }

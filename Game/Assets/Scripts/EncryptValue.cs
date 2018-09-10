@@ -68,6 +68,50 @@ public class EncryptValue : MonoBehaviour {
 
         return GetString(_key, secret);
     }
+    public static float GetFloat(string _key)
+    {
+        MD5 md5Hash = new MD5CryptoServiceProvider();
+        byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
+
+        float _value;
+        if (float.TryParse(GetString(_key, secret), out _value))
+        {
+            return _value;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public static int GetInt(string _key)
+    {
+        MD5 md5Hash = new MD5CryptoServiceProvider();
+        byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
+
+        int _value;
+        if (int.TryParse(GetString(_key, secret), out _value))
+        {
+            return _value;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    public static void SetInt(string _key, int _value)
+    {
+        MD5 md5Hash = new MD5CryptoServiceProvider();
+        byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
+
+        SetString(_key, _value.ToString(), secret);
+    }
+    public static void SetFloat(string _key, float _value)
+    {
+        MD5 md5Hash = new MD5CryptoServiceProvider();
+        byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
+
+        SetString(_key, _value.ToString(), secret);
+    }
     public static void SetString(string _key, string _value)
     {
         MD5 md5Hash = new MD5CryptoServiceProvider();

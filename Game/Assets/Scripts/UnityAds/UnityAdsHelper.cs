@@ -30,7 +30,6 @@ public class UnityAdsHelper : MonoBehaviour
 
     public IEnumerator ShowRewardedAd() //비디오 광고 송출 요청
     {
-
         while (!Advertisement.IsReady())
         {
             yield return new WaitForSeconds(0.5f);
@@ -42,7 +41,6 @@ public class UnityAdsHelper : MonoBehaviour
 
             Advertisement.Show(rewarded_video_id, options);
         }
-
     }
 
     //요청 결과에 따라 Finished, Skipped, Failed

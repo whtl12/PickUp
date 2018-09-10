@@ -101,7 +101,22 @@ public class DataInfoManager : MonoBehaviour
 
     public void SetUserState(UserState state)
     {
-        m_UserState = state;
+        switch(state)
+        {
+            case UserState.Basic:
+                if (m_UserState == UserState.UIOpen)
+                    Invoke("CollTimeChangeState",0.5f);
+                break;
+            default:
+                m_UserState = state;
+                break;
+        }
+       
+    }
+
+    void CollTimeChangeState()
+    {
+        m_UserState = UserState.Basic;
     }
 
 

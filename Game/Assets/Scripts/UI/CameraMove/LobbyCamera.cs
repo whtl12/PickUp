@@ -115,6 +115,10 @@ public class LobbyCamera : MonoBehaviour {
                 SoundManager.m_Instance.PlaySound(SoundManager.SoundList.START_ENTER_PLAY);
                 FXManager.m_Instance.PlayFX(FXManager.FXList.START_ENTER_PLAY, IslandEntry[index]);
                 break;
+
+            case (int)Island.Option:
+                UIManager.m_Instance.OpenPopup(UIManager.PopupUI.OptionPopup);
+                break;
         }
     }
     private void CloseUpIsland()

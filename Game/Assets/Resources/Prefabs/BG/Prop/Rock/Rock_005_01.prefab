@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 33177866431723974}
   - component: {fileID: 23744544960327820}
   - component: {fileID: 95476488072979732}
+  - component: {fileID: 114070486605780444}
   m_Layer: 0
   m_Name: Rock_005_01
   m_TagString: Untagged
@@ -214,6 +215,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114070486605780444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1915712503262202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5681be392eccc1847a7fabe502395fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136248143461814154
 CapsuleCollider:
   m_ObjectHideFlags: 1

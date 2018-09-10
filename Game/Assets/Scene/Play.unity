@@ -1040,7 +1040,53 @@ Prefab:
     - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
         type: 2}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821957090086532, guid: f96766835bc29864394d8da42eb914d1, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1263906963130624, guid: f96766835bc29864394d8da42eb914d1, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164339183869116, guid: f96766835bc29864394d8da42eb914d1, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700649782694416, guid: f96766835bc29864394d8da42eb914d1, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136163705775920198, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1594429629219638, guid: f96766835bc29864394d8da42eb914d1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: ba92fb44336020f40bdf294bb66bc9da,
+        type: 2}
+    - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Height
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.66
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f96766835bc29864394d8da42eb914d1, type: 2}

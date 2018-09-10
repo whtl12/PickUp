@@ -12,7 +12,6 @@ public class PlayManager : MonoBehaviour {
     public float HP;
     public bool paused;
 
-    // Use this for initialization
     private void Awake()
     {
         if (m_Instance == null)
@@ -22,14 +21,14 @@ public class PlayManager : MonoBehaviour {
     }
     void Start()
     {
-        HP = 1;// DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
+        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
         paused = false;
         InGameUI.m_Instance.sldHP.value = HP;
         cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
         mainPlayer = GameObject.Find("PlayerParent");
     }
-    // Update is called once per frame
+
     void Update()
     {
         //if (mainPlayer == null)

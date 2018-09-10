@@ -5919,6 +5919,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -163.251, y: 122.399994, z: -175.332}
+--- !u!1 &721454732 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1496096940306392, guid: c8193a5a82f9fc74582758904f3420ab,
+    type: 2}
+  m_PrefabInternal: {fileID: 2038372245}
+--- !u!65 &721454733
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 721454732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3, z: 1}
+  m_Center: {x: 0, y: 0.19, z: 0}
 --- !u!1 &722199229
 GameObject:
   m_ObjectHideFlags: 0
@@ -7705,6 +7722,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1461489845}
+--- !u!1 &1468005515 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1032335296497806, guid: ee31a383f3912974aa69c35bc8f9a848,
+    type: 2}
+  m_PrefabInternal: {fileID: 339998705}
+--- !u!65 &1468005516
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1468005515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3, z: 1}
+  m_Center: {x: 0, y: 0.19, z: 0}
 --- !u!1 &1479761682
 GameObject:
   m_ObjectHideFlags: 0
@@ -8164,6 +8198,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1623119865}
+  - component: {fileID: 1623119866}
   m_Layer: 0
   m_Name: IslandParent
   m_TagString: Untagged
@@ -8189,6 +8224,17 @@ Transform:
   m_Father: {fileID: 227826052}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1623119866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1623119864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5681be392eccc1847a7fabe502395fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1629680047
 GameObject:
   m_ObjectHideFlags: 0

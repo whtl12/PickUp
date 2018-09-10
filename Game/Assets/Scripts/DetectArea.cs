@@ -6,10 +6,8 @@ public class DetectArea : MonoBehaviour {
     [SerializeField] CharacterControl pCharCntl;
     int iblue, ired, igreen, iwhite, iblack;
 
-    Transform pTransform;
     // Use this for initialization
     void Start () {
-        pTransform = transform.parent;
         pCharCntl = GetComponentInParent<CharacterControl>();
         iblue = ired = igreen = iwhite = iblack = 0;
     }

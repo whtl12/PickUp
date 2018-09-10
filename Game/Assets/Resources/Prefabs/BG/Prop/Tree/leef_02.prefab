@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 33049920857226420}
   - component: {fileID: 23366478981253930}
   - component: {fileID: 95947973997739320}
+  - component: {fileID: 114395589950725152}
   m_Layer: 0
   m_Name: leef_02
   m_TagString: Untagged
@@ -130,6 +131,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114395589950725152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576970605928784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5681be392eccc1847a7fabe502395fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136465288980723050
 CapsuleCollider:
   m_ObjectHideFlags: 1

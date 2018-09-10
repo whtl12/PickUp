@@ -22,7 +22,7 @@ public class LobbyCamera : MonoBehaviour {
     [SerializeField] private OutGameUI outgameUI;
     enum Island {
         Start = 0,
-        a,
+        Shop,
         b,
         Record,
         Option,
@@ -33,7 +33,7 @@ public class LobbyCamera : MonoBehaviour {
     void Start () {
         BasePos = this.transform.localPosition;
         IslandRotateY[(int)Island.Start] = 0; // Start
-        IslandRotateY[(int)Island.a] = 70;
+        IslandRotateY[(int)Island.Shop] = 70;
         IslandRotateY[(int)Island.b] = 132;
         IslandRotateY[(int)Island.Record] = 214;
         IslandRotateY[(int)Island.Option] = 284;
@@ -118,6 +118,10 @@ public class LobbyCamera : MonoBehaviour {
 
             case (int)Island.Option:
                 UIManager.m_Instance.OpenPopup(UIManager.PopupUI.OptionPopup);
+                break;
+
+            case (int)Island.Shop:
+                UIManager.m_Instance.OpenPopup(UIManager.PopupUI.ShopUI);
                 break;
         }
     }

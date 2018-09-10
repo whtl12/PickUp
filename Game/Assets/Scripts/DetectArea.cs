@@ -13,10 +13,6 @@ public class DetectArea : MonoBehaviour {
         pCharCntl = GetComponentInParent<CharacterControl>();
         iblue = ired = igreen = iwhite = iblack = 0;
     }
-
-    // Update is called once per frame
-    void Update () {
-	}
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.parent.name == "Water")

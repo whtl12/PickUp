@@ -833,6 +833,7 @@ MonoBehaviour:
   mainPlayer: {fileID: 0}
   cameraBasicPosition: {x: 0, y: 4, z: -20}
   HP: 0
+  paused: 0
 --- !u!114 &533145891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,6 +1017,31 @@ Prefab:
       propertyPath: ingameUI
       value: 
       objectReference: {fileID: 1628053541}
+    - target: {fileID: 136001645665365498, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136001645665365498, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Center.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 136001645665365498, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 136001645665365498, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f96766835bc29864394d8da42eb914d1, type: 2}
   m_IsPrefabParent: 0
@@ -1036,7 +1062,7 @@ GameObject:
   - component: {fileID: 707542163}
   - component: {fileID: 707542162}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: btnExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1054,7 +1080,7 @@ RectTransform:
   m_Children:
   - {fileID: 3201091}
   m_Father: {fileID: 916275177}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1314,7 +1340,7 @@ GameObject:
   - component: {fileID: 812192626}
   - component: {fileID: 812192625}
   m_Layer: 5
-  m_Name: Button
+  m_Name: btnAdvert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1332,7 +1358,7 @@ RectTransform:
   m_Children:
   - {fileID: 970184314}
   m_Father: {fileID: 916275177}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1471,9 +1497,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1052419015}
+  - {fileID: 1106839886}
   - {fileID: 812192624}
   - {fileID: 707542161}
-  - {fileID: 1106839886}
   m_Father: {fileID: 1628053540}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1816,7 +1842,7 @@ GameObject:
   - component: {fileID: 1106839888}
   - component: {fileID: 1106839887}
   m_Layer: 5
-  m_Name: Text
+  m_Name: txtEndDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,12 +1859,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 916275177}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -160}
-  m_SizeDelta: {x: 0, y: -320}
+  m_AnchoredPosition: {x: 0, y: -125}
+  m_SizeDelta: {x: 0, y: -370}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1106839887
 MonoBehaviour:
@@ -1866,7 +1892,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2334,13 +2360,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameClose: {fileID: 37244805}
+  btnExit: {fileID: 707542162}
+  btnAdvert: {fileID: 812192625}
+  sldHP: {fileID: 378168994}
   panelGameOver: {fileID: 916275176}
   txtblue: {fileID: 976305243}
   txtred: {fileID: 1765664011}
   txtgreen: {fileID: 75832658}
   txtwhite: {fileID: 751825255}
   txtblack: {fileID: 1417739246}
-  sldHP: {fileID: 378168994}
 --- !u!114 &1628053542
 MonoBehaviour:
   m_ObjectHideFlags: 0

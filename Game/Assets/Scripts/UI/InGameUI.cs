@@ -7,14 +7,16 @@ public class InGameUI : UI
 {
     public static InGameUI m_Instance;
     public Button GameClose;
+    public Button btnExit;
+    public Button btnAdvert;
+    public Slider sldHP;
     public GameObject panelGameOver;
     [SerializeField] private Text txtblue;
     [SerializeField] private Text txtred;
     [SerializeField] private Text txtgreen;
     [SerializeField] private Text txtwhite;
     [SerializeField] private Text txtblack;
-    [SerializeField] private Slider sldHP;
-
+    
     private void Awake()
     {
         if (m_Instance == null)
@@ -24,6 +26,9 @@ public class InGameUI : UI
     }
     void Start () {
         SetButtonLisner(GameClose, ButtonEvent);
+        SetButtonLisner(btnExit, ButtonEvent);
+        SetButtonLisner(btnAdvert, ButtonEvent);
+        
         panelGameOver.SetActive(false);
     }
 
@@ -34,6 +39,12 @@ public class InGameUI : UI
         switch (obj.name)
         {
             case "GameClose":
+                UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
+                break;
+            case "btnExit":
+                UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
+                break;
+            case "btnAdvert": // 광고 실행
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
                 break;
 

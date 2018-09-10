@@ -10,6 +10,7 @@ public class PlayManager : MonoBehaviour {
     public Vector3 cameraBasicPosition;
     private Transform cameraParent;
     public float HP;
+    public bool paused;
 
     // Use this for initialization
     private void Awake()
@@ -21,25 +22,28 @@ public class PlayManager : MonoBehaviour {
     }
     void Start()
     {
-        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
+        HP = 1;// DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
+        paused = false;
+        InGameUI.m_Instance.sldHP.value = HP;
         cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
+        mainPlayer = GameObject.Find("PlayerParent");
     }
     // Update is called once per frame
     void Update()
     {
-        if (mainPlayer == null)
-        {
-            if (GameObject.Find("Player") == null)
-            {
-                if (GameObject.Find("Player(Clone)") != null)
-                    GameObject.Find("Player(Clone)").name = "Player";
-                else
-                    UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
-            }
-            mainPlayer = GameObject.Find("Player");
-        }
-        else
+        //if (mainPlayer == null)
+        //{
+        //    if (GameObject.Find("Player") == null)
+        //    {
+        //        if (GameObject.Find("Player(Clone)") != null)
+        //            GameObject.Find("Player(Clone)").name = "Player";
+        //        else
+        //            UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
+        //    }
+        //    mainPlayer = GameObject.Find("Player");
+        //}
+        //else
         {
             cameraParent.position = new Vector3(0, mainPlayer.transform.position.y, 10);
             Quaternion rotation = Quaternion.LookRotation(cameraParent.position - mainPlayer.transform.position);
@@ -49,13 +53,14 @@ public class PlayManager : MonoBehaviour {
         if (MapManager.m_Instance.GetMidPosition().y > mainPlayer.transform.position.y)
             MapManager.m_Instance.AllRun();
 
-        if (HP <= 0)
+        if (HP <= 0 && !paused)
             HPzero();
     }
     public void HPzero()
     {
-        Time.fixedDeltaTime = 0;
+        paused = true;
         mainPlayer.GetComponent<Rigidbody>().useGravity = false;
+        mainPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
         InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, true);
     }
 }

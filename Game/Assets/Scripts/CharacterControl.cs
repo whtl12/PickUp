@@ -35,39 +35,46 @@ public class CharacterControl : MonoBehaviour {
 
     }
     void Update () {
-        if (direction)
+        if (!PlayManager.m_Instance.paused)
         {
-            if (directionRotate > -1)
-                directionRotate -= 0.0125f * hSpeed;
-        }
-        else
-        {
-            if (directionRotate < 1)
-                directionRotate += 0.0125f * hSpeed;
-        }
+# region 캐릭터 Roll축 회전
+            if (direction)
+            {
+                if (directionRotate > -1)
+                    directionRotate -= 0.0125f * hSpeed;
+            }
+            else
+            {
+                if (directionRotate < 1)
+                    directionRotate += 0.0125f * hSpeed;
+            }
 
-        Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
-        transform.rotation = rotation * Quaternion.Euler(0, -directionRotate * 30,0);
-        
+            Quaternion rotation = Quaternion.LookRotation(Camera.main.transform.parent.position - transform.position);
+            transform.rotation = rotation * Quaternion.Euler(0, -directionRotate * 30, 0);
 
-        if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > vSpeed)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
+            if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > vSpeed)
+                GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * vSpeed;
+#endregion
 
-        if (Input.GetMouseButtonDown(0))
-            direction = !direction;
+            // 캐릭터 방향
+            if (Input.GetMouseButtonDown(0))
+                direction = !direction;
 
-        GetComponentInChildren<Animator>().speed = Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.125f;
-        if (closeupSize > Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
-            closeupSize -= 0.2f;
-        if (closeupSize <= Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
-            closeupSize += 0.02f;
+            // 카메라 거리
+            GetComponentInChildren<Animator>().speed = Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.125f;
+            if (closeupSize > Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
+                closeupSize -= 0.2f;
+            if (closeupSize <= Mathf.Abs(GetComponent<Rigidbody>().velocity.y) * 0.25f)
+                closeupSize += 0.02f;
 
-        Camera.main.transform.localPosition = PlayManager.m_Instance.cameraBasicPosition + new Vector3(0, closeupSize * 0.2f, - closeupSize);
+            Camera.main.transform.localPosition = PlayManager.m_Instance.cameraBasicPosition + new Vector3(0, closeupSize * 0.2f, -closeupSize);
 
-        if(Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed * 2)
-        {
-            PlayManager.m_Instance.HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
-            InGameUI.m_Instance.SetValue("sldHPbar", PlayManager.m_Instance.HP);
+            // 속도에 따른 체력 소모
+            if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed * 2)
+            {
+                PlayManager.m_Instance.HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
+                InGameUI.m_Instance.SetValue("sldHPbar", PlayManager.m_Instance.HP);
+            }
         }
     }
 

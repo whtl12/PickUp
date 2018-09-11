@@ -59,13 +59,15 @@ public class DetectArea : MonoBehaviour {
         water.SetActive(false);
         gameObject.GetComponent<CapsuleCollider>().radius += 0.05f;
     }
-    public void calcWater()
+    public void calcScore()
     {
         InGameUI.m_Instance.SetText(InGameUI.m_Instance.txtCalc.gameObject, "Blue : " + iblue + "\nRed : " + ired + "\nGreen : " + igreen + "\nWhite : " + iwhite + "\nBlack : " + iblack);
-
+    }
+    public void saveScore()
+    {
         int tmpblue = EncryptValue.GetInt("waterblue");
         EncryptValue.SetInt("waterblue", tmpblue + iblue);
-        print(EncryptValue.GetInt("waterblue"));
+
         int tmpred = EncryptValue.GetInt("waterred");
         EncryptValue.SetInt("waterred", tmpred + ired);
 

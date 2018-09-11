@@ -75,10 +75,10 @@ public class EncryptValue : MonoBehaviour {
         catch
         {
             SetString(_key, string.Empty);
-            return "";
+            return "0";
         }
     }
-    public static float GetFloat(string _key)
+    public static float GetFloat(string _key, float _default = 0f)
     {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
@@ -90,11 +90,12 @@ public class EncryptValue : MonoBehaviour {
         }
         else
         {
-            SetFloat(_key, 0f);
-            return 0;
+            SetFloat(_key, _default);
+            return _default;
         }
     }
-    public static int GetInt(string _key)
+
+    public static int GetInt(string _key, int _default)
     {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
@@ -106,8 +107,8 @@ public class EncryptValue : MonoBehaviour {
         }
         else
         {
-            SetInt(_key, 0);
-            return 0;
+            SetInt(_key, _default);
+            return _default;
         }
     }
     public static void SetInt(string _key, int _value)

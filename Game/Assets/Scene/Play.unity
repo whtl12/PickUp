@@ -1076,7 +1076,8 @@ Prefab:
         type: 2}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1,
+        type: 2}
     - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
         type: 2}
       propertyPath: m_Height

@@ -43,6 +43,7 @@ public class InGameUI : UI
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
                 break;
             case "btnExit":
+                PlayManager.m_Instance.mainPlayer.GetComponentInChildren<DetectArea>().saveScore();
                 UIManager.m_Instance.ChangeStage(UIManager.StageUI.OutGameUI);
                 break;
             case "btnAdvert": // 광고 실행

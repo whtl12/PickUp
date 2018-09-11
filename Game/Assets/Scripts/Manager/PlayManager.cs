@@ -61,6 +61,12 @@ public class PlayManager : MonoBehaviour {
         paused = true;
         Time.timeScale = 0;
         InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, true);
-        mainPlayer.GetComponentInChildren<DetectArea>().calcWater();
+        mainPlayer.GetComponentInChildren<DetectArea>().calcScore();
+    }
+    public void HalfRecovery()
+    {
+        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP * 0.5f;
+        InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, false);
+        Time.timeScale = 1;
     }
 }

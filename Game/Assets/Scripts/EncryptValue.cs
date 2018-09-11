@@ -95,7 +95,7 @@ public class EncryptValue : MonoBehaviour {
         }
     }
 
-    public static int GetInt(string _key, int _default)
+    public static int GetInt(string _key, int _default = 0)
     {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));

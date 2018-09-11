@@ -16,14 +16,28 @@ public class LobbyGyro : MonoBehaviour {
         base_rotation = transform.localRotation.eulerAngles;
         gyroscope_rotation = Vector3.zero;
     }
-#if UNITY_ANDROID
-//#if UNITY_EDITOR
     void Update () {
-        if(transform.localRotation.x < 33f && transform.localRotation.x > -11f)
-            gyroscope_rotation.x += Input.gyro.rotationRateUnbiased.x * 0.1f;
-        if (Mathf.Abs(transform.localRotation.y) < 30f)
-            gyroscope_rotation.y += Input.gyro.rotationRateUnbiased.y * 0.1f;
-        
+        if(Mathf.Abs(gyroscope_rotation.x) <= 20f)
+            gyroscope_rotation.x += Input.gyro.rotationRateUnbiased.x * 0.2f;
+        else
+        {
+            if (gyroscope_rotation.x > 20f)
+                gyroscope_rotation.x = 20f;
+            else if (gyroscope_rotation.x < -20f)
+                gyroscope_rotation.x = -20f;
+        }
+
+        if (Mathf.Abs(gyroscope_rotation.y) <= 30f)
+            gyroscope_rotation.y += Input.gyro.rotationRateUnbiased.y * 0.2f;
+        else
+        {
+            if (gyroscope_rotation.y > 30f)
+                gyroscope_rotation.y = 30f;
+            else if (gyroscope_rotation.y < -30f)
+                gyroscope_rotation.y = -30f;
+
+        }
+
         transform.localRotation = Quaternion.Euler(base_rotation + gyroscope_rotation);
 
         if (Mathf.Abs(Input.gyro.rotationRateUnbiased.x) > 0.2 || Mathf.Abs(Input.gyro.rotationRateUnbiased.y) > 0.2)
@@ -31,17 +45,17 @@ public class LobbyGyro : MonoBehaviour {
             StopCoroutine("rollbackRotation");
             StartCoroutine("rollbackRotation");
         }
+
         if(delay > 1)
         {
             if(transform.localRotation.eulerAngles != base_rotation)
             {
-                Vector3 rotation = (base_rotation - transform.localRotation.eulerAngles).normalized * Time.deltaTime;
-                gyroscope_rotation.x -= rotation.x;
-                gyroscope_rotation.y -= rotation.y;
+                Vector3 rotation = (base_rotation - transform.localRotation.eulerAngles).normalized * Time.deltaTime * 3;
+                gyroscope_rotation.x += rotation.x;
+                gyroscope_rotation.y += rotation.y;
             }
         }
     }
-#endif
     IEnumerator rollbackRotation()
     {
         print("Start rollbackRotation coroutine");

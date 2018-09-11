@@ -1076,8 +1076,7 @@ Prefab:
         type: 2}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: ba92fb44336020f40bdf294bb66bc9da,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
         type: 2}
       propertyPath: m_Height
@@ -1086,7 +1085,7 @@ Prefab:
     - target: {fileID: 136594824987457436, guid: f96766835bc29864394d8da42eb914d1,
         type: 2}
       propertyPath: m_Radius
-      value: 0.66
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f96766835bc29864394d8da42eb914d1, type: 2}

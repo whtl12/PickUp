@@ -33,8 +33,10 @@ public class EncryptValue : MonoBehaviour {
 
         // Set the ( key, encrypted value ) pair in regular PlayerPrefs.  
         PlayerPrefs.SetString(hashKey, encryptedString);
-        PlayerPrefs.Save();
+
         Debug.Log("SetString hashKey: " + hashKey + " Encrypted Data: " + encryptedString);
+
+        PlayerPrefs.Save();
     }
 
     private static string GetString(string _key, byte[] _secret)
@@ -66,7 +68,15 @@ public class EncryptValue : MonoBehaviour {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
 
-        return GetString(_key, secret);
+        try
+        {
+            return GetString(_key, secret);
+        }
+        catch
+        {
+            SetString(_key, string.Empty);
+            return "";
+        }
     }
     public static float GetFloat(string _key)
     {
@@ -80,6 +90,7 @@ public class EncryptValue : MonoBehaviour {
         }
         else
         {
+            SetFloat(_key, 0f);
             return 0;
         }
     }
@@ -95,6 +106,7 @@ public class EncryptValue : MonoBehaviour {
         }
         else
         {
+            SetInt(_key, 0);
             return 0;
         }
     }

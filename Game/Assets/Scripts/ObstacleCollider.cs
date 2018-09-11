@@ -35,7 +35,7 @@ public class ObstacleCollider : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
 
         target.GetComponent<CapsuleCollider>().enabled = true;
-
+        target.GetComponent<Rigidbody>().AddForce(Vector3.down, ForceMode.Impulse);
         yield return null;
     }
 }

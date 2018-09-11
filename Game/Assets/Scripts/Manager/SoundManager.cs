@@ -14,6 +14,9 @@ public class SoundManager : MonoBehaviour {
     public AudioClip play_eat_bubble;
     public AudioClip play_die;
     private AudioSource currentBGM;
+    private float SetBGMVolme = 1;
+    private float SetEffectVolme = 1;
+    private bool OffSound = false;
 
     public enum SoundList
     {
@@ -121,14 +124,49 @@ public class SoundManager : MonoBehaviour {
     }
     public void PlaySound(SoundList clip, SoundType type, float volume)
     {
-        PlaySound(clip, type, volume, 0f);
+        if (OffSound == false)
+            PlaySound(clip, type, volume, 0f);
     }
     public void PlaySound(SoundList clip, SoundType type)
     {
-        PlaySound(clip, type, 1f, 0f);
+        if(OffSound == false)
+            PlaySound(clip, type, SetBGMVolme, 0f);
     }
     public void PlaySound(SoundList clip)
     {
-        PlaySound(clip, SoundType.FX, 1f, 0f);
+        if (OffSound == false)
+            PlaySound(clip, SoundType.FX, SetEffectVolme, 0f);
+    }
+
+    public void SetSoundVolme(float val, bool IsBGM)
+    {
+        if (IsBGM)
+            SetBGMVolme = val;
+        else
+            SetEffectVolme = val;
+
+
+        currentBGM.volume = SetBGMVolme;
+    }
+
+    public float GetBGMVolme()
+    {
+        return SetBGMVolme;
+    }
+
+
+    public float GetEffectVolme()
+    {
+        return SetEffectVolme;
+    }
+
+    public void SoundOnOff(bool IsOff)
+    {
+        if (IsOff)
+            currentBGM.Stop();
+        else
+            currentBGM.Play();
+
+        OffSound = IsOff;
     }
 }

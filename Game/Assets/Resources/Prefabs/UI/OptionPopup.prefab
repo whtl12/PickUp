@@ -663,7 +663,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224998817069204106}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 0.5
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1025,7 +1025,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Btn_close: {fileID: 114332632609068776}
   bgmSlider: {fileID: 114654803748258316}
-  soundManager: {fileID: 0}
+  EffectSlider: {fileID: 114196907558815176}
 --- !u!114 &114509780505036344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224864187213855854}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 0.5
+  m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1253,7 +1253,18 @@ MonoBehaviour:
   m_Group: {fileID: 114759815009908582}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114504844805690904}
+        m_MethodName: SoundOnOff
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 114787895981773662}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Toggle, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1

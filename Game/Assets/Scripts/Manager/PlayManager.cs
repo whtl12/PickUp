@@ -28,6 +28,7 @@ public class PlayManager : MonoBehaviour {
         cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
         mainPlayer = GameObject.Find("PlayerParent");
+        print(EncryptValue.GetFloat("unknown", -1f));
     }
 
     void Update()
@@ -66,7 +67,7 @@ public class PlayManager : MonoBehaviour {
     public void HalfRecovery()
     {
         HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP * 0.5f;
+        InGameUI.m_Instance.SetValue("sldHPbar", HP);
         InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, false);
-        Time.timeScale = 1;
     }
 }

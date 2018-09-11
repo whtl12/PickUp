@@ -18,7 +18,7 @@ public class LobbyGyro : MonoBehaviour {
     }
     void Update () {
         if(Mathf.Abs(gyroscope_rotation.x) <= 20f)
-            gyroscope_rotation.x += Input.gyro.rotationRateUnbiased.x * 0.2f;
+            gyroscope_rotation.x -= Input.gyro.rotationRateUnbiased.x * 0.2f;
         else
         {
             if (gyroscope_rotation.x > 20f)
@@ -28,7 +28,7 @@ public class LobbyGyro : MonoBehaviour {
         }
 
         if (Mathf.Abs(gyroscope_rotation.y) <= 30f)
-            gyroscope_rotation.y += Input.gyro.rotationRateUnbiased.y * 0.2f;
+            gyroscope_rotation.y -= Input.gyro.rotationRateUnbiased.y * 0.2f;
         else
         {
             if (gyroscope_rotation.y > 30f)
@@ -48,12 +48,22 @@ public class LobbyGyro : MonoBehaviour {
 
         if(delay > 1)
         {
-            if(transform.localRotation.eulerAngles != base_rotation)
-            {
-                Vector3 rotation = (base_rotation - transform.localRotation.eulerAngles).normalized * Time.deltaTime * 3;
-                gyroscope_rotation.x += rotation.x;
-                gyroscope_rotation.y += rotation.y;
-            }
+            if(gyroscope_rotation.x > 0)
+                gyroscope_rotation.x -= Time.deltaTime * 3;
+            else
+                gyroscope_rotation.x += Time.deltaTime * 3;
+
+            if (gyroscope_rotation.y > 0)
+                gyroscope_rotation.y -= Time.deltaTime * 3;
+            else
+                gyroscope_rotation.y += Time.deltaTime * 3;
+
+            //if (transform.localRotation.eulerAngles != base_rotation)
+            //{
+            //    Vector3 rotation = (base_rotation - transform.localRotation.eulerAngles).normalized * Time.deltaTime * 3;
+            //    gyroscope_rotation.x -= rotation.x;
+            //    gyroscope_rotation.y -= rotation.y;
+            //}
         }
     }
     IEnumerator rollbackRotation()

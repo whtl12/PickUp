@@ -55,8 +55,7 @@ public class UnityAdsHelper : MonoBehaviour
                     // to do ...
                     // 광고 시청이 완료되었을 때 처리
                     Debug.Log("광고 성공");
-                    //Test 코드
-                    SceneManager.LoadScene((int)UIManager.SceneLoadIndex.Start);
+                    PlayManager.m_Instance.HalfRecovery();
                     break;
                 }
             case ShowResult.Skipped:

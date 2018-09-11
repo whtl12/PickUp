@@ -35,6 +35,8 @@ public class FXManager : MonoBehaviour {
     };
     private void Awake()
     {
+        loopParticleList = new List<GameObject>();
+
         if (m_Instance == null)
             m_Instance = this;
         else if (m_Instance != this)
@@ -44,7 +46,7 @@ public class FXManager : MonoBehaviour {
     }
     private void Start()
     {
-        loopParticleList = new List<GameObject>();
+        
     }
 
     private GameObject effect(FXList fx)

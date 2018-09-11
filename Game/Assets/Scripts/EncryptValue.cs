@@ -83,12 +83,11 @@ public class EncryptValue : MonoBehaviour {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
 
-        float _value;
-        if (float.TryParse(GetString(_key, secret), out _value))
+        try
         {
-            return _value;
+            return float.Parse(GetString(_key, secret));
         }
-        else
+        catch
         {
             SetFloat(_key, _default);
             return _default;
@@ -100,12 +99,11 @@ public class EncryptValue : MonoBehaviour {
         MD5 md5Hash = new MD5CryptoServiceProvider();
         byte[] secret = md5Hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(encryptSecretCode()));
 
-        int _value;
-        if (int.TryParse(GetString(_key, secret), out _value))
+        try
         {
-            return _value;
+            return int.Parse(GetString(_key, secret));
         }
-        else
+        catch
         {
             SetInt(_key, _default);
             return _default;

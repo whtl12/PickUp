@@ -8,19 +8,29 @@ public class FXManager : MonoBehaviour {
     public GameObject start_click_ui_button;
     public GameObject start_enter_play;
     public GameObject play_crash;
-    public GameObject play_eat_bubble;
+    public GameObject play_eat_blue;
+    public GameObject play_eat_red;
+    public GameObject play_eat_green;
+    public GameObject play_eat_white;
+    public GameObject play_eat_black;
     public GameObject play_die;
+    public GameObject play_speed_over;
     public List<GameObject> loopParticleList;
 
 
     public enum FXList
     {
-        START_CLICK_ISLAND = 2,
+        START_CLICK_ISLAND = 0,
         START_CLICK_UI_BUTTON,
         START_ENTER_PLAY,
         PLAY_CRASH,
-        PLAY_EAT,
+        PLAY_EAT_BLUE,
+        PLAY_EAT_RED,
+        PLAY_EAT_GREEN,
+        PLAY_EAT_WHITE,
+        PLAY_EAT_BLACK,
         PLAY_DIE,
+        PLAY_SPEED_OVER,
         MAX
     };
     private void Awake()
@@ -49,10 +59,20 @@ public class FXManager : MonoBehaviour {
                 return start_enter_play;
             case FXList.PLAY_CRASH:
                 return play_crash;
-            case FXList.PLAY_EAT:
-                return play_eat_bubble;
+            case FXList.PLAY_EAT_BLUE:
+                return play_eat_blue;
+            case FXList.PLAY_EAT_RED:
+                return play_eat_red;
+            case FXList.PLAY_EAT_GREEN:
+                return play_eat_green;
+            case FXList.PLAY_EAT_WHITE:
+                return play_eat_white;
+            case FXList.PLAY_EAT_BLACK:
+                return play_eat_black;
             case FXList.PLAY_DIE:
                 return play_die;
+            case FXList.PLAY_SPEED_OVER:
+                return play_speed_over;
             default:
                 return null;
         }
@@ -67,21 +87,11 @@ public class FXManager : MonoBehaviour {
             yield return null;
         }
     }
-    //private IEnumerator PlayOnDelay(ParticleSystem particle, float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-    //    //particle.Play();
-    //}
+
     public void PlayFX(FXList fx, GameObject target, Vector3 offset, float delay, bool shake)
     {
         if (effect(fx) == null) return;
         if (target == null) return;
-
-        //ParticleSystem particle = effect(fx);
-        //particle.gameObject.transform.position = target.transform.position + offset;
-        //StartCoroutine(PlayOnDelay(particle, delay));
-        //if (effect(fx).isStopped)
-        //    StartCoroutine(destroyFX(delay, particle));
 
         GameObject particle = null;
         int index = loopParticleList.FindIndex(item => item.name.Contains(effect(fx).name));
@@ -151,5 +161,14 @@ public class FXManager : MonoBehaviour {
                 loopParticleList[index].SetActive(false);
             }
         }
+    }
+    public bool isPlayFX(FXList fx = FXList.MAX)
+    {
+        int index = loopParticleList.FindIndex(item => item.name.Contains(effect(fx).name));
+
+        if (index > -1)
+            return true;
+        else
+            return false;
     }
 }

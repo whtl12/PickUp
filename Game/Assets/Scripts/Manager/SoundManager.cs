@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class SoundManager : MonoBehaviour {
     public static SoundManager m_Instance;
     public AudioClip start_scean_bgm;
     public AudioClip play_scean_bgm;
+    public AudioClip intro_sound;
     public AudioClip start_click_island;
     public AudioClip start_click_ui_button;
     public AudioClip start_enter_play;
@@ -17,6 +19,7 @@ public class SoundManager : MonoBehaviour {
     {
         START_SCEAN_BGM = 0,
         PLAY_SCEAN_BGM,
+        INTRO_SOUND,
         START_CLICK_ISLAND,
         START_CLICK_UI_BUTTON,
         START_ENTER_PLAY,
@@ -40,9 +43,14 @@ public class SoundManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
-        PlaySound(SoundList.START_SCEAN_BGM, SoundType.BGM);
     }
- 
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Start)
+        {
+            PlaySound(SoundList.START_SCEAN_BGM, SoundType.BGM);
+        }
+    }
     private AudioSource InitAudio(SoundType type)
     {
         GameObject audio = new GameObject(type.ToString() + "_audio");
@@ -64,6 +72,9 @@ public class SoundManager : MonoBehaviour {
                 break;
             case SoundList.PLAY_SCEAN_BGM:
                 _clip = play_scean_bgm;
+                break;
+            case SoundList.INTRO_SOUND:
+                _clip = intro_sound;
                 break;
             case SoundList.START_CLICK_ISLAND:
                 _clip = start_click_island;

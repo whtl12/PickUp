@@ -21,9 +21,10 @@ public class PlayManager : MonoBehaviour {
     }
     void Start()
     {
-        HP = 1; // DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
+        HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP;
         paused = false;
         InGameUI.m_Instance.sldHP.value = HP;
+        InGameUI.m_Instance.sldHP.maxValue = HP;
         cameraParent = Camera.main.transform.parent;
         cameraBasicPosition = new Vector3(0, 4f, -20f);
         mainPlayer = GameObject.Find("PlayerParent");

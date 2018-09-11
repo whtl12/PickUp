@@ -18,22 +18,27 @@ public class DetectArea : MonoBehaviour {
             {
                 case (int)MapManager.Item.Blue:
                     iblue++;
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT_BLUE, transform.parent.gameObject);
                     InGameUI.m_Instance.SetText(other.gameObject, iblue.ToString());
                     break;
                 case (int)MapManager.Item.Red:
                     ired++;
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT_RED, transform.parent.gameObject);
                     InGameUI.m_Instance.SetText(other.gameObject, ired.ToString());
                     break;
                 case (int)MapManager.Item.Green:
                     igreen++;
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT_GREEN, transform.parent.gameObject);
                     InGameUI.m_Instance.SetText(other.gameObject, igreen.ToString());
                     break;
                 case (int)MapManager.Item.White:
                     iwhite++;
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT_WHITE, transform.parent.gameObject);
                     InGameUI.m_Instance.SetText(other.gameObject, iwhite.ToString());
                     break;
                 case (int)MapManager.Item.Black:
                     iblack++;
+                    FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT_BLACK, transform.parent.gameObject);
                     InGameUI.m_Instance.SetText(other.gameObject, iblack.ToString());
                     break;
             }
@@ -45,7 +50,6 @@ public class DetectArea : MonoBehaviour {
             }
 
             pCharCntl.EatBubble();
-            FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_EAT, transform.parent.gameObject);
             SoundManager.m_Instance.PlaySound(SoundManager.SoundList.PLAY_EAT);
         }
     }
@@ -73,7 +77,5 @@ public class DetectArea : MonoBehaviour {
 
         int tmpblack = EncryptValue.GetInt("waterblack");
         EncryptValue.SetInt("waterblack", tmpblack + iblack);
-
-        PlayerPrefs.Save();
     }
 }

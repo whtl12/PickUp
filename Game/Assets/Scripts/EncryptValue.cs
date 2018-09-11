@@ -33,7 +33,7 @@ public class EncryptValue : MonoBehaviour {
 
         // Set the ( key, encrypted value ) pair in regular PlayerPrefs.  
         PlayerPrefs.SetString(hashKey, encryptedString);
-
+        PlayerPrefs.Save();
         Debug.Log("SetString hashKey: " + hashKey + " Encrypted Data: " + encryptedString);
     }
 

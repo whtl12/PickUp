@@ -16,6 +16,7 @@ public class LobbyCamera : MonoBehaviour {
     private GameObject[] IslandEntry = new GameObject[5];
     private int IslandIndex = 0;
     private Vector3 tmpMousePosition;
+    private GameObject tmpTarget;
     [SerializeField][Range(0f, 1f)] private float matR, matG, matB;
     [SerializeField] private Material leaf_material;
     [SerializeField] private GameObject islandParent;
@@ -44,7 +45,7 @@ public class LobbyCamera : MonoBehaviour {
         matG = 0.4f;
         matB = 0.5f;
         leaf_material.color = new Color(matR, matG, matB);
-
+        tmpTarget = null;
     }
 
     // Update is called once per frame
@@ -87,17 +88,24 @@ public class LobbyCamera : MonoBehaviour {
                 TargetObj = hit.collider.gameObject;
                 Debug.Log("Hit GameObject Name = " + TargetObj.name);
 
-
                 TestChangeColor(TargetObj, DefaultColor.ContainsKey(TargetObj.name));
                
                 if (!RollBack)
                 {
                     if (TargetObj.transform.parent.name == "IslandParent")
+                    {
+                        tmpTarget = TargetObj;
                         CloseUpIsland();
+                    }
                 }
                 else
                 {
-                    clickIsland(IslandIndex);
+                    if (tmpTarget == TargetObj)
+                    {
+                        clickIsland(IslandIndex);
+                    }
+                    else
+                        RollBackCamera();
                 }
             }
             else

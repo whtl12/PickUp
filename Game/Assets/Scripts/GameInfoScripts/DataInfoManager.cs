@@ -75,11 +75,10 @@ public class DataInfoManager : MonoBehaviour
 
         //로드 끝나고 씬 바꾸기.
         //처음 로고 영상? 보여주고 씬넘기기 위한 특수 경우기때문에 그냥 넘김.
-        if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Intro)
-        {
-            StartCoroutine(UnityAdsHelper.Instance.ShowRewardedAd());
-        }
-          //  SceneManager.LoadScene((int)UIManager.SceneLoadIndex.Start);
+        //if (SceneManager.GetActiveScene().buildIndex == (int)UIManager.SceneLoadIndex.Intro)
+        //{
+        //    StartCoroutine(UnityAdsHelper.Instance.ShowRewardedAd());
+        //}
     }
     public CharacterData GetCharacterData(int key)
     {

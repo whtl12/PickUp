@@ -11,7 +11,7 @@ public class ObstacleCollider : MonoBehaviour {
         if (col.transform.tag == "Player")
         {
             if (col.gameObject.GetComponent<CharacterControl>() != null)
-                if (col.impulse.y > col.gameObject.GetComponent<CharacterControl>().characterData.vSpeed)
+                if (col.impulse.y > col.gameObject.GetComponent<CharacterControl>().characterData.vSpeed + 1f)
                 {
                     StartCoroutine(ObstacleHit(col.gameObject));
                     PlayManager.m_Instance.HP += col.gameObject.GetComponent<CharacterControl>().characterData.vSpeed * 0.5f - col.impulse.y;

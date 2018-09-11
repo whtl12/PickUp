@@ -71,7 +71,12 @@ public class CharacterControl : MonoBehaviour {
         if (Mathf.Abs(GetComponent<Rigidbody>().velocity.y) > characterData.vSpeed * 2)
         {
             PlayManager.m_Instance.HP += (characterData.vSpeed * 2 - Mathf.Abs(GetComponent<Rigidbody>().velocity.y)) * 0.2f * Time.deltaTime;
+            FXManager.m_Instance.PlayFX(FXManager.FXList.PLAY_SPEED_OVER, gameObject);
             InGameUI.m_Instance.SetValue("sldHPbar", PlayManager.m_Instance.HP);
+        }
+        else
+        {
+            FXManager.m_Instance.StopFX(false, FXManager.FXList.PLAY_SPEED_OVER);
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyCamera : MonoBehaviour {
     //Rotation도 해야되면 Trans 데이터로 변경하기.
@@ -39,7 +40,11 @@ public class LobbyCamera : MonoBehaviour {
         IslandRotateY[(int)Island.Record] = 214;
         IslandRotateY[(int)Island.Option] = 284;
         for(int i = 0; i < islandParent.transform.childCount; i++)
+        {
             IslandEntry[i] = islandParent.transform.GetChild(i).gameObject;
+            if(i != 0)
+                IslandEntry[i].GetComponentInChildren<Text>().color = new Color(1, 1, 1, 0);
+        }
 
         matR = 0.6f;
         matG = 0.4f;
@@ -151,12 +156,19 @@ public class LobbyCamera : MonoBehaviour {
                                                 "time", MoveTime,
                                                 "islocal", true
                                                 ));
-        foreach(GameObject islandObject in IslandEntry)
 
-        iTween.RotateTo(islandObject, iTween.Hash("y", 0,
-                                                "time", MoveTime,
-                                                "islocal", false
-                                                ));
+        for(int i = 0; i < IslandEntry.Length; i++)
+        {
+            iTween.RotateTo(IslandEntry[i], iTween.Hash("y", 0,
+                                                    "time", MoveTime,
+                                                    "islocal", false
+                                                    ));
+            if (IslandIndex == i)
+                IslandEntry[i].GetComponentInChildren<Text>().color = Color.white;
+            else
+                IslandEntry[i].GetComponentInChildren<Text>().color = new Color(1, 1, 1, 0);
+
+        }
         yield return new WaitForSeconds(1.0f);
         RotateState = !RotateState;
         yield return null;

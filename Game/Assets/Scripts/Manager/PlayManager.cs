@@ -66,6 +66,7 @@ public class PlayManager : MonoBehaviour {
     }
     public void HalfRecovery()
     {
+        paused = false;
         HP = DataInfoManager.m_Instance.GetCharacterData(0).MaxHP * 0.5f;
         InGameUI.m_Instance.SetValue("sldHPbar", HP);
         InGameUI.m_Instance.SetActive(InGameUI.m_Instance.panelGameOver, false);

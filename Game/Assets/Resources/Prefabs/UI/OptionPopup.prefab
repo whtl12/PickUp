@@ -1026,6 +1026,8 @@ MonoBehaviour:
   Btn_close: {fileID: 114332632609068776}
   bgmSlider: {fileID: 114654803748258316}
   EffectSlider: {fileID: 114196907558815176}
+  PlayToggle: {fileID: 114787895981773662}
+  StopToggle: {fileID: 114685106960059908}
 --- !u!114 &114509780505036344
 MonoBehaviour:
   m_ObjectHideFlags: 1

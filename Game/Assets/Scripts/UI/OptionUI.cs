@@ -8,6 +8,8 @@ public class OptionUI : UI {
     public Button Btn_close;
     public Slider bgmSlider;
     public Slider EffectSlider;
+    public Toggle PlayToggle;
+    public Toggle StopToggle;
 
     // Use this for initialization
     void Start()
@@ -19,8 +21,10 @@ public class OptionUI : UI {
 
     private void OnEnable()
     {
-        bgmSlider.value = 1f - SoundManager.m_Instance.GetBGMVolme();
-        EffectSlider.value = 1f - SoundManager.m_Instance.GetEffectVolme();
+        bgmSlider.value = EncryptValue.GetFloat("BGMSound");
+        EffectSlider.value = EncryptValue.GetFloat("EffectSound");
+        PlayToggle.isOn = EncryptValue.GetFloat("SoundIsOn", 0) == 1 ? false : true;
+        StopToggle.isOn = !PlayToggle.isOn;
     }
 
     public override void SliderEvent(Object obj)
@@ -32,10 +36,12 @@ public class OptionUI : UI {
             case "Bgm_slider":
                 //soundManager.ChangedVolume(0.5f - bgmSlider.value);
                 SoundManager.m_Instance.SetSoundVolme(1f - bgmSlider.value,true);
+                EncryptValue.SetFloat("BGMSound", 1f - bgmSlider.value);
                 break;
 
             case "Effectsound_slider":
                 SoundManager.m_Instance.SetSoundVolme(1f - EffectSlider.value, false);
+                EncryptValue.SetFloat("EffectSound", 1f - EffectSlider.value);
                 break;
         }
     }
@@ -54,6 +60,7 @@ public class OptionUI : UI {
 
     public void SoundOnOff(Toggle toggle)
     {
-        SoundManager.m_Instance.SoundOnOff(!toggle.isOn);
+        SoundManager.m_Instance.SoundOnOff(toggle.isOn);
+        EncryptValue.SetFloat("SoundIsOn", toggle.isOn ? 0 : 1);
     }
 }

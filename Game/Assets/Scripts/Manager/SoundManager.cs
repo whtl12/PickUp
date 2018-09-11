@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour {
     private AudioSource currentBGM;
     private float SetBGMVolme = 1;
     private float SetEffectVolme = 1;
-    private bool OffSound = false;
+    private bool OnSound = false;
 
     public enum SoundList
     {
@@ -46,6 +46,10 @@ public class SoundManager : MonoBehaviour {
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+
+        SetBGMVolme = EncryptValue.GetFloat("BGMSound", 1);
+        SetEffectVolme = EncryptValue.GetFloat("EffectSound",1);
+        OnSound = EncryptValue.GetFloat("SoundIsOn", 0) == 0 ? true : false;
     }
     private void Start()
     {
@@ -124,17 +128,17 @@ public class SoundManager : MonoBehaviour {
     }
     public void PlaySound(SoundList clip, SoundType type, float volume)
     {
-        if (OffSound == false)
+        if (OnSound)
             PlaySound(clip, type, volume, 0f);
     }
     public void PlaySound(SoundList clip, SoundType type)
     {
-        if(OffSound == false)
+        if(OnSound)
             PlaySound(clip, type, SetBGMVolme, 0f);
     }
     public void PlaySound(SoundList clip)
     {
-        if (OffSound == false)
+        if (OnSound)
             PlaySound(clip, SoundType.FX, SetEffectVolme, 0f);
     }
 
@@ -145,8 +149,8 @@ public class SoundManager : MonoBehaviour {
         else
             SetEffectVolme = val;
 
-
-        currentBGM.volume = SetBGMVolme;
+        if(currentBGM != null)
+         currentBGM.volume = SetBGMVolme;
     }
 
     public float GetBGMVolme()
@@ -160,13 +164,23 @@ public class SoundManager : MonoBehaviour {
         return SetEffectVolme;
     }
 
-    public void SoundOnOff(bool IsOff)
+    public void SoundOnOff(bool IsOn)
     {
-        if (IsOff)
-            currentBGM.Stop();
-        else
-            currentBGM.Play();
+        OnSound = IsOn;
 
-        OffSound = IsOff;
+        if (currentBGM != null)
+        {
+            if (IsOn)
+                currentBGM.Play();
+            else
+            {
+                currentBGM.Stop();
+            }
+                
+        }
+        else if(IsOn)
+            PlaySound(SoundList.START_SCEAN_BGM, SoundType.BGM);
+
+       
     }
 }

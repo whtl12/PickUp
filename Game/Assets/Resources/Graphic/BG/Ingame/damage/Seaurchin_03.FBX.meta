@@ -1,21 +1,31 @@
 fileFormatVersion: 2
-guid: ded8531b9f4d25c4ea600c6085a2f4ed
-timeCreated: 1532179814
+guid: e8826894bebbb3e4da00f60a306e92d7
+timeCreated: 1538253137
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: Material__53
-    2100002: Material__51
-    2100004: Material__52
-    2100006: Material__245
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Map_003
-    4300002: Map_004
+    100000: bone_003
+    100002: bone_004
+    100004: bone_005
+    100006: bone_006
+    100008: bone_01
+    100010: bone_02
+    100012: //RootNode
+    100014: Seaurchin_03
+    400000: bone_003
+    400002: bone_004
+    400004: bone_005
+    400006: bone_006
+    400008: bone_01
+    400010: bone_02
+    400012: //RootNode
+    400014: Seaurchin_03
+    2100000: Material__271
+    4300000: Seaurchin_03
+    7400000: Take 001
     9500000: //RootNode
+    13700000: Seaurchin_03
   externalObjects: {}
   materials:
     importMaterials: 1

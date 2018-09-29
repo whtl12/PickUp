@@ -1,20 +1,16 @@
 fileFormatVersion: 2
-guid: ded8531b9f4d25c4ea600c6085a2f4ed
-timeCreated: 1532179814
+guid: afe7de4e5c62b4043bdec935dcce423d
+timeCreated: 1538253136
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Material__53
-    2100002: Material__51
-    2100004: Material__52
-    2100006: Material__245
+    2100000: Material__245
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Map_003
-    4300002: Map_004
+    4300000: Coral_08
     9500000: //RootNode
   externalObjects: {}
   materials:

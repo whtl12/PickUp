@@ -1,2 +1,3 @@
 # PickUp
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AfkHb95Y1RM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Video Label](http://img.youtube.com/vi/AfkHb95Y1RM/0.jpg)](https://youtu.be/AfkHb95Y1RM)
+
